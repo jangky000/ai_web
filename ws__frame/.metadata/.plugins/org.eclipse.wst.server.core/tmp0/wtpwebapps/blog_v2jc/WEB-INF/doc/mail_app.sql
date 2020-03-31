@@ -78,3 +78,14 @@ COMMIT;
 SELECT mailno, title, content, mail_from, mail_to, rdate
 FROM mail_app
 ORDER BY mailno DESC;
+
+--SET serveroutput ON;
+--BEGIN
+--	FOR i in 1..100 LOOP
+--	  	if mod(i, 2) = 1 then 
+--            INSERT INTO mail_app(mailno, title, content, mail_from, mail_to, rdate ) VALUES (100+i, '메일에 가입해주셔서 감사합니다', '메일에 가입해주셔서 감사합니다. 많은 이용 부탁드립니다.', '172.16.12.4', '172.16.12.'||i, sysdate);
+--		else
+--			INSERT INTO mail_app(mailno, title, content, mail_from, mail_to, rdate ) VALUES (100+i, '사용법', '상대의 아이피와 보낼 제목/내용을 입력해주세요', '172.16.12.4', '172.16.12.'||i, sysdate);
+--		end if;
+--	END LOOP;
+--END;

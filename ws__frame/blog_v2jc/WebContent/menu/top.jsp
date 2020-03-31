@@ -15,7 +15,7 @@
       <UL>
          <!-- 모든 위치에서 동일한 주소를 찾아야하므로, 절대 경로로 설정 -->
         <LI class="li_left_menu_2"><a href="<%= request.getContextPath() %>/notice1/list.jsp">version 1.0</a></LI>
-        <LI class="li_left_menu_2">version 1.0a</LI>
+        <LI class="li_left_menu_2"><a href="<%= request.getContextPath() %>/notice1a/list.jsp">version 1.0a</a></LI>
         <LI class="li_left_menu_2">version 1.0b</LI>
         <LI class="li_left_menu_2">version 1.0c</LI>
         <LI class="li_left_menu_2">version 1.0d</LI>
@@ -24,7 +24,7 @@
       <div class="li_left_menu_1">메일</div>
       <UL>
         <LI class="li_left_menu_2"><a href="<%= request.getContextPath() %>/mail_app/list.jsp">version 1.0</a></LI>
-        <LI class="li_left_menu_2">version 1.0a</LI>
+        <LI class="li_left_menu_2"><a href="<%= request.getContextPath() %>/mail_app1a/list.jsp">version 1.0a</a></LI>
         <LI class="li_left_menu_2">version 1.0b</LI>
         <LI class="li_left_menu_2">version 1.0c</LI>
         <LI class="li_left_menu_2">version 1.0d</LI>

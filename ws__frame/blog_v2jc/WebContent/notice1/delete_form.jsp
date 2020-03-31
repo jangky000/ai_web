@@ -1,112 +1,85 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
- 
- <!-- MySQL에서 DBMS에 연결할때 쓰던 import 패키지와 구성이 같다. -->
- <!-- MovieDAO2.java 참조 -->
 <%@ page import="java.sql.Connection" %>
-<%@ page import=" java.sql.DriverManager" %>
+<%@ page import="java.sql.DriverManager" %>
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.sql.SQLException" %>
- 
- <%!
- //특수 문자의 태그로 변환
-public String convertChar(String str){
-   return str.replace("\r\n", "<br>");
- }
- 
- //특수 문자의 태그로 변환
-public String convertTag(String str){
-   return str.replace("<br>", "\r\n");
- }
- %>
+
+<%!
+// 특수 문자의 태그로 변환
+public String convertChar(String str) {
+  str = str.replace("\r\n", "<BR>");
+  
+  return str;
+}
+%>
  
 <% 
 request.setCharacterEncoding("utf-8"); 
-String root = request.getContextPath();
+String root = request.getContextPath(); 
 %>
 
 <%
-// 필요 변수 선언
 Connection con = null;              // DBMS 연결
 PreparedStatement pstmt = null; // SQL 실행
 ResultSet rs = null;                   // SELECT 결과를 저장
 StringBuffer sql = null;              // SQL 문장
 int count = 0;                         // 처리된 레코드 갯수
 
-String title = null;
-String content = null;
-String rname = null;
-String rdate = null;
+// MySQL
+// String className = "org.gjt.mm.mysql.Driver"; // MySQL 연결 Drvier 
+// String url = "jdbc:mysql://172.16.12.7:3306/javadb?useUnicode=true&characterEncoding=euckr"; 
 
-// MYSQL
-// String className = "org.gjt.mm.mysql.Driver"; // MySQL 연결 Driver 
-// String url = "jdbc:mysql://172.16.12.4:3306/javadb?useUnicode=true&characterEncoding=euckr"; //데이터베이스 javadb 사용
-
-//Oracle, jdbc 연결
-String className = "oracle.jdbc.driver.OracleDriver"; // Oracle 연결 Driver 
-String url = "jdbc:oracle:thin:@127.0.0.1:1521:XE"; //XE -> soldesk 등으로 달라질 수 있다.
+// Oracle
+String className = "oracle.jdbc.driver.OracleDriver"; // Oracle 연결 Drvier 
+String url = "jdbc:oracle:thin:@127.0.0.1:1521:XE"; 
 
 String user = "ai6"; 
 String password = "1234";
-%>
+%> 
 
 <%
-  // 여기서는 html과 섞이지 않게 코드를 분리하는 것이 유지보수하기에 좋다.
-  int noticeno = Integer.parseInt(request.getParameter("noticeno"));
+int noticeno = Integer.parseInt(request.getParameter("noticeno"));
+String title = "";
+String content = "";
+String rname = "";
+String rdate = "";
 
-  try {
-    Class.forName(className);
-    con = DriverManager.getConnection(url, user, password);
+try {
+  Class.forName(className); // memory로 클래스를 로딩함, 객체는 생성하지 않음.
+  con = DriverManager.getConnection(url, user, password ); // MySQL 연결
+  
+  sql = new StringBuffer();
+  sql.append(" SELECT noticeno, title, content, rname, passwd, rdate");
+  sql.append(" FROM notice"); 
+  sql.append(" WHERE noticeno=?");
+  
+  pstmt = con.prepareStatement(sql.toString());
+  pstmt.setInt(1, noticeno);
+  
+  rs = pstmt.executeQuery(); // SELECT
 
-    sql = new StringBuffer();
-    sql.append(" SELECT noticeno, title, content, rname, passwd, rdate");
-    sql.append(" FROM notice");
-    sql.append(" WHERE noticeno = ?");
-
-    pstmt = con.prepareStatement(sql.toString());
-    pstmt.setInt(1, noticeno);
-
-    rs = pstmt.executeQuery(); // SELECT문 실행: executeQuery() : return ResultSet 타입
-
-    if (rs.next() == true) {
-      // 지역변수가 되기 때문에 여기서 선언하지 않음
-      title = rs.getString("title");
-      content = convertTag(rs.getString("content"));
-      rname = rs.getString("rname");
-      rdate = rs.getString("rdate");
-
-    } else {
-      System.out.println("등록된 글이 없습니다.");
-    }
-
-  } catch (SQLException e) {
-    System.out.println("SQL 실행 중 예외 발생");
-    e.printStackTrace();
-  } catch (ClassNotFoundException e) {
-    System.out.println("JDBC 드라이버가 없습니다.");
-    e.printStackTrace();
-  } finally {
-    try {
-      if (rs != null) {
-        rs.close();
-      }
-    } catch (Exception e) {
-    }
-    try {
-      if (pstmt != null) {
-        pstmt.close();
-      }
-    } catch (Exception e) {
-    }
-    try {
-      if (con != null) {
-        con.close();
-      }
-    } catch (Exception e) {
-    }
+  if (rs.next() == true) { // 첫번째 레코드
+    title = rs.getString("title");
+    content = rs.getString("content");
+    rname = rs.getString("rname");
+    rdate = rs.getString("rdate");
   }
-%>
+  
+} catch (SQLException e) {
+  System.out.println("SQL 실행중 예외 발생");
+  e.printStackTrace(); // 예외가 발생하기까지의 실행과정을 출력
+} catch (ClassNotFoundException e) {
+  System.out.println("JDBC 드라이버가 없는것 같습니다.");
+  e.printStackTrace();
+} finally {
+  try{ if (rs != null){ rs.close(); } }catch(Exception e){ }
+  try{ if (pstmt != null){ pstmt.close(); } }catch(Exception e){ }
+  try{ if (con != null){ con.close(); } }catch(Exception e){ }
+}     
 
+%>
+ 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -116,44 +89,49 @@ String password = "1234";
 </head>
 <body>
 <jsp:include page="/menu/top.jsp" flush='false' />
-
-
-  <div class="title_line">공지사항 ver 1.0＞수정</div>
-  <form name='frm' action='./update_proc.jsp' method='POST'>
-    <!-- 사용자에게 보여줄 필요가 없는 데이터 -->
-    <input type='hidden'  name= 'noticeno'  value='<%= noticeno %>'>
-  
+  <DIV class="title_line">공지사항 ver 1.0＞삭제 </DIV>
+  <form name='frm' action='./delete_proc.jsp' method='POST'>
+    <input type='hidden' name='noticeno' value='<%=noticeno %>'>
+    
     <fieldset class="fieldset_basic">
-      <!-- <legend class="legend_basic">공지사항 등록</legend> -->
       <ul>
-        <li class="li_none">
-          <label>제목: </label>
-          <input class="input_basic" value="<%=title %>"
-                     type="text" name="title" style="width: 80%;" autofocus="autofocus">
+        <li class="li_none" style="font-weight: bold;">
+          <%=title %>
         </li>
         <li class="li_none">
-          <label style="vertical-align: top;">내용: </label>
-          <textarea name="content" style="width: 80%; height: 150px;"><%=content %></textarea>
+          <%=convertChar(content) %>
         </li>
         <li class="li_none">
-          <label>성명: </label>
-          <input class="input_basic" value="<%= rname %>"
-                     type="text" name="rname" style="width: 80%;">
+          <%=rname %> <%=rdate %>
         </li>
         <li class="li_none">
           <label>패스워드: </label>
-          <input class="input_basic" type="password" name="passwd" style="width: 30%;">
+          <input type="password" name="passwd" style="width: 30%;" class="input_basic">
+        </li>
+        <li class="li_none">
+          <DIV style="text-align: center;">
+            <span style="color: #FF0000; font-weight: bold;">삭제를 진행하면 복구 할 수 없습니다.</span><br>
+            삭제하시겠습니까?            
+          </DIV>
         </li>
       </ul>
-      <div class ="bottom_menu">
-        <button type="submit">수정</button>
-        <button type="button" onclick="location.href = './list.jsp'">취소</button>
-        <button type="button" onclick="location.href = './list.jsp'">목록</button>
-      </div>
-    </fieldset>
-  </form>
 
+      <DIV class="bottom_menu">
+        <button type="submit">삭제 진행</button>
+        <button type="button" onclick="location.href='./list.jsp'">취소</button>
+        <button type="button" onclick="location.href='./list.jsp'">목록</button>
+      </DIV>
+    
+    </fieldset>
+    
+  </form>
+ 
 <jsp:include page="/menu/bottom.jsp" flush='false' />
 </body>
 </html>
-</html>
+
+
+
+
+
+
