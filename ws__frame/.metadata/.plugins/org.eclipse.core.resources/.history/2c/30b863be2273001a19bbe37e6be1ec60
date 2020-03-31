@@ -1,0 +1,8 @@
+package nation.web.tool;
+
+public class DBClose {
+  public void close(Connection con, PreparedStatement pstmt) {
+    
+  }
+
+}

@@ -1,0 +1,19 @@
+package nation.web.tool;
+
+import java.sql.Connection;
+
+public class DBOpen {
+  public Connection getConnection() {
+    Connection con = null;
+    
+    String className = "oracle.jdbc.driver.OracleDriver"; // Oracle 연결 Driver 
+    String url = "jdbc:oracle:thin:@127.0.0.1:1521:XE"; //XE -> soldesk 등으로 달라질 수 있다.
+
+    String user = "ai6"; 
+    String password = "1234";
+    
+    return con;
+  }
+  
+  
+}

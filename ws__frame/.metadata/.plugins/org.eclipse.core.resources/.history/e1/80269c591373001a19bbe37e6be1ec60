@@ -1,0 +1,11 @@
+package nation.web.tool;
+
+import java.sql.Connection;
+
+public class DBOpen {
+  public Connection getConnection() {
+    
+  }
+  
+  
+}

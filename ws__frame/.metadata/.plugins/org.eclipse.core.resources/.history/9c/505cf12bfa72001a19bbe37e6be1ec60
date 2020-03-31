@@ -1,0 +1,25 @@
+package beans;
+ 
+public class SungjukVOUse {
+ 
+  public static void main(String[] args) {
+    // 객체 생성
+    SungjukVO sungjukVO = new SungjukVO();
+    
+    // setter 호출
+    // sungjukVO.name = "주지훈" // The field SungjukVO.name is not visible
+    sungjukVO.setName("주지훈");
+    sungjukVO.setTot(100);
+    sungjukVO.setAvg(100);
+    
+    // getter 호출
+    String name = sungjukVO.getName();
+    int tot = sungjukVO.getTot();
+    int avg = sungjukVO.getAvg();
+    
+    System.out.println("성명: " + name);
+    System.out.println(tot);
+    System.out.println(avg);
+  }
+ 
+}

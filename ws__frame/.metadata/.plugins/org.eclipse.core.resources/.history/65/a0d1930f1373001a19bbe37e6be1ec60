@@ -1,0 +1,15 @@
+package nation.web.tool;
+
+public class DBOpen {
+  private Connection con = null;              // DBMS 연결
+  private PreparedStatement pstmt = null; // SQL 실행
+  private ResultSet rs = null;                   // SELECT 결과를 저장
+  private StringBuffer sql = null;              // SQL 문장
+  private int count = 0;                         // 처리된 레코드 갯수
+  
+  private String className = "oracle.jdbc.driver.OracleDriver"; // Oracle 연결 Driver 
+  private String url = "jdbc:oracle:thin:@127.0.0.1:1521:XE"; //XE -> soldesk 등으로 달라질 수 있다.
+
+  private String user = "ai6"; 
+  private String password = "1234";
+}

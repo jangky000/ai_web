@@ -1,0 +1,17 @@
+package beans;
+
+public class SungjukVO {
+  //필드는 private로 선언한다.
+  private String name;
+  private int tot;
+  private int avg;
+  
+  public void setName(String name) {
+    this.name = name;
+  }
+  
+  
+  public String getName() {
+    return this.name;
+  }
+}

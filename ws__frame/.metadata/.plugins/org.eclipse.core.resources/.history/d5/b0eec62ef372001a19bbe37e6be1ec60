@@ -1,0 +1,16 @@
+package beans;
+ 
+public class SungjukVOUse {
+ 
+  public static void main(String[] args) {
+    // 객체 생성
+    SungjukVO sungjukVO = new SungjukVO();
+    sungjukVO.setSungjukVO("영화배우");
+    
+    // setter 호출
+     
+    // getter 호출
+ 
+  }
+ 
+}
