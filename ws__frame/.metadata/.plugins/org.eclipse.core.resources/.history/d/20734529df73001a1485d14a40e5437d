@@ -1,0 +1,11 @@
+package test;
+
+public class NoticeTest2 {
+
+  public static void main(String[] args) {
+    Notice notice = new Notice();
+    notice.getList()
+
+  }
+
+}

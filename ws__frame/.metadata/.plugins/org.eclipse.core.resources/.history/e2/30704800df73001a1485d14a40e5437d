@@ -1,0 +1,9 @@
+package test;
+
+import nation.web.notice1b.NoticeVO;
+
+public class Notice {
+  public ArrayList<NoticeVO> getList(){
+    return 
+  }
+}

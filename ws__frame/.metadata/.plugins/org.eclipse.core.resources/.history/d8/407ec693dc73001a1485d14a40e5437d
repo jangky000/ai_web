@@ -1,0 +1,19 @@
+package test;
+
+import java.util.ArrayList;
+
+import nation.web.notice1b.NoticeVO;
+
+public class NoticeTest {
+
+  public static void main(String[] args) {
+    ArrayList<NoticeVO> list = new ArrayList<NoticeVO>();
+    
+    NoticeVO noticeVO = new NoticeVO("¿ù¿äÀÏ", "ÇÐ½À", "¿Õ´«ÀÌ", "1234");
+    list.add(noticeVO);
+    
+    
+    
+  }
+
+}

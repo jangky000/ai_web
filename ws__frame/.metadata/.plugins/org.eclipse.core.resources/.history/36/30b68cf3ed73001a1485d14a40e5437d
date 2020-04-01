@@ -1,0 +1,31 @@
+package nation.web.mail_app1b;
+
+public class NoticeVO {
+/*
+  mailno    NUMBER(7)      NOT NULL, -- -9999999 ~ 9999999, 공지사항 번호
+  title         VARCHAR(100)  NOT NULL, -- 제목
+  content   CLOB                 NOT NULL,-- 내용이 많을 수 있으므로 CLOB
+  mail_from     VARCHAR(100)     NOT NULL, -- 보내는 사람 ip
+  mail_to       VARCHAR(100) NOT NULL, -- 받는 사람 ip
+  rdate      DATE               NOT NULL, -- 등록일
+*/
+  
+  private int mailno = 0;
+  private String title = null;
+  private String content = null;
+  private String mail_from = null;
+  private String mail_to = null;
+  private String rdate = null; // 날짜 타입은 String으로 쓰는 것을 추천
+  
+  // 기본 생성자
+  public NoticeVO() {
+    
+  }
+  
+
+
+
+  
+
+  
+}

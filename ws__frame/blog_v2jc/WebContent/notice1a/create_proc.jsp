@@ -36,7 +36,7 @@ int count = 0;                         // 처리된 레코드 갯수
 </head>
 <body>
 <jsp:include page="/menu/top.jsp" flush='false' />
-  <div class="title_line">공지사항 ver 1.0a</div>
+  <div class="title_line">공지사항 ver 1.0a＞등록</div>
   <fieldset class="fieldset_basic">
     <!-- <legend class="legend_basic">공지사항 등록</legend> -->
       <ul>

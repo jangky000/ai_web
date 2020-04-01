@@ -1,0 +1,32 @@
+package nation.web.notice1b;
+
+public class NoticeVO {
+/*
+  noticeno  NUMBER(7)      NOT NULL, -- -9999999 ~ 9999999, 공지사항 번호
+  title        VARCHAR(100)  NOT NULL, -- 제목
+  content CLOB                 NOT NULL,-- 내용이 많을 수 있으므로 CLOB
+  rname     VARCHAR(20)     NOT NULL, -- 등록자 성명
+  passwd VARCHAR(20)    NOT NULL, -- 패스워드
+  rdate      DATE               NOT NULL, -- 등록일
+*/
+  
+  private int noticeno = 0;
+  private String title = null;
+  private String content = null;
+  private String rname = null;
+  private String passwd = null;
+  private String rdate = null;
+  
+  public void setNoticeno(int noticeno) {
+    this.noticeno = noticeno;
+  }
+  
+  public int getNoticeno() {
+    
+  }
+  
+  public void setTitle(String title) {
+    this.title = title;
+  }
+  
+}

@@ -1,0 +1,14 @@
+package test;
+
+import java.util.ArrayList;
+
+import nation.web.notice1b.NoticeVO;
+
+public class NoticeTest {
+
+  public static void main(String[] args) {
+    NoticeVO noticeVO = new NoticeVO("월요일", "학습", "", "");
+    
+  }
+
+}
