@@ -1,16 +1,16 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
  
-<%@ page import ="nation.web.mail_app1b.NoticeDAO" %>
-<%@ page import ="nation.web.mail_app1b.NoticeVO" %>
+<%@ page import ="nation.web.mail_app1b.MailDAO" %>
+<%@ page import ="nation.web.mail_app1b.MailVO" %>
 
-<% 
-request.setCharacterEncoding("utf-8"); 
+<%
+  request.setCharacterEncoding("utf-8"); 
 String root = request.getContextPath();
 %>
 
 <%
-NoticeDAO noticeDAO = new NoticeDAO();
-NoticeVO noticeVO = new NoticeVO();
+  MailDAO mailDAO = new MailDAO();
+  MailVO mailVO = new MailVO();
 %>
 
 <!DOCTYPE html>
@@ -32,12 +32,12 @@ NoticeVO noticeVO = new NoticeVO();
         String mail_from = request.getParameter("mail_from");
         String mail_to = request.getParameter("mail_to");
         
-        noticeVO.setTitle(title);
-        noticeVO.setContent(content);
-        noticeVO.setMail_from(mail_from);
-        noticeVO.setMail_to(mail_to);
+        mailVO.setTitle(title);
+        mailVO.setContent(content);
+        mailVO.setMail_from(mail_from);
+        mailVO.setMail_to(mail_to);
         
-        int count = noticeDAO.create(noticeVO); // call by reference
+        int count = mailDAO.create(mailVO); // call by reference
       
         if(count == 1){
           %>

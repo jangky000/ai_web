@@ -1,14 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
  
-<!-- MySQL에서 DBMS에 연결할때 쓰던 import 패키지와 구성이 같다. -->
- <!-- MovieDAO2.java 참조 -->
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.PreparedStatement" %>
-<%@ page import="java.sql.ResultSet" %>
-<%@ page import="java.sql.SQLException" %>
- 
-<%@ page import ="nation.web.tool.DBOpen" %>
-<%@ page import ="nation.web.tool.DBClose" %>
+<%@ page import = "nation.web.notice1b.NoticeVO" %>
+<%@ page import = "nation.web.notice1b.NoticeDAO" %>
  
  <%!
  //특수 문자의 태그로 변환
@@ -20,16 +13,6 @@ public String convertChar(String str){
 <% 
 request.setCharacterEncoding("utf-8"); 
 String root = request.getContextPath();
-%>
-
-<%
-// 필요 변수 선언
-Connection con = null;              // DBMS 연결
-PreparedStatement pstmt = null; // SQL 실행
-ResultSet rs = null;                   // SELECT 결과를 저장
-StringBuffer sql = null;              // SQL 문장
-int count = 0;                         // 처리된 레코드 갯수
-
 %>
  
 <!DOCTYPE html>
@@ -50,46 +33,14 @@ int count = 0;                         // 처리된 레코드 갯수
   </div>
 
     <%
-      try {
-        con = new DBOpen().getConnection();
-        
-        sql = new StringBuffer();
-        sql.append(" SELECT noticeno, title, content, rname, passwd, rdate");
-        sql.append(" FROM notice"); 
-        sql.append(" WHERE noticeno = ?");
-       
-        pstmt = con.prepareStatement(sql.toString());
-        pstmt.setInt(1, noticeno);
-        
-        rs = pstmt.executeQuery(); // SELECT문 실행: executeQuery() : return ResultSet 타입
-        
-        if(rs.next() == true) {
-          %>
-          <div class="content_title">
-            <%=rs.getString("title") %>
-          </div>
-          <%= convertChar(rs.getString("content")) %>
-          
-          <div class="content_bottom">
-            <%=rs.getString("rname") %>
-            <%=rs.getString("rdate") %>
-          </div>
-          <%
-        } else {
-         %>
-         등록된 글이 없습니다.
-         <%
-        }
-        
-      } catch (SQLException e) {
-        System.out.println("SQL 실행 중 예외 발생");
-        e.printStackTrace();
-      } finally {
-        new DBClose().close(rs, con, pstmt);
-      }
+    NoticeVO noticeVO = new NoticeDAO().read(noticeno);
     %>
-
- 
+    <div class="content_title"><%=noticeVO.getTitle() %></div>
+    <%= convertChar(noticeVO.getContent()) %>
+    <div class="content_bottom">
+      <%=noticeVO.getRname() %>
+      <%=noticeVO.getRdate() %>
+    </div>
  
 <jsp:include page="/menu/bottom.jsp" flush='false' />
 </body>

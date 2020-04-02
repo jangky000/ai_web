@@ -6,6 +6,7 @@
 <%@ page import = "nation.web.notice1b.NoticeVO" %>
 <%@ page import = "nation.web.notice1b.NoticeDAO" %>
 
+<%! public String wrap_xmp(String str){ return "<xmp>"+str + "</xmp>";} %>
 
 <% 
 request.setCharacterEncoding("utf-8"); 

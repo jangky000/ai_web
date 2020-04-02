@@ -101,7 +101,6 @@ String password = "1234"; */
             <%
           }
           else {
-            System.out.println(rs.getInt("noticeno"));
             break;
           }
         }

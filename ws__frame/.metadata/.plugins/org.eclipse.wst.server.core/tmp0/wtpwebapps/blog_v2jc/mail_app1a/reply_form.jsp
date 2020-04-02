@@ -107,7 +107,7 @@ String rdate = null;
         <li class="li_none">
           <label>제목: </label>
           <input class="input_basic" type="text" name="title" style="width: 80%;" autofocus="autofocus" 
-                      value="<%=title %>">
+                      value="re: <%=title %>">
         </li>
         <li class="li_none">
           <label>보내는 사람 IP: </label>
@@ -121,7 +121,8 @@ String rdate = null;
           <label style="vertical-align: top;">내용: </label>
           <textarea name="content" style="width: 80%; height: 150px;"><%=content %>
 ----------------------------------------------------------------------------------------------------
-            </textarea>
+
+</textarea>
         </li>
       </ul>
       <div class ="bottom_menu">

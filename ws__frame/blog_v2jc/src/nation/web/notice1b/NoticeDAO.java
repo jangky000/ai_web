@@ -60,6 +60,10 @@ public class NoticeDAO {
     return count;
   }
   
+  /**
+   * 목록
+   * @return VO 목록(ArrayList<NoticeVO>)
+   */
   // 목록은 ArrayList를 사용하여 개발
   public ArrayList<NoticeVO> list(){
     ArrayList<NoticeVO> list = new ArrayList<NoticeVO>();
@@ -92,7 +96,6 @@ public class NoticeDAO {
           list.add(noticeVO);
         }
         else {
-          System.out.println(rs.getInt("noticeno"));
           break;
         }
       }
@@ -105,6 +108,151 @@ public class NoticeDAO {
     }
     
     return list;
+  }
+  
+  /**
+   * 1건의 레코드 조회
+   * @param noticeno 레코드 번호 PK
+   * @return 1건의 레코드(NoticeVO)
+   */
+  public NoticeVO read(int noticeno) {
+    NoticeVO noticeVO = null;
+    try {
+      con = this.dbopen.getConnection();
+      
+      sql = new StringBuffer();
+      sql.append(" SELECT noticeno, title, content, rname, passwd, rdate");
+      sql.append(" FROM notice"); 
+      sql.append(" WHERE noticeno=?");
+     
+      pstmt = con.prepareStatement(sql.toString());
+      
+      pstmt.setInt(1, noticeno);
+      
+      rs = pstmt.executeQuery(); // SELECT문 실행: executeQuery() : return ResultSet 타입
+      
+      if(rs.next() == true) {
+        //레코드가 있을 때만 객체를 만드는 것이 더 좋다.
+        noticeVO = new NoticeVO();
+        
+        noticeVO.setNoticeno(rs.getInt("noticeno"));
+        noticeVO.setTitle(rs.getString("title"));
+        noticeVO.setContent(rs.getString("content"));
+        noticeVO.setRname( rs.getString("rname"));
+        noticeVO.setPasswd( rs.getString("passwd"));
+        noticeVO.setRdate(rs.getString("rdate"));
+      }
+
+    } catch (SQLException e) {
+      System.out.println("SQL 실행 중 예외 발생");
+      e.printStackTrace();
+    } finally {
+      this.dbclose.close(rs, con, pstmt);
+    }
+    
+    return noticeVO;
+  }
+  
+  /**
+   * 패스워드 검사
+   * @param noticeno PK
+   * @param passwd 패스워드
+   * @return true 패스워드 일치
+   */
+  public boolean passwdCheck(int noticeno, String passwd) {
+    boolean sw = false; // sw는 switch의 약자?
+    
+    try {
+      con = this.dbopen.getConnection();
+
+      // 패스워드 검사
+      sql = new StringBuffer();
+      //SQL문 앞에 한 칸 공백 만들기 + ' ; '지우기
+      sql.append(" SELECT COUNT(*) AS passwd_cnt");
+      sql.append(" FROM notice"); 
+      sql.append(" WHERE noticeno=? AND passwd=?"); 
+
+      //StringBuffer를 문자열로 변환
+      pstmt = con.prepareStatement(sql.toString());
+      pstmt.setInt(1, noticeno);
+      pstmt.setString(2, passwd);
+
+      rs = pstmt.executeQuery();
+      rs.next(); // 첫번째 레코드로 이동
+
+      if(rs.getInt("passwd_cnt") == 1){ // 패스워드 일치
+        sw = true;
+      } else {
+        sw = false;
+      }
+    } catch (SQLException e) {
+      System.out.println("SQL 실행 중 예외 발생");
+      e.printStackTrace(); // 예외가 발생하기까지의 실행 과정 출력
+    } finally {
+      this.dbclose.close(con, pstmt);
+    }
+    
+    return sw;
+  }
+  
+  /**
+   * 수정
+   * @param noticeVO 수정할 내용
+   * @return 수정된 레코드 개수 0 or 1
+   */
+  public int update( NoticeVO noticeVO ) {
+    try {
+      con = this.dbopen.getConnection();
+      
+      sql = new StringBuffer();
+      sql.append(" UPDATE notice");
+      sql.append(" SET title=?, content=?, rname=?"); 
+      sql.append(" WHERE noticeno=?"); 
+      
+      //StringBuffer를 문자열로 변환
+      pstmt = con.prepareStatement(sql.toString());
+      
+      pstmt.setString(1, noticeVO.getTitle());
+      pstmt.setString(2, noticeVO.getContent());
+      pstmt.setString(3, noticeVO.getRname());
+      pstmt.setInt(4, noticeVO.getNoticeno());
+      
+      count = pstmt.executeUpdate(); // INSERT, UPDATE, DELETE를 실행
+      
+    } catch (SQLException e) {
+      System.out.println("SQL 실행 중 예외 발생");
+      e.printStackTrace(); // 예외가 발생하기까지의 실행 과정 출력
+    } finally {
+      this.dbclose.close(con, pstmt);
+    }
+    return count;
+  }
+  /**
+   * 삭제
+   * @param noticeno 삭제할 PK
+   * @return 삭제된 레코드 개수
+   */
+  public int delete(int noticeno) {
+    try {
+      con = this.dbopen.getConnection();
+      
+      sql = new StringBuffer();
+      sql.append(" DELETE FROM notice");
+      sql.append(" WHERE noticeno=?");
+
+      //StringBuffer를 문자열로 변환
+      pstmt = con.prepareStatement(sql.toString());
+      pstmt.setInt(1, noticeno);
+      
+      count = pstmt.executeUpdate(); // INSERT, UPDATE, DELETE를 실행
+      
+    } catch (SQLException e) {
+      System.out.println("SQL 실행 중 예외 발생");
+      e.printStackTrace(); // 예외가 발생하기까지의 실행 과정 출력
+    } finally {
+      this.dbclose.close(con, pstmt);
+    }
+    return count;
   }
   
 }

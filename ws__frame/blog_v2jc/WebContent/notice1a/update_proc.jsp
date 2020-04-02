@@ -89,11 +89,11 @@ String root = request.getContextPath();
 
               if (count == 1) {
                 %>
-                  <li class="li_none">등록 처리에 성공했습니다.</li>
+                  <li class="li_none">수정 처리에 성공했습니다.</li>
                 <%
               } else {
                 %>
-                  <li class="li_error">등록 처리에 실패했습니다.</li>
+                  <li class="li_error">수정 처리에 실패했습니다.</li>
                   <li class="li_none">다시 시도해주세요.</li>
                 <%
               }

@@ -2,21 +2,20 @@
  
 <%@ page import = "java.util.ArrayList" %>
  
-<%@ page import = "nation.web.mail_app1b.NoticeVO" %>
-<%@ page import = "nation.web.mail_app1b.NoticeDAO" %>
+<%@ page import = "nation.web.mail_app1b.MailVO" %>
+<%@ page import = "nation.web.mail_app1b.MailDAO" %>
 
-<% 
-request.setCharacterEncoding("utf-8"); 
+<%
+  request.setCharacterEncoding("utf-8"); 
 String root = request.getContextPath();
 %>
 
 <%
-out.print("<p>내 IP: " + request.getRemoteAddr() + "</p>");
 String my_ip = request.getRemoteAddr();
 /* out.print("<p>Remote Host: " + request.getRemoteHost() + "</p>"); */
 /* out.print("<p>X-Forwarded-For: " + request.getHeader("x-forwarded-for") + "</p>"); */
 
-NoticeDAO noticeDAO = new NoticeDAO(my_ip);
+MailDAO mailDAO = new MailDAO(my_ip);
 %>
  
 <!DOCTYPE html>
@@ -55,20 +54,20 @@ NoticeDAO noticeDAO = new NoticeDAO(my_ip);
     </thead>
     <tbody>
       <%
-      ArrayList<NoticeVO> list = noticeDAO.list_receive();
-      
-      for(NoticeVO vo: list){
-        %>
+        ArrayList<MailVO> list = mailDAO.list_receive();
+        
+        for(MailVO vo: list){
+      %>
         <tr>
-          <td class="td_basic"><%= vo.getMailno()%></td>
-          <td class="td_left"><a href="./read.jsp?mailno=<%= vo.getMailno()%>"><%= vo.getTitle()%></a></td>
-          <td class="td_basic"><%= vo.getMail_from()%></td>
-          <td class="td_basic"><%= vo.getRdate() %></td>
-          <td class="td_basic"><a href='./delete_form.jsp?mailno=<%= vo.getMailno()%>'>삭제</a></td>
+          <td class="td_basic"><%=vo.getMailno()%></td>
+          <td class="td_left"><a href="./read.jsp?mailno=<%=vo.getMailno()%>"><%=vo.getTitle()%></a></td>
+          <td class="td_basic"><%=vo.getMail_from()%></td>
+          <td class="td_basic"><%=vo.getRdate()%></td>
+          <td class="td_basic"><a href='./delete_form.jsp?mailno=<%=vo.getMailno()%>'>삭제</a></td>
         </tr>
         <%
-      }
-      %>
+          }
+        %>
     </tbody>
   </table>
   
@@ -94,10 +93,10 @@ NoticeDAO noticeDAO = new NoticeDAO(my_ip);
     </thead>
     <tbody>
     <%
-      list = noticeDAO.list_send();
+      list = mailDAO.list_send();
       
-      for(NoticeVO vo: list){
-        %>
+      for(MailVO vo: list){
+    %>
         <tr>
           <td class="td_basic"><%= vo.getMailno()%></td>
           <td class="td_left"><a href="./read.jsp?mailno=<%= vo.getMailno()%>"><%= vo.getTitle()%></a></td>

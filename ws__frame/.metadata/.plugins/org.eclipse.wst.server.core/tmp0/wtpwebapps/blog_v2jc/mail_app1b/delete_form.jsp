@@ -1,14 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
  
-  <!-- MySQL에서 DBMS에 연결할때 쓰던 import 패키지와 구성이 같다. -->
- <!-- MovieDAO2.java 참조 -->
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.sql.PreparedStatement" %>
-<%@ page import="java.sql.ResultSet" %>
-<%@ page import="java.sql.SQLException" %>
- 
-<%@ page import ="nation.web.tool.DBOpen" %>
-<%@ page import ="nation.web.tool.DBClose" %>
+<%@ page import = "nation.web.mail_app1b.MailVO" %>
+<%@ page import = "nation.web.mail_app1b.MailDAO" %>
 
  <%!
  //특수 문자의 태그로 변환
@@ -27,56 +20,13 @@ request.setCharacterEncoding("utf-8");
 String root = request.getContextPath();
 %>
  
- <%
-// 필요 변수 선언
-Connection con = null;              // DBMS 연결
-PreparedStatement pstmt = null; // SQL 실행
-ResultSet rs = null;                   // SELECT 결과를 저장
-StringBuffer sql = null;              // SQL 문장
-int count = 0;                         // 처리된 레코드 갯수
-
-String title = null;
-String content = null;
-String mail_to = null;
-String rdate = null;
-%>
-
 <%
-  // 여기서는 html과 섞이지 않게 코드를 분리하는 것이 유지보수하기에 좋다.
-  int mailno = Integer.parseInt(request.getParameter("mailno"));
+int mailno = Integer.parseInt(request.getParameter("mailno"));
+String my_ip = request.getRemoteAddr();
 
-  try {
-    con = new DBOpen().getConnection();
-
-    sql = new StringBuffer();
-    sql.append(" SELECT mailno, title, content, mail_to, rdate");
-    sql.append(" FROM mail_app");
-    sql.append(" WHERE mailno = ?");
-
-    pstmt = con.prepareStatement(sql.toString());
-    pstmt.setInt(1, mailno);
-
-    rs = pstmt.executeQuery(); // SELECT문 실행: executeQuery() : return ResultSet 타입
-
-    if (rs.next() == true) {
-      // 지역변수가 되기 때문에 여기서 선언하지 않음
-      title = rs.getString("title");
-      content = convertTag(rs.getString("content"));
-      mail_to = rs.getString("mail_to");
-      rdate = rs.getString("rdate");
-
-    } else {
-      System.out.println("등록된 글이 없습니다.");
-    }
-
-  } catch (SQLException e) {
-    System.out.println("SQL 실행 중 예외 발생");
-    e.printStackTrace();
-  } finally {
-    new DBClose().close(rs, con, pstmt);
-  }
+MailDAO mailDAO = new MailDAO();
+MailVO mailVO = mailDAO.read(mailno);
 %>
- 
  
 <!DOCTYPE html>
 <html lang="ko">
@@ -89,13 +39,6 @@ String rdate = null;
 <jsp:include page="/menu/top.jsp" flush='false' />
   <div class="title_line">메일 앱 ver 1.0b＞삭제</div>
   
-   <%
-    out.print("<p>내 IP: " + request.getRemoteAddr() + "</p>");
-    String my_ip = request.getRemoteAddr();
-    /* out.print("<p>Remote Host: " + request.getRemoteHost() + "</p>"); */
-    /* out.print("<p>X-Forwarded-For: " + request.getHeader("x-forwarded-for") + "</p>"); */
-    %>
-  
   <form name='frm' action='./delete_proc.jsp' method='POST'>
     <input type='hidden' name='mailno' value='<%= mailno %>'>
     <fieldset class="fieldset_basic">
@@ -103,7 +46,7 @@ String rdate = null;
       <ul>
         <li class="li_none">
           <label>제목: </label>
-          <%=title %>
+          <%=mailVO.getTitle() %>
         </li>
         <li class="li_none">
           <label>보내는 사람 IP: </label>
@@ -111,11 +54,11 @@ String rdate = null;
         </li>
         <li class="li_none">
           <label>받는 사람 IP: </label>
-          <%= mail_to%>
+          <%= mailVO.getMail_to()%>
         </li>
         <li class="li_none">
           <label style="vertical-align: top;">내용: </label>
-          <%=content %>
+          <%=mailVO.getContent() %>
         </li>
         <li class="li_none">
           <div style="text-align: center;">

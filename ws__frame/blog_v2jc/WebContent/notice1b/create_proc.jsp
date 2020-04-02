@@ -1,8 +1,9 @@
 <%@page import="nation.web.tool.DBClose"%>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
-<%@ page import ="nation.web.notice1b.NoticeDAO" %>
 <%@ page import ="nation.web.notice1b.NoticeVO" %>
+<%@ page import ="nation.web.notice1b.NoticeDAO" %>
+
   
 <% 
 request.setCharacterEncoding("utf-8"); 

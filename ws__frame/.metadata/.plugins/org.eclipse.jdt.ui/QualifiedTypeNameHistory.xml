@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="java.lang.Thread"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="sungjuk.Student"/>
 <fullyQualifiedTypeName name="java.text.DecimalFormat"/>
 <fullyQualifiedTypeName name="com.mysql.jdbc.Connection"/>
 <fullyQualifiedTypeName name="com.mysql.jdbc.PreparedStatement"/>
-<fullyQualifiedTypeName name="java.sql.SQLException"/>
 <fullyQualifiedTypeName name="javax.sound.midi.Synthesizer"/>
 <fullyQualifiedTypeName name="jdbc.MovieDAO2"/>
 <fullyQualifiedTypeName name="jdbc.MovieProc"/>
@@ -42,4 +40,10 @@
 <fullyQualifiedTypeName name="java.sql.Connection"/>
 <fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
 <fullyQualifiedTypeName name="java.sql.ResultSet"/>
+<fullyQualifiedTypeName name="nation.web.tool.DBOpen"/>
+<fullyQualifiedTypeName name="nation.web.tool.DBClose"/>
+<fullyQualifiedTypeName name="java.sql.SQLException"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="nation.web.notice1b.NoticeVO"/>
+<fullyQualifiedTypeName name="nation.web.mail_app1b.MailVO"/>
 </qualifiedTypeNameHistroy>
