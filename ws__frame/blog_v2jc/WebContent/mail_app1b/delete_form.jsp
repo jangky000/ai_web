@@ -60,6 +60,48 @@ MailVO mailVO = mailDAO.read(mailno);
           <label style="vertical-align: top;">내용: </label>
           <%=mailVO.getContent() %>
         </li>
+        
+        <li class="li_none" style="margin-bottom: 100px;">
+          <table style="border-collapse: collapse; width: 100%; border: solid 1px #999999; margin-top: 100px;">
+            <tr>
+              <th style="width: 100px; border: solid 1px #999999;">url1:</th>
+              <td style="padding-left: 10px; border: solid 1px #999999;">
+                <%
+                  if(mailVO.getUrl1() != null){
+                    %>
+                    <a href="<%=mailVO.getUrl1()%>"><%=mailVO.getUrl1()%></a>
+                    <%
+                  }
+                %>
+              </td>
+            </tr>
+            <tr>
+              <th style="width: 100px; border: solid 1px #999999;">url2:</th>
+              <td style="padding-left: 10px; border: solid 1px #999999;">
+                <%
+                  if(mailVO.getUrl2() != null){
+                    %>
+                    <a href="<%=mailVO.getUrl2()%>"><%=mailVO.getUrl2()%></a>
+                    <%
+                  }
+                %>
+              </td>
+            </tr>
+            <tr>
+              <th style="width: 100px; border: solid 1px #999999;">youtube:</th>
+              <td style="padding-left: 10px; border: solid 1px #999999;">
+                <%
+                  if(mailVO.getYoutube() != null){
+                    %>
+                    <a href="<%=mailVO.getYoutube()%>"><%=mailVO.getYoutube()%></a>
+                    <%
+                  }
+                %>
+              </td>
+            </tr>
+          </table>
+        </li>
+        
         <li class="li_none">
           <div style="text-align: center;">
             <p style="font-size: 20px; color:red; font-weight: bold;">삭제를 진행하면 복구할 수 없습니다.</p>
@@ -67,6 +109,9 @@ MailVO mailVO = mailDAO.read(mailno);
           </div>
         </li>
       </ul>
+      
+      
+      
       <div class ="bottom_menu">
         <button type="submit">삭제 진행</button>
         <button type="button" onclick="location.href = './list.jsp'">취소</button>

@@ -43,7 +43,33 @@ String root = request.getContextPath();
           <label style="vertical-align: top;">내용: </label>
           <textarea name="content" style="width: 80%; height: 150px;"></textarea>
         </li>
+        <!-- <li class="li_none">
+          <label style="vertical-align: top;">url1: </label>
+          <input class="input_basic" type="text" name="url1" style="width: 200px;">
+        </li> -->
       </ul>
+      
+      <table style="border-collapse: collapse; width: 100%; border: solid 1px #999999; margin-top: 100px;">
+        <tr>
+          <th style="width: 100px; border: solid 1px #999999;">url1:</th>
+          <td style="padding-left: 10px; border: solid 1px #999999;">
+            <input class="input_basic" type="text" name="url1" style="width: 100%;" value="https://">
+          </td>
+        </tr>
+        <tr>
+          <th style="width: 100px; border: solid 1px #999999;">url2:</th>
+          <td style="padding-left: 10px; border: solid 1px #999999;">
+            <input class="input_basic" type="text" name="url2" style="width: 100%;" value="https://">
+          </td>
+        </tr>
+        <tr>
+          <th style="width: 100px; border: solid 1px #999999;">youtube:</th>
+          <td style="padding-left: 10px; border: solid 1px #999999;">
+            <input class="input_basic" type="text" name="youtube" style="width: 100%;" value="https://">
+          </td>
+        </tr>
+      </table>
+      
       <div class ="bottom_menu">
         <button type="submit">전송</button>
         <button type="button" onclick="location.href = './list.jsp'">취소</button>

@@ -31,11 +31,17 @@ String root = request.getContextPath();
         String content = request.getParameter("content");
         String mail_from = request.getParameter("mail_from");
         String mail_to = request.getParameter("mail_to");
+        String url1 = request.getParameter("url1");
+        String url2 = request.getParameter("url2");
+        String youtube = request.getParameter("youtube");
         
         mailVO.setTitle(title);
         mailVO.setContent(content);
         mailVO.setMail_from(mail_from);
         mailVO.setMail_to(mail_to);
+        mailVO.setUrl1(url1);
+        mailVO.setUrl2(url2);
+        mailVO.setYoutube(youtube);
         
         int count = mailDAO.create(mailVO); // call by reference
       

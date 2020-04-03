@@ -62,6 +62,58 @@ MailVO mailVO = mailDAO.read(mailno);
           <textarea name="content" style="width: 80%; height: 150px;"><%=mailVO.getContent() %></textarea>
         </li>
       </ul>
+      
+      <table style="border-collapse: collapse; width: 100%; border: solid 1px #999999; margin-top: 100px;">
+        <tr>
+          <th style="width: 100px; border: solid 1px #999999;">url1:</th>
+          <td style="padding-left: 10px; border: solid 1px #999999;">
+            <%
+              if(mailVO.getUrl1() != null){
+                %>
+                <input class="input_basic" type="text" name="url1" style="width: 100%;" value="<%=mailVO.getUrl1()%>">
+                <%
+              }else{
+                %>
+                <input class="input_basic" type="text" name="url1" style="width: 100%;" value="">
+                <%
+              }
+            %>
+          </td>
+        </tr>
+        <tr>
+          <th style="width: 100px; border: solid 1px #999999;">url2:</th>
+          <td style="padding-left: 10px; border: solid 1px #999999;">
+            <%
+              if(mailVO.getUrl2() != null){
+                %>
+                <input class="input_basic" type="text" name="url2" style="width: 100%;" value="<%=mailVO.getUrl2()%>">
+                <%
+              }else{
+                %>
+                <input class="input_basic" type="text" name="url2" style="width: 100%;" value="">
+                <%
+              }
+            %>
+          </td>
+        </tr>
+        <tr>
+          <th style="width: 100px; border: solid 1px #999999;">youtube:</th>
+          <td style="padding-left: 10px; border: solid 1px #999999;">
+            <%
+              if(mailVO.getYoutube() != null){
+                %>
+                <input class="input_basic" type="text" name="youtube" style="width: 100%;" value="<%=mailVO.getYoutube()%>">
+                <%
+              }else{
+                %>
+                <input class="input_basic" type="text" name="youtube" style="width: 100%;" value="">
+                <%
+              }
+            %>
+          </td>
+        </tr>
+      </table>
+      
       <div class ="bottom_menu">
         <button type="submit">수정 완료</button>
         <button type="button" onclick="location.href = './list.jsp'">취소</button>

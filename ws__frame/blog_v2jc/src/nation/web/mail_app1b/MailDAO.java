@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.apache.jasper.tagplugins.jstl.core.Out;
+
 import nation.web.tool.DBClose;
 import nation.web.tool.DBOpen;
 
@@ -48,8 +50,8 @@ public class MailDAO {
       
       sql = new StringBuffer();
       //SQL문 앞에 한 칸 공백 만들기 + ' ; '지우기
-      sql.append(" INSERT INTO mail_app(mailno, title, content, mail_from, mail_to, rdate )");
-      sql.append(" VALUES (mail_seq.nextval, ?, ?, ?, ?, sysdate)"); // '?'는 ?값으로 판단, 문자열도 single quatation 없이 사용
+      sql.append(" INSERT INTO mail_app(mailno, title, content, mail_from, mail_to, rdate, url1, url2, youtube, cnt)");
+      sql.append(" VALUES (mail_seq.nextval, ?, ?, ?, ?, sysdate, ?, ?, ?, 0)"); // '?'는 ?값으로 판단, 문자열도 single quatation 없이 사용
       
       //StringBuffer를 문자열로 변환
       pstmt = con.prepareStatement(sql.toString());
@@ -58,6 +60,9 @@ public class MailDAO {
       pstmt.setString(2, noticeVO.getContent());
       pstmt.setString(3, noticeVO.getMail_from());
       pstmt.setString(4, noticeVO.getMail_to());
+      pstmt.setString(5, noticeVO.getUrl1());
+      pstmt.setString(6, noticeVO.getUrl2());
+      pstmt.setString(7, noticeVO.getYoutube());
       
       //pstmt 바인딩 후에 실행
       count = pstmt.executeUpdate(); // INSERT, UPDATE, DELETE를 실행
@@ -79,7 +84,7 @@ public class MailDAO {
       con = this.dbopen.getConnection();
       
       sql = new StringBuffer();
-      sql.append(" SELECT mailno, title, content, mail_from, mail_to, rdate");
+      sql.append(" SELECT mailno, title, content, mail_from, mail_to, rdate, cnt");
       sql.append(" FROM mail_app"); 
       sql.append(" WHERE mail_to = ?"); 
       sql.append(" ORDER BY mailno DESC");
@@ -99,11 +104,11 @@ public class MailDAO {
           mailVO.setMail_from( rs.getString("mail_from"));
           mailVO.setMail_to( rs.getString("mail_to"));
           mailVO.setRdate(rs.getString("rdate"));
+          mailVO.setCnt(rs.getInt("cnt"));
           
           list.add(mailVO);
         }
         else {
-          //System.out.println(rs.getInt("mailno"));
           break;
         }
       }
@@ -126,7 +131,7 @@ public class MailDAO {
       con = this.dbopen.getConnection();
       
       sql = new StringBuffer();
-      sql.append(" SELECT mailno, title, content, mail_from, mail_to, rdate");
+      sql.append(" SELECT mailno, title, content, mail_from, mail_to, rdate, cnt");
       sql.append(" FROM mail_app"); 
       sql.append(" WHERE mail_from = ?"); 
       sql.append(" ORDER BY mailno DESC");
@@ -146,11 +151,11 @@ public class MailDAO {
           mailVO.setMail_from( rs.getString("mail_from"));
           mailVO.setMail_to( rs.getString("mail_to"));
           mailVO.setRdate(rs.getString("rdate"));
+          mailVO.setCnt(rs.getInt("cnt"));
           
           list.add(mailVO);
         }
         else {
-          //System.out.println(rs.getInt("mailno"));
           break;
         }
       }
@@ -176,7 +181,7 @@ public class MailDAO {
       con = this.dbopen.getConnection();
       
       sql = new StringBuffer();
-      sql.append(" SELECT mailno, title, content, mail_from, mail_to, rdate");
+      sql.append(" SELECT mailno, title, content, mail_from, mail_to, rdate, url1, url2, youtube, cnt");
       sql.append(" FROM mail_app");
       sql.append(" WHERE mailno = ?");
 
@@ -195,6 +200,10 @@ public class MailDAO {
         mailVO.setMail_from( rs.getString("mail_from"));
         mailVO.setMail_to( rs.getString("mail_to"));
         mailVO.setRdate(rs.getString("rdate"));
+        mailVO.setUrl1(rs.getString("url1"));
+        mailVO.setUrl2(rs.getString("url2"));
+        mailVO.setYoutube(rs.getString("youtube"));
+        mailVO.setCnt(rs.getInt("cnt"));
       }
 
     } catch (SQLException e) {
@@ -260,14 +269,17 @@ public class MailDAO {
       
       sql = new StringBuffer();
       sql.append(" UPDATE mail_app");
-      sql.append(" SET title=?, content=?"); 
+      sql.append(" SET title=?, content=?, url1=?, url2=?, youtube=?"); 
       sql.append(" WHERE mailno=?");           
       //StringBuffer를 문자열로 변환
       pstmt = con.prepareStatement(sql.toString());
       
       pstmt.setString(1, mailVO.getTitle());
       pstmt.setString(2, mailVO.getContent());
-      pstmt.setInt(3, mailVO.getMailno());
+      pstmt.setString(3, mailVO.getUrl1());
+      pstmt.setString(4, mailVO.getUrl2());
+      pstmt.setString(5, mailVO.getYoutube());
+      pstmt.setInt(6, mailVO.getMailno());
       
       count = pstmt.executeUpdate(); // INSERT, UPDATE, DELETE를 실행
       
@@ -306,4 +318,31 @@ public class MailDAO {
     }
     return count;
   }
+  
+  public int cnt_update(int mailno) {
+    try {
+      con = this.dbopen.getConnection();
+      
+      sql = new StringBuffer();
+      sql.append(" UPDATE mail_app");
+      sql.append(" SET cnt=cnt+1");
+      sql.append(" WHERE mailno=?");           
+      //StringBuffer를 문자열로 변환
+      pstmt = con.prepareStatement(sql.toString());
+
+      pstmt.setInt(1, mailno);
+
+      
+      count = pstmt.executeUpdate(); // INSERT, UPDATE, DELETE를 실행
+      
+    } catch (SQLException e) {
+      System.out.println("SQL 실행 중 예외 발생");
+      e.printStackTrace(); // 예외가 발생하기까지의 실행 과정 출력
+    } finally {
+      this.dbclose.close(con, pstmt);
+    }
+    return count;
+  }
+  
+  
 }

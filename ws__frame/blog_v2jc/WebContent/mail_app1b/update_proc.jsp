@@ -23,19 +23,25 @@ MailDAO mailDAO = new MailDAO();
 </head>
 <body>
 <jsp:include page="/menu/top.jsp" flush='false' />
-  <div class="title_line">메일 앱 ver 1.0＞수정</div>
+  <div class="title_line">메일 앱 ver 1.0b＞수정</div>
   <fieldset class="fieldset_basic">
     <!-- <legend class="legend_basic">공지사항 등록</legend> -->
       <ul>
         <%
         String title = request.getParameter("title");
         String content = request.getParameter("content");
+        String url1 = request.getParameter("url1");
+        String url2 = request.getParameter("url2");
+        String youtube = request.getParameter("youtube");
         
         int count = 0;
         
         mailVO.setMailno(mailno);
         mailVO.setTitle(title);
         mailVO.setContent(content);
+        mailVO.setUrl1(url1);
+        mailVO.setUrl2(url2);
+        mailVO.setYoutube(youtube);
       
         count = mailDAO.update(mailVO);
       

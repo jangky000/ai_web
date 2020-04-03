@@ -21,6 +21,7 @@ String my_ip = request.getRemoteAddr();
 
 MailDAO mailDAO = new MailDAO();
 MailVO mailVO = mailDAO.read(mailno);
+
 %>
  
 <!DOCTYPE html>
@@ -57,6 +58,10 @@ MailVO mailVO = mailDAO.read(mailno);
     제목:
     <%=mailVO.getTitle()%>
   </div>
+  <div style="text-align: right;">
+    조회수:
+    <%=mailVO.getCnt()+1%>
+  </div>
   <div style="text-align: left; font-size: 0.9em; margin-bottom: 20px;">
     mail from:
     <%=mailVO.getMail_from()%>
@@ -66,7 +71,49 @@ MailVO mailVO = mailDAO.read(mailno);
   <div style="text-align: left; margin-left: 20px;">
     <%=convertChar(mailVO.getContent())%>
   </div>
+  
+  <table style="border-collapse: collapse; width: 100%; border: solid 1px #999999; margin-top: 100px;">
+    <tr>
+      <th style="width: 100px; border: solid 1px #999999;">url1:</th>
+      <td style="padding-left: 10px; border: solid 1px #999999;">
+        <%
+          if(mailVO.getUrl1() != null){
+            %>
+            <a href="<%=mailVO.getUrl1()%>"><%=mailVO.getUrl1()%></a>
+            <%
+          }
+        %>
+      </td>
+    </tr>
+    <tr>
+      <th style="width: 100px; border: solid 1px #999999;">url2:</th>
+      <td style="padding-left: 10px; border: solid 1px #999999;">
+        <%
+          if(mailVO.getUrl2() != null){
+            %>
+            <a href="<%=mailVO.getUrl2()%>"><%=mailVO.getUrl2()%></a>
+            <%
+          }
+        %>
+      </td>
+    </tr>
+    <tr>
+      <th style="width: 100px; border: solid 1px #999999;">youtube:</th>
+      <td style="padding-left: 10px; border: solid 1px #999999;">
+        <%
+          if(mailVO.getYoutube() != null){
+            %>
+            <a href="<%=mailVO.getYoutube()%>"><%=mailVO.getYoutube()%></a>
+            <%
+          }
+        %>
+      </td>
+    </tr>
+  </table>
 
+<%
+mailDAO.cnt_update(mailVO.getMailno());
+%>
 
 
   <jsp:include page="/menu/bottom.jsp" flush='false' />

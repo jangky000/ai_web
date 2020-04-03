@@ -13,6 +13,8 @@ CREATE TABLE notice (
   PRIMARY KEY(noticeno)
 );
 
+
+
 CREATE SEQUENCE notice_seq
   START WITH 1
   INCREMENT BY 1
