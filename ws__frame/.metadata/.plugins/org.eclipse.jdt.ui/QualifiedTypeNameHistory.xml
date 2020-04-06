@@ -46,4 +46,6 @@
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="nation.web.notice1b.NoticeVO"/>
 <fullyQualifiedTypeName name="nation.web.mail_app1b.MailVO"/>
+<fullyQualifiedTypeName name="org.apache.jasper.tagplugins.jstl.core.Out"/>
+<fullyQualifiedTypeName name="nation.web.notice1d.NoticeProc"/>
 </qualifiedTypeNameHistroy>

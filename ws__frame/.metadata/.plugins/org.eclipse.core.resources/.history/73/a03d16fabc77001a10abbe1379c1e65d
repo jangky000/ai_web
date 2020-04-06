@@ -1,0 +1,99 @@
+package nation.web.notice1d;
+
+import java.util.ArrayList;
+
+public class NoticeProc {
+  NoticeDAO noticeDAO = null;
+  
+  // 기본 생성자
+  public NoticeProc() {
+    noticeDAO = new NoticeDAO();
+  }
+  
+  /**
+   * 등록
+   * @param noticeVO
+   * @return 등록된 레코드 개수
+   */
+  //call by reference로 한번에 여러 정보를 받음
+  public int create(NoticeVO noticeVO) {
+    int count = 0;
+    count = this.noticeDAO.create(noticeVO);
+    return count;
+  }
+
+  /**
+   * 목록
+   * @return VO 목록(ArrayList<NoticeVO>)
+   */
+  // 목록은 ArrayList를 사용하여 개발
+  public ArrayList<NoticeVO> list(){
+    ArrayList<NoticeVO> list = null;
+    list = this.noticeDAO.list();
+    return list;
+  }
+  
+  /**
+   * 페이지 목록, 페이징
+   * 1 페이지: startNum = 1, endNum = 10
+   * 2 페이지: startNum = 11, endNum = 20
+   * 3 페이지: startNum = 21, endNum = 30
+   * @param startNum 1부터 시작, rownum 시작 값
+   * @param endNum rownum 종료 값
+   * @return VO 목록(ArrayList<NoticeVO>)
+   */
+  // 페이징 알고리즘을 여기서 구현해야 함
+  public ArrayList<NoticeVO> list(int nowPage){
+    ArrayList<NoticeVO> list = null;
+    
+    list = noticeDAO.list(nowPage*10, endNum);
+    
+    return list;
+  }
+  
+  /**
+   * 1건의 레코드 조회
+   * @param noticeno 레코드 번호 PK
+   * @return 1건의 레코드(NoticeVO)
+   */
+  public NoticeVO read(int noticeno) {
+    NoticeVO noticeVO = null;
+    noticeVO = this.noticeDAO.read(noticeno);
+    return noticeVO;
+  }
+  
+  /**
+   * 패스워드 검사
+   * @param noticeno PK
+   * @param passwd 패스워드
+   * @return true 패스워드 일치
+   */
+  public boolean passwdCheck(int noticeno, String passwd) {
+    boolean sw = false;
+    sw = this.noticeDAO.passwdCheck(noticeno, passwd);
+    return sw;
+  }
+  
+  /**
+   * 수정
+   * @param noticeVO 수정할 내용
+   * @return 수정된 레코드 개수 0 or 1
+   */
+  public int update( NoticeVO noticeVO ) {
+    int count = 0;
+    count = this.noticeDAO.update(noticeVO);
+    return count;
+  }
+  
+  /**
+   * 삭제
+   * @param noticeno 삭제할 PK
+   * @return 삭제된 레코드 개수
+   */
+  public int delete(int noticeno) {
+    int count = 0;
+    count = this.noticeDAO.delete(noticeno);
+    return count;
+  }
+  
+}

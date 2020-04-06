@@ -17,8 +17,8 @@
         <LI class="li_left_menu_2"><a href="<%= request.getContextPath() %>/notice1/list.jsp">version 1.0</a></LI>
         <LI class="li_left_menu_2"><a href="<%= request.getContextPath() %>/notice1a/list.jsp">version 1.0a</a></LI>
         <LI class="li_left_menu_2"><a href="<%= request.getContextPath() %>/notice1b/list.jsp">version 1.0b</a></LI>
-        <LI class="li_left_menu_2">version 1.0c</LI>
-        <LI class="li_left_menu_2">version 1.0d</LI>
+        <LI class="li_left_menu_2"><a href="<%= request.getContextPath() %>/notice1c/list.jsp">version 1.0c</a></LI>
+        <LI class="li_left_menu_2"><a href="<%= request.getContextPath() %>/notice1d/list.jsp">version 1.0d</a></LI>
       </UL>
       <!-- br을 쓰는 것보다 margin으로 여백을 주는 것이 낫다 -->
       <div class="li_left_menu_1">메일</div>
@@ -26,7 +26,7 @@
         <LI class="li_left_menu_2"><a href="<%= request.getContextPath() %>/mail_app/list.jsp">version 1.0</a></LI>
         <LI class="li_left_menu_2"><a href="<%= request.getContextPath() %>/mail_app1a/list.jsp">version 1.0a</a></LI>
         <LI class="li_left_menu_2"><a href="<%= request.getContextPath() %>/mail_app1b/list.jsp">version 1.0b</a></LI>
-        <LI class="li_left_menu_2">version 1.0c</LI>
+        <LI class="li_left_menu_2"><a href="<%= request.getContextPath() %>/mail_app1c/list.jsp">version 1.0c</a></LI>
         <LI class="li_left_menu_2">version 1.0d</LI>
       </UL>
     

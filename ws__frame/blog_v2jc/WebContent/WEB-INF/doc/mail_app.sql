@@ -21,6 +21,9 @@ CREATE TABLE mail_app (
 ALTER TABLE mail_app 
 MODIFY(url1 VARCHAR(1000));
 
+ALTER TABLE mail_app 
+MODIFY(cnt NUMBER(7) DEFAULT 0);
+
 DROP SEQUENCE mail_seq;
 
 CREATE SEQUENCE mail_seq
