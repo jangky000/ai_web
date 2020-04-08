@@ -36,6 +36,8 @@ public String convertTag(String str){
   <form name='frm' action='./update_proc.jsp' method='POST'>
     <!-- 사용자에게 보여줄 필요가 없는 데이터 -->
     <input type='hidden'  name= 'noticeno'  value='<%=noticeVO.getNoticeno() %>'>
+    <input type='hidden'  name= 'nowPage'  value='<%=nowPage %>'>
+    <input type='hidden'  name= 'recordPerPage'  value='<%=recordPerPage %>'>
   
     <fieldset class="fieldset_basic">
       <!-- <legend class="legend_basic">공지사항 등록</legend> -->
@@ -61,8 +63,8 @@ public String convertTag(String str){
       </ul>
       <div class ="bottom_menu">
         <button type="submit">수정</button>
-        <button type="button" onclick="location.href = './list.jsp'">취소</button>
-        <button type="button" onclick="location.href = './list.jsp'">목록</button>
+        <button type="button" onclick="location.href = './list.jsp?nowPage=<%=nowPage %>&recordPerPage=<%= recordPerPage%>'">취소</button>
+        <button type="button" onclick="location.href = './list.jsp?nowPage=<%=nowPage %>&recordPerPage=<%= recordPerPage%>'">목록</button>
       </div>
     </fieldset>
   </form>

@@ -48,4 +48,10 @@
 <fullyQualifiedTypeName name="nation.web.mail_app1b.MailVO"/>
 <fullyQualifiedTypeName name="org.apache.jasper.tagplugins.jstl.core.Out"/>
 <fullyQualifiedTypeName name="nation.web.notice1d.NoticeProc"/>
+<fullyQualifiedTypeName name="test.Sale"/>
+<fullyQualifiedTypeName name="java.lang.Override"/>
+<fullyQualifiedTypeName name="test.Mobile"/>
+<fullyQualifiedTypeName name="test.Card"/>
+<fullyQualifiedTypeName name="test.ColorInter"/>
+<fullyQualifiedTypeName name="test.Pizza"/>
 </qualifiedTypeNameHistroy>

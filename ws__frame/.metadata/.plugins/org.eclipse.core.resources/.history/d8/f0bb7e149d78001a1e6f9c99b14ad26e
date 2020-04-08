@@ -1,0 +1,37 @@
+package test;
+ 
+class Sale {  // 부모 class
+  public void spring_summer() {
+    System.out.println("봄 -> 여름");
+  }
+}
+// class Sale2 extends Object { } // 부모 class
+ //Sale을 상속
+class Y2014 extends Sale {
+  @Override
+  public void spring_summer() {
+    System.out.println("spring -> summer");
+  }
+}
+ 
+class Y2015 extends Sale { }
+ 
+class Y2016 { }
+ 
+public class CastTest1 {
+ 
+  public static void main(String[] args) {
+    
+    Y2014 y2014 = new Y2014();
+    Sale sale = y2014; // 자식 객체는 부모에 할당 가능
+    
+    sale = new Y2015(); // 부모 <- 자식
+    sale = new Y2016();
+  
+    System.out.println("sale instanceof Y2015: " + (sale instanceof Y2015)); // true
+    System.out.println("sale instanceof Sale: " + (sale instanceof Sale));       // true
+
+ 
+  }
+ 
+}

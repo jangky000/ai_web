@@ -1,0 +1,12 @@
+package beans;
+
+public class SungjukVO {
+  private String name = "";
+  private int java = 0;
+  private int jsp = 0;
+  private int spring = 0; 
+  private int tot = 0; 
+  private int avg = 0; 
+  
+  
+}

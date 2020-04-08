@@ -78,7 +78,10 @@ WHERE noticeno=1;
 DELETE FROM notice WHERE noticeno=1;
 
 -- 등록 공지사항 수
-SELECT COUNT(*) AS cnt FROM notice;
+SELECT COUNT(*) AS cnt 
+FROM notice;
+
+
        CNT
 ----------
          1
@@ -87,6 +90,51 @@ SELECT COUNT(*) AS cnt FROM notice;
 
 -- 변경 사항 저장, 자바와 sqldeveloper 동기화
 COMMIT;
+
+
+
+
+
+
+
+-- 페이징 구현 step1
+SELECT noticeno, title, rname, passwd, rdate
+FROM notice
+ORDER BY noticeno DESC;
+
+-- 페이징 구현 step2
+-- rownum 생성
+ SELECT noticeno, title, rname, passwd, rdate, rownum as r
+ FROM(
+        SELECT noticeno, title, rname, passwd, rdate
+        FROM notice
+        ORDER BY noticeno DESC
+);
+
+
+-- 페이징 구현 step3
+-- rownum 생성
+-- content처럼 필요 없는 데이터 칼럼은 가져오지 않는 것이 좋다. 메모리 부하 발생
+SELECT noticeno, title, rname, passwd, rdate, r
+FROM(
+        SELECT noticeno, title, rname, passwd, rdate, rownum as r
+        FROM(
+                SELECT noticeno, title, rname, passwd, rdate
+                FROM notice
+                ORDER BY noticeno DESC
+        )
+)
+WHERE r>=4 AND r<=6;
+
+
+
+
+
+
+
+
+
+
 
 
 

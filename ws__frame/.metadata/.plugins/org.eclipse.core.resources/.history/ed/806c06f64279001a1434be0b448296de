@@ -1,0 +1,18 @@
+package test;
+
+public class Pizza implements Food {
+  @Override
+  public void menu() {
+    System.out.println("child pizza");
+  }
+  @Override
+  public void price() {
+    // TODO Auto-generated method stub
+    
+  }
+  @Override
+  public void reserve() {
+    // TODO Auto-generated method stub
+    
+  }
+}

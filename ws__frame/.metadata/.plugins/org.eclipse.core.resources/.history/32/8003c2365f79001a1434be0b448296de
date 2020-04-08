@@ -1,0 +1,33 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page import="java.util.Date" %>
+  
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link href="../css/style.css" rel="Stylesheet" type="text/css">
+</head>
+<body>
+<%
+
+
+request.setAttribute("dev", "JAVA 개발자");
+
+request.setAttribute("year", 2020);
+request.setAttribute("point", 10.5);
+request.setAttribute("date", new Date());
+request.setAttribute("web","Web 개발");
+
+ 
+String dev = (String)request.getAttribute("dev");
+System.out.println(dev);
+
+int year = (Integer)request.getAttribute("year");
+System.out.println(year);
+
+
+%>
+</body>
+</html>
+</html>

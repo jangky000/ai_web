@@ -2,7 +2,8 @@
  
 <%! public String wrap_xmp(String str){ return "<xmp>"+str + "</xmp>";} %>
 
- <%@include file="./ssi.jsp" %>
+<!-- 페이지 번호 가져옴 -->
+<%@include file="./ssi.jsp" %>
  
 <!DOCTYPE html>
 <html lang="ko">
@@ -35,35 +36,21 @@
       </tr>
     </thead>
     <tbody>
+      
       <%
-      int nowPage = 0;
-      int recordPerPage = 0;
-      
-      if(request.getParameter("nowPage") == null){
-        nowPage = 1;
-      } else{
-        nowPage = Integer.parseInt(request.getParameter("nowPage"));
-      }
-      
-      if(request.getParameter("recordPerPage") == null){
-        recordPerPage = 3;
-      } else{
-        recordPerPage = Integer.parseInt(request.getParameter("recordPerPage"));
-      }
-      
       ArrayList<NoticeVO> list = noticeProc.list(nowPage,  recordPerPage);
       
       for(NoticeVO vo: list){
-        %>
+      %>
         <tr>
           <td class="td_basic"><%= vo.getNoticeno()%></td>
           <td class="td_left"><a href="./read.jsp?noticeno=<%= vo.getNoticeno()%>&nowPage=<%=nowPage %>&recordPerPage=<%= recordPerPage%>"><%= vo.getTitle()%></a></td>
           <td class="td_basic"><%= vo.getRname()%></td>
           <td class="td_basic"><%= vo.getRdate().substring(0,10)%></td>
           <td class="td_basic">
-              <a href='./update_form.jsp?noticeno=<%= vo.getNoticeno()%>'>수정</a>
+              <a href='./update_form.jsp?noticeno=<%= vo.getNoticeno()%>&nowPage=<%=nowPage %>&recordPerPage=<%= recordPerPage%>'>수정</a>
                /
-              <a href='./delete_form.jsp?noticeno=<%= vo.getNoticeno()%>'>삭제</a></td>
+              <a href='./delete_form.jsp?noticeno=<%= vo.getNoticeno()%>&nowPage=<%=nowPage %>&recordPerPage=<%= recordPerPage%>'>삭제</a></td>
         </tr>
       <%
       }

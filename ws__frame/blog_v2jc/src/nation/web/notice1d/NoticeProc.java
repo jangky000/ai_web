@@ -246,4 +246,12 @@ public class NoticeProc {
     return str.toString(); 
   } 
   
+  /**
+   * 전체 레코드 수
+   * @return 레코드 수
+   */
+  public int count() {
+    return this.noticeDAO.count();
+  }
+  
 }

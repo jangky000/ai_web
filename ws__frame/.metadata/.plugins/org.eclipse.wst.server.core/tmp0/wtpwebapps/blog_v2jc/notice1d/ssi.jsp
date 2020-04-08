@@ -21,3 +21,20 @@ String application_title = "공지사항 ver 1.0d";
 /* NoticeDAO noticeDAO = new NoticeDAO(); */
 NoticeProc noticeProc = new NoticeProc();
 %>
+
+<%
+      int nowPage = 0;
+      int recordPerPage = 0;
+      
+      if(request.getParameter("nowPage") == null){
+        nowPage = 1;
+      } else{
+        nowPage = Integer.parseInt(request.getParameter("nowPage"));
+      }
+      
+      if(request.getParameter("recordPerPage") == null){
+        recordPerPage = 3;
+      } else{
+        recordPerPage = Integer.parseInt(request.getParameter("recordPerPage"));
+      }
+%>

@@ -1,0 +1,8 @@
+package test;
+
+public class GreenImpl implements ColorInter{
+  public void color() {
+    syso
+  }
+
+}

@@ -1,0 +1,48 @@
+package test;
+
+public class CoffeeInterMain {
+
+  public static void main(String[] args) {
+
+    System.out.println("");
+    System.out.println("Starbucks");
+    System.out.println("==============================");
+
+    CoffeeshopInter coffee = new Starbucks();
+    coffee.americano();
+    coffee.latte();
+    coffee.dessert();
+    coffee.JHB();
+    
+    System.out.println("");
+    System.out.println("Ediya");
+    System.out.println("==============================");
+
+    coffee = new Ediya();
+    ediya.americano();
+    ediya.latte();
+    ediya.dessert();
+    ediya.TL();
+    
+    System.out.println("");
+    System.out.println("CoffeeshopInter 인터페이스 ← 구현클래스");
+    System.out.println("==============================");
+    CoffeeshopInter coffeeshopInter = new Starbucks(); // 인터페이스 ← 구현 클래스
+    coffeeshopInter.americano();
+    coffeeshopInter.latte();
+    coffeeshopInter.dessert();
+    // coffeeshopInter.JHB(); Starbucks의 고유 메소드 호출 불가
+
+    
+    System.out.println("");
+    System.out.println("Starbucks 구현클래스 ← 인터페이스");
+    System.out.println("==============================");
+    Starbucks starbucks2 = (Starbucks) coffeeshopInter; // 구현클래스 ← (형변환) 인터페이스
+    starbucks2.americano();
+    starbucks2.latte();
+    starbucks2.dessert();
+    starbucks.JHB(); // Starbucks의 고유 메소드 호출 가능
+    
+  }
+
+}

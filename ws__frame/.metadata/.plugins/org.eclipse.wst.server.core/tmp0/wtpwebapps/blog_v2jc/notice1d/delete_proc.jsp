@@ -36,6 +36,14 @@ NoticeVO noticeVO = new NoticeVO();
           count = noticeProc.delete(noticeno);
         
           if (count == 1) {
+            int recordCount = noticeProc.count(); 
+            
+            if (recordCount % recordPerPage == 0) {
+              nowPage = nowPage - 1;
+              if (nowPage < 1) {
+                nowPage = 1;
+              }
+            }
             %>
             <li class="li_none">삭제 처리에 성공했습니다.</li>
             <%
@@ -65,7 +73,7 @@ NoticeVO noticeVO = new NoticeVO();
         } else{
         }
         %>
-      <button type="button" onclick="location.href = './list.jsp'">목록</button>
+      <button type="button" onclick="location.href = './list.jsp?nowPage=<%=nowPage %>&recordPerPage=<%= recordPerPage%>'">목록</button>
     </div>
   </fieldset>
 

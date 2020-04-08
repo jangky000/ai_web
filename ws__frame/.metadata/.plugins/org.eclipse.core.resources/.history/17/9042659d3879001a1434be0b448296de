@@ -1,0 +1,8 @@
+package test;
+
+public class SpringImpl implements SeasonInter{
+  public void season() {
+    System.out.println("child");
+  }
+
+}

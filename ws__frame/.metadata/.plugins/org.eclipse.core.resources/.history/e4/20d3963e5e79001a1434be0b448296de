@@ -1,0 +1,20 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+  
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link href="../css/style.css" rel="Stylesheet" type="text/css">
+</head>
+<body>
+<%
+request.setAttribute("dev", "자바 개발자");
+request.setAttribute("year", "자바 개발자");
+request.setAttribute("java", "자바 개발자");
+
+request.getAttribute("")
+%>
+</body>
+</html>
+</html>

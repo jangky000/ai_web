@@ -1,0 +1,18 @@
+public class ComputerMain {
+  public static void main(String[] args) {
+    Computer1 computer1 = new Ram();
+    computer1.com();
+    computer1.com1();
+    computer1.com2();
+
+    computer1 = new Vga();
+    computer1.com();
+    computer1.com1();
+    computer1.com2();
+
+    computer1 = new Cpu();
+    computer1.com();
+    computer1.com1();
+    computer1.com2();
+  }
+}

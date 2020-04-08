@@ -1,0 +1,6 @@
+package test;
+
+public interface SeasonInter {
+  public void season();
+
+}

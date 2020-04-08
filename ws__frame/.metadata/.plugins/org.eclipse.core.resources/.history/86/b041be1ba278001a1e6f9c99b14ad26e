@@ -1,0 +1,17 @@
+package test;
+
+public class SeasonMain {
+
+  public static void main(String[] args) {
+    Spring spring1 = new Spring();
+    Season season1 = spring1;
+    season1.print(); // spring! 출력 / 타입은 Season, 객체는 Spring의 인스턴스
+    
+    Season season2 = new Season();
+    Spring spring2 = (Spring)season2;
+    spring2.print(); 
+
+
+    }
+
+}

@@ -27,7 +27,7 @@
         <LI class="li_left_menu_2"><a href="<%= request.getContextPath() %>/mail_app1a/list.jsp">version 1.0a</a></LI>
         <LI class="li_left_menu_2"><a href="<%= request.getContextPath() %>/mail_app1b/list.jsp">version 1.0b</a></LI>
         <LI class="li_left_menu_2"><a href="<%= request.getContextPath() %>/mail_app1c/list.jsp">version 1.0c</a></LI>
-        <LI class="li_left_menu_2">version 1.0d</LI>
+        <LI class="li_left_menu_2"><a href="<%= request.getContextPath() %>/mail_app1d/list.jsp">version 1.0d</a></LI>
       </UL>
     
     </DIV>  <!--  좌측 메뉴 종료 -->

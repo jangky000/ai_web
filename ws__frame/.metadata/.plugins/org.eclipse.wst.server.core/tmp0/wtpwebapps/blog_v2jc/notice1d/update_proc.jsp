@@ -59,11 +59,11 @@
         } else{
         %>
         <button type="button"
-        onclick="location.href = './read.jsp?noticeno=<%= noticeVO.getNoticeno() %>'">수정 확인</button>
+        onclick="location.href = './read.jsp?noticeno=<%= noticeVO.getNoticeno() %>&nowPage=<%=nowPage %>&recordPerPage=<%= recordPerPage%>'">수정 확인</button>
         <%
         }
         %>
-      <button type="button" onclick="location.href = './list.jsp'">목록</button>
+      <button type="button" onclick="location.href = './list.jsp?nowPage=<%=nowPage %>&recordPerPage=<%= recordPerPage%>'">목록</button>
     </div>
   </fieldset>
 

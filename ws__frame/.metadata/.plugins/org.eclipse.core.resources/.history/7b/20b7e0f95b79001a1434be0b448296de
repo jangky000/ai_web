@@ -1,0 +1,25 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+ 
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link href="../css/style.css" rel='Stylesheet' type='text/css'>
+</head>
+<body>
+<DIV class='container'>
+<DIV class='content'>
+ 
+<%
+int pageCount = (int)request.getAttribute("pageCount");
+int pageCount = (Integer)request.getAttribute("pageCount");
+%>
+
+<%= pageCount%>
+ 
+</DIV> <!-- content END -->
+</DIV> <!-- container END -->
+ 
+</body>
+</html>
