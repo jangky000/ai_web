@@ -1,0 +1,29 @@
+package dev.form;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+// http://localhost:9090/mvc/form/festival.do
+@WebServlet("/form/festival.do")
+public class Festival extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    public Festival() {
+        super();
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("Context path: " + request.getContextPath() ); // Context path: /mvc
+		System.out.println("절대 경로: " + request.getContextPath() ); // 위와 같은 말
+		
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}

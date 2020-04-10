@@ -1,0 +1,14 @@
+package dev.controller;
+ 
+import javax.servlet.http.HttpServletRequest;
+ 
+class Controller3Model{
+  public Controller3Model () {
+    System.out.println("--> Controller3Model created.");
+  }
+  
+  public void setData(HttpServletRequest request) {
+
+  }
+}
+ 

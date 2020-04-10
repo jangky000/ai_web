@@ -1,0 +1,7 @@
+package dev.form;
+
+import javax.servlet.http.HttpServlet;
+
+public class Param extends HttpServlet {
+
+}

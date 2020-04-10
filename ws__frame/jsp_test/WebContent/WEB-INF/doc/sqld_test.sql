@@ -140,7 +140,9 @@ A                              B                              A                 
 ¸á·Ð                           µþ±â                                                                                                  
 
 
-SELECT * FROM table1, table2;
+SELECT *  /*+ use_hash(e d) */
+FROM table1 e, table2 d;
+
 A                              B                              A                              B                             
 ------------------------------ ------------------------------ ------------------------------ ------------------------------
 »ç°ú                           ¹Ù³ª³ª                         ¿À·»Áö                         ÆÄÀÎ¾ÖÇÃ                      
@@ -177,8 +179,60 @@ INSERT INTO table3 VALUES(1000, 'president', 100);
 SELECT deptno, job, sum(sal)
 FROM table3
 GROUP BY GROUPING SETS (deptno, job );
+    DEPTNO JOB                              SUM(SAL)
+---------- ------------------------------ ----------
+      1000                                       300
+      1003                                       100
+      1001                                       200
+      1002                                       100
+           CLERK                                 200
+           SALESMAN                              100
+           president                             200
+           manager                               200
 
 SELECT deptno, job, sum(sal)
 FROM table3
 GROUP BY CUBE (deptno, job );
+    DEPTNO JOB                              SUM(SAL)
+---------- ------------------------------ ----------
+                                                 700
+           CLERK                                 200
+           manager                               200
+           SALESMAN                              100
+           president                             200
+      1000                                       300
+      1000 CLERK                                 100
+      1000 manager                               100
+      1000 president                             100
+      1001                                       200
+      1001 SALESMAN                              100
+      1001 president                             100
+      1002                                       100
+      1002 manager                               100
+      1003                                       100
+      1003 CLERK                                 100
+      
+      
+-- ÃÑÇÕ
+SELECT deptno, job, sal, sum(sal) OVER (ORDER BY sal ROWS BETWEEN unbounded preceding AND unbounded following) totsal
+FROM table3;      
+      
+      
+-- ´©°è
+SELECT deptno, job, sal, sum(sal) OVER (ORDER BY sal ROWS BETWEEN unbounded preceding AND current row) totsal
+FROM table3;
+    DEPTNO JOB                                   SAL     TOTSAL
+---------- ------------------------------ ---------- ----------
+      1000 CLERK                                 100        100
+      1001 SALESMAN                              100        200
+      1001 president                             100        300
+      1000 president                             100        400
+      1003 CLERK                                 100        500
+      1000 manager                               100        600
+      1002 manager                               100        700
 
+
+SELECT deptno, job, sal, 
+RANK() OVER (ORDER BY sal DESC) all_rank, 
+RANK() OVER (PARTITION BY job ORDER BY sal DESC) job_rank
+FROM table3;

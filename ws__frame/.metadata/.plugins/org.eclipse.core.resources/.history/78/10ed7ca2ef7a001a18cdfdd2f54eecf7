@@ -1,0 +1,32 @@
+package dev.controller;
+
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet(urlPatterns = "*.do2", loadOnStartup = 1)
+public class Controller2 extends HttpServlet {
+  private static final long serialVersionUID = 1L;
+
+  public Controller2() {
+    super();
+    System.out.println("--> Controller2 created.");
+
+  }
+
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    //http://127.0.0.1:9090/mvc/controller2/img1.do2ex
+    String uri = request.getRequestURI(); // uri = /mvc/controller2/img1.do2ex
+    
+    String view = "/season/view.jsp"; // webcontent ±‚¡ÿ
+    RequestDispatcher dispatcher = request.getRequestDispatcher(view);
+    dispatcher.forward(request, response);
+  }
+
+
+}

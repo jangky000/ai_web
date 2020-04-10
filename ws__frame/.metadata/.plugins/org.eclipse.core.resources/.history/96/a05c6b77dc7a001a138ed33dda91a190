@@ -1,0 +1,25 @@
+package dev.controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet(urlPatterns = "*.do1ex", loadOnStartup = 1)
+public class Controller1ex extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+    public Controller1ex() {
+        super();
+        System.out.println("--> Controller1ex created.");
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	  esponse.setContentType("text/html;charset=utf-8");
+    request.setCharacterEncoding("utf-8");
+    PrintWriter out = response.getWriter();
+	}
+
+}
