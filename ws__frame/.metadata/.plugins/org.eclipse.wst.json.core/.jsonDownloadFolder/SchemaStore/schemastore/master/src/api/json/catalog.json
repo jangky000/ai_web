@@ -251,8 +251,9 @@
     {
       "name": "Carafe",
       "description": "Schema for Carafe compatible JavaScript Bundles",
-      "url": "https://carafe.fm/schema/draft-01/bundle.schema.json",
+      "url": "https://carafe.fm/schema/draft-02/bundle.schema.json",
       "versions": {
+        "draft-02": "https://carafe.fm/schema/draft-02/bundle.schema.json",
         "draft-01": "https://carafe.fm/schema/draft-01/bundle.schema.json"
       }
     },
@@ -629,6 +630,14 @@
       "url": "http://json.schemastore.org/electron-builder"
     },
     {
+      "name": "Expo SDK",
+      "description": "JSON schema for Expo SDK app manifest",
+      "fileMatch": [
+        "app.json"
+      ],
+      "url": "http://json.schemastore.org/expo-37.0.0.json"
+    },
+    {
       "name": ".eslintrc",
       "description": "JSON schema for ESLint configuration files",
       "fileMatch": [
@@ -713,6 +722,22 @@
       "name": "Grafana 5.x Dashboard",
       "description": "JSON Schema for Grafana 5.x Dashboards",
       "url": "http://json.schemastore.org/grafana-dashboard-5.x"
+    },
+    {
+      "name": "GraphQL Mesh",
+      "description": "JSON Schema for GraphQL Mesh Config gile",
+      "url": "http://json.schemastore.org/graphql-mesh-0.0.16",
+      "fileMatch": [
+        ".meshrc.yml",
+        ".meshrc.yaml",
+        ".meshrc.json",
+        ".meshrc.js",
+        ".graphql-mesh.yaml",
+        ".graphql-mesh.yml"
+      ],
+      "versions": {
+        "0.0.16": "http://json.schemastore.org/graphql-mesh-0.0.16"
+      }
     },
     {
       "name": "Grunt copy task",
@@ -1536,6 +1561,15 @@
       "url": "http://json.schemastore.org/ui5-manifest"
     },
     {
+      "name": "ui5.yaml",
+      "description": "UI5 Tooling Configuration File (ui5.yaml)",
+      "fileMatch": [
+        "ui5.yaml",
+        "ui5-*.yaml"
+      ],
+      "url": "https://sap.github.io/ui5-tooling/schema/ui5.yaml.json"
+    },
+    {
       "name": "vega.json",
       "description": "Vega visualization specification file",
       "fileMatch": [
@@ -1560,6 +1594,14 @@
         "version.json"
       ],
       "url": "https://raw.githubusercontent.com/AArnott/Nerdbank.GitVersioning/master/src/NerdBank.GitVersioning/version.schema.json"
+    },
+    {
+      "name": "vim-addon-info",
+      "description": "JSON schema for vim plugin addon-info.json metadata files",
+      "fileMatch": [
+        "*vim*/addon-info.json"
+      ],
+      "url": "http://json.schemastore.org/vim-addon-info"
     },
     {
       "name": "vsls.json",
@@ -1894,6 +1936,14 @@
         "jsdoc.js*"
       ],
       "url": "http://json.schemastore.org/jsdoc-1.0.0"
+    },
+    {
+      "name": "Ray",
+      "description": "Ray autocluster configuration file",
+      "fileMatch": [
+        "ray-*-cluster.yaml"
+      ],
+      "url": "https://raw.githubusercontent.com/ray-project/ray/master/python/ray/autoscaler/ray-schema.json"
     }
   ]
 }

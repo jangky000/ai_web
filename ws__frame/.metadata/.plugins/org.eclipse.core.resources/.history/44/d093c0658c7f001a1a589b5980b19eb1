@@ -1,0 +1,5 @@
+package pilot.proxy;
+
+public interface Trip {
+
+}

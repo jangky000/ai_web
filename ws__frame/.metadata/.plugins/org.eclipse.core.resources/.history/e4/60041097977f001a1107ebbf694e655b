@@ -1,0 +1,11 @@
+package dev.mvc.init;
+
+import org.springframework.web.servlet.ModelAndView;
+
+public class ReadImgCont {
+  
+  public ModelAndView gallery() {
+    
+  }
+
+}

@@ -1,0 +1,14 @@
+package sts.basic.test;
+
+public class NullTest {
+
+  public static void main(String[] args) {
+    //null pointer exception
+    
+    String null_str = null;
+    null_str.length();
+    
+
+  }
+
+}

@@ -1,0 +1,25 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+ 
+<!DOCTYPE html> 
+<html lang="ko"> 
+<head> 
+<meta charset="UTF-8"> 
+<title></title> 
+<style type="text/css">
+  *{ font-family: Malgun Gothic; font-size: 26px;}
+</style>
+</head> 
+ 
+<body>
+ 
+<DIV class='content'>
+  Context Path: <%=request.getContextPath() %> <!-- Context Path: /test(마지막 패키지명) pom.xml의 artifactid -->
+  <br><br>
+  
+  .....
+  
+</DIV>
+ 
+</body>
+ 
+</html> 

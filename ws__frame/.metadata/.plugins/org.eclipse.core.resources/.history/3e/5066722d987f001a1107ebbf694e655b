@@ -1,0 +1,23 @@
+package dev.mvc.init;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class ReadImgCont {
+  public ReadImgCont() {
+    System.out.println("--> ReadImgCont created..."); // 생성 후 실행 대기 상태
+  }
+  
+  //http://localhost:9090/calc/adder/add3.do
+ @RequestMapping(value="/adder/add3.do", method=RequestMethod.GET)
+ public ModelAndView add() {
+   ModelAndView mav = new ModelAndView();
+   mav.setViewName("/adder/tot_form"); // WEB-INF/views/adder/tot_form.jsp
+
+   return mav;
+ }
+
+}

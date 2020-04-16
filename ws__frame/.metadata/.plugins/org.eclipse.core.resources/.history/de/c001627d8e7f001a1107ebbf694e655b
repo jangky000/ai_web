@@ -1,0 +1,14 @@
+package pilot.proxy;
+ 
+public class TripMain {
+ 
+  public static void main(String[] args) {
+    // Domestic 객체를 생성하여 메소드 호출, 다형성 구현
+    
+    System.out.println("------------------------------------");
+    // DomesticProxy 객체를 생성하여 메소드 호출, 다형성 구현
+ 
+    
+  }
+ 
+}

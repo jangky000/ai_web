@@ -1,0 +1,28 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page import="sts.basic.test.ELDTO" %>
+ 
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+  *{ font-family: Malgun Gothic; font-size: 30px;}
+</style>
+</head>
+<body>
+<DIV class='container'>
+<DIV class='content'>
+ 스크립틀릿 출력<br>
+ 수1: <%=request.getParameter("") %><br>
+ 수2: <br>
+ 수3: <br>
+ <br> 
+ EL 출력<br>
+ 수1: .....<br>
+ 수2: .....<br>
+ 수3: .....<br>
+</DIV> <!-- content END -->
+</DIV> <!-- container END -->
+</body>
+</html>

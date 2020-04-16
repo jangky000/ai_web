@@ -1,0 +1,19 @@
+package pilot.proxy;
+ 
+public class TripMain {
+ 
+  public static void main(String[] args) {
+    // Domestic 객체를 생성하여 메소드 호출, 다형성 구현
+    Trip domestic = new Domestic();
+    domestic.start();
+    domestic.destination();
+    domestic.end();
+    
+    System.out.println("------------------------------------");
+    // DomesticProxy 객체를 생성하여 메소드 호출, 다형성 구현
+    domestic = new DomesticProxy();
+    domestic.start();
+    
+  }
+ 
+}
