@@ -283,4 +283,28 @@ SELECT count(*) FROM student WHERE score >=10 or score<10;
 SELECT score, count(score) FROM student;
 
 
-SELECT NEXT_DAY(ADD_MONTH(sysdate, 6), '월요일') FROM DUAL;
+SELECT NEXT_DAY(sysdate, '월요일') FROM DUAL;
+
+SELECT SIGN(100) FROM DUAL;
+
+SELECT v1, n1 from sql1 minus
+select v1, n1 from sql2 union
+select v1, n1 from sql2;
+
+select v1, n1 from sql1 where v1=1 order by n1;
+
+
+select * from sql1;
+
+insert into sql1 values(1, 'B');
+insert into sql1 values(2, 'B');
+
+select * from sql1 where (n1, v1) in ( (1, 'B'), (2, 'B') );
+
+SELECT 
+    CASE WHEN TO_CHAR(SYSDATE, 'YYYY') = '2013' THEN SYSDATE
+    WHEN TO_CHAR(SYSDATE, 'MM') = '11' THEN SYSDATE + 1 
+    ELSE NULL END SYS_DATE 
+FROM DUAL;
+
+select decode(expression, 'a') from dual;

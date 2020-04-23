@@ -1,0 +1,17 @@
+package dev.mvc.categrp;
+ 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+ 
+@Component("dev.mvc.categrp.CategrpProc") // servlet-context.xml ºó »ý¼º
+public class CategrpProc implements CategrpProcInter {
+
+  @Override
+  public int create(CategrpVO categrpVO) {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+
+}

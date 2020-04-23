@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <aop-reference-model>
-<aop-project name="sts_init"/>
-<aop-project name="sts_calc"/>
+<aop-project name="resort_v2s4m3c"/>
 </aop-reference-model>

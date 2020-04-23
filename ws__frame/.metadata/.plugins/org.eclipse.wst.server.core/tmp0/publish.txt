@@ -1,2 +1,4 @@
 #Tomcat publish data
-#Thu Apr 16 12:51:34 KST 2020
+#Thu Apr 23 17:17:47 KST 2020
+org.eclipse.jst.jee.server\:/binary\:C\:\\ai6\\maven\\org\\springframework\\spring-web\\4.3.26.RELEASE\\spring-web-4.3.26.RELEASE.jar=WEB-INF/lib/spring-web-4.3.26.RELEASE.jar
+org.eclipse.jst.jee.server\:/binary\:C\:\\ai6\\maven\\org\\springframework\\spring-web\\4.3.23.RELEASE\\spring-web-4.3.23.RELEASE.jar=WEB-INF/lib/spring-web-4.3.23.RELEASE.jar
