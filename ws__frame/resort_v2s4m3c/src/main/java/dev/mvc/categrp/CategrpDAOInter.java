@@ -28,6 +28,16 @@ public interface CategrpDAOInter {
   // List는 ArrayList의 인터페이스
   
   /**
+   * 목록
+   * <xmp>
+   * <select id="list_seqno_asc" resultType="CategrpVO">
+   * </xmp> 
+   * @return 레코드 목록
+   */
+  public List<CategrpVO> list_seqno_asc();
+  // List는 ArrayList의 인터페이스
+  
+  /**
    * 조회 + 수정폼(form 태그)
    * <xmp>
    *   <select id="read" resultType="CategrpVO" parameterType="int">
@@ -46,4 +56,14 @@ public interface CategrpDAOInter {
    * @return 처리된 레코드 개수
    */
   public int update(CategrpVO categrpVO);
+  
+  /**
+   * 삭제 처리
+   * <xmp>
+   *   <delete id="update" parameterType="int"> 
+   * </xmp>
+   * @param categrpno
+   * @return 처리된 레코드 갯수
+   */
+  public int delete(int categrpno);
 }

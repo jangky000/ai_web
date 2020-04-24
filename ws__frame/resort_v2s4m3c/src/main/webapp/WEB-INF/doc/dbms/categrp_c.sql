@@ -120,6 +120,21 @@ VALUES(categrp_seq.nextval, '캠핑', 3, 'Y', sysdate);
          2 여행                                                        2 Y 2020-04-22 10:10:38
          3 캠핑                                                        3 Y 2020-04-22 10:10:38
 
+-- 출력 순서에따른 전체 목록
+SELECT categrpno, name, seqno, visible, rdate
+FROM categrp
+ORDER BY seqno ASC;
+ 
+-- 출력 순서 상향, 10 ▷ 1
+UPDATE categrp
+SET seqno = seqno - 1
+WHERE categrpno=1;
+ 
+-- 출력순서 하향, 1 ▷ 10
+UPDATE categrp
+SET seqno = seqno + 1
+WHERE categrpno=1;
+
 
 
 commit;

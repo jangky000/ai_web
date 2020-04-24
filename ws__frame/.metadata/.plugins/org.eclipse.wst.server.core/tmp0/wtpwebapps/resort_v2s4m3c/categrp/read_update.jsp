@@ -61,8 +61,8 @@
          <option value='N' ${categrpVO.visible=='N' ? "selected='selected'": "" }>N</option>
       </select>
        
-      <button type="submit" id='submit'>수정</button>
-      <button type="button" onclick="location.href='./list.do'">취소</button>
+      <button type="submit" id='submit'>저장</button>
+      <button type="button" onclick="location.href='./list.do'">수정 취소</button>
     </FORM>
   </DIV>
  
@@ -94,7 +94,11 @@
         <td class="td_bs_left"><a href="./read_update.do?categrpno=${categrpno }">${categrpVO.name}</a></td>
         <td class="td_bs">${categrpVO.rdate.substring(0, 10)}</td>
         <td class="td_bs">${categrpVO.visible}</td>
-        <td><a href="./read_update.do?categrpno=${categrpno }">저장</a>/수정 취소</td>
+        <td>
+          <a href="./read_update.do?categrpno=${categrpno }">수정</a>
+          /
+          <a href="./read_delete.do?categrpno=${categrpno }">삭제</a>
+        </td>
       </tr>
     </c:forEach>
   </tbody>

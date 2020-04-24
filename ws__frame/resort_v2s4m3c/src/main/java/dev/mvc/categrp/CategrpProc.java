@@ -20,10 +20,18 @@ public class CategrpProc implements CategrpProcInter {
     cnt = categrpDAO.create(categrpVO);
     return cnt;
   }
+  
   @Override
   public List<CategrpVO> list_categrpno_asc() {
     List<CategrpVO> list = null;
     list = this.categrpDAO.list_categrpno_asc();
+    return list;
+  }
+  
+  @Override
+  public List<CategrpVO> list_seqno_asc() {
+    List<CategrpVO> list = null;
+    list = this.categrpDAO.list_seqno_asc();
     return list;
   }
 
@@ -37,6 +45,12 @@ public class CategrpProc implements CategrpProcInter {
   @Override
   public int update(CategrpVO categrpVO) {
     int cnt = this.categrpDAO.update(categrpVO);
+    return cnt;
+  }
+  
+  @Override
+  public int delete(int categrpno) {
+    int cnt = this.categrpDAO.delete(categrpno);
     return cnt;
   }
 

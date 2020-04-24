@@ -73,14 +73,18 @@
   </thead>
   
   <tbody>
-    <c:forEach var="categrpVO" items="${list}">
+    <c:forEach var="categrpVO" items="${list}"><!-- list는 request 객체에 저장되어 있음 -->
       <c:set var="categrpno" value="${categrpVO.categrpno}"/>
       <tr>
         <td class="td_bs">${categrpVO.seqno}</td>
         <td class="td_bs_left"><a href="./read_update.do?categrpno=${categrpno }">${categrpVO.name}</a></td>
         <td class="td_bs">${categrpVO.rdate.substring(0, 10)}</td>
         <td class="td_bs">${categrpVO.visible}</td>
-        <td><a href="./read_update.do?categrpno=${categrpno }">수정</a>/삭제</td>
+        <td>
+          <a href="./read_update.do?categrpno=${categrpno }">수정</a>
+          /
+          <a href="./read_delete.do?categrpno=${categrpno }">삭제</a>
+        </td>
       </tr>
     </c:forEach> 
   </tbody>

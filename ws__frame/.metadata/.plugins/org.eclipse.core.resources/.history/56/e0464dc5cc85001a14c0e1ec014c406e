@@ -1,0 +1,350 @@
+/* ver 0.9 */
+/* 모든 태그에 적용 */
+  *{
+     font-family: Malgun Gothic; 
+     font-size: 16px; 
+     margin: 0px;  /* top right bottom left */
+     padding: 0px;
+     color: #555555;
+  }  
+  
+  .container {
+    width: 90%; 
+    margin: 10px auto;
+  }
+  
+  /* 
+  이미지 경로 지정
+  권장하지 않는 방법(절대경로): background-image: url('/blog_v2jc/css/images/top_image.jpg');
+  권장하는 방법(상대경로): background-image: url('./images/top_image.jpg');
+  style.css 파일이 include(link)되는 폴더를 현재 폴더로 인식함
+  /blog_v2jc/css/style.css에서 사용
+  /blog_v2jc/css/images/top_image.jpg 인식
+   */
+  .top_img {
+    width: 100%;
+    height: 200px;
+    background-image: url('./images/top_image.jpg');
+    /* background-image: url('./images/top_image2.jpg'); */
+    background-size: 100% 200px; /* 가로 세로 */
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+  
+  .top_menu_label{
+    position: relative; /* 속해 있는 부모 태그 기준 설정 */
+    top: 1%;
+    left: 0.5%;
+    color: #ffffff;
+  }
+  
+  .top_menu {
+    position: relative;  /* 부모 태그 기준 화면 상단 기준 */
+    top: 75%;
+    /* left: 2px;  */
+    background-color: rgba(50, 50, 255, 0.3); 
+    color: white;
+  }
+  
+  .top_menu_sep {
+    background: url('./images/gray.jpg') center center no-repeat;
+    background-size: 1px;
+    width:1px;
+    margin-left: 10px;
+  }
+    
+  .left_menu {
+    width: 15%;
+    float: left;
+  }
+  
+  .content_body {
+    width: 84%;
+    float: left;
+  }
+  
+  .content_bottom {
+  
+  }
+  
+  .bottom_menu {
+    text-align: center; 
+    margin: 20px auto; 
+    clear: both; 
+  }
+  
+  .copyright {
+    text-align: center; 
+    margin: 20px auto; /* 블럭 가운데 정렬 */
+    clear: both; /*  float: left; 해제 float 효과를 제거 */
+  }
+  
+  .li_warning{/* 경고 메시지 */
+    list-style: none;
+    margin: 15px 10px;
+    color: #ff6600;
+  }
+  
+  .li_error{ /* 에러 메시지 */
+    list-style: none;
+    margin: 15px 10px;
+    color: #FF0000;
+  }
+  
+  .li_none{
+    list-style: none;
+    margin: 15px 10px;
+  }
+  
+  .li_none_left{
+    text-align: left;
+    list-style: none;
+    margin: 15px 10px;
+  }
+  
+  .li_right{
+      list-style: none;
+      text-align: right;
+      margin: 20px auto;
+      padding-right: 20px;
+  }
+  
+  .fieldset_basic{
+    width:90%; 
+    margin:10px auto; 
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    border-left: none; 
+    padding: 10px;
+  }
+  
+  .legend_basic{
+    margin-left:30px; 
+    border:solid 1px #999999; 
+    background-color: #A6C2FF; 
+    color:#FFFFFF;
+  }
+  
+  input:focus {outline:none;}
+  .input_basic{
+    border-top: none;
+    border-right: none;
+    border-bottom: solid 1px #999999;
+    border-left: none; 
+  }
+  
+  .title_line{
+    text-align:left;
+    /* text-decoration: underline; */
+    border-bottom: solid 3px #555555;
+    width: 100%;
+    margin: 20px auto;
+    
+  }
+  
+  .sub_menu{
+    text-align: right;
+    width: 100%;
+  }
+  
+  .table_basic{
+    border-collapse: collapse; /* 셀 합치기 */
+    margin: 2px auto;
+    width: 100%;
+    margin-bottom: 100px;
+  }
+  
+  /* 
+    1em 기본값: 16px, 주변 태그의 글자 크기를 1em으로 인식
+    div 태그가 20px일 경우 자식 태그가 0.5em이면 최종적으로 10px이 적용됨.
+  */
+  .th_basic{
+    font-size: 0.8em;
+    border-bottom: solid 1px #999999;
+  }
+  
+  .th_bs{
+    text-align: center;
+  }
+  
+  .td_basic{
+    background-color: #ffffff;
+    
+    border-top: none;
+    border-right: none;
+    border-bottom: solid 1px #dddddd;
+    border-left: none; 
+    
+    text-align: center;
+  }
+  
+  /* bs: bootstrap */
+  .td_bs{
+    text-align: center;
+  }
+  
+  .td_bs_left{
+    text-align: left;
+  }
+  
+  .td_left{
+    background-color: #ffffff;
+    
+    border-top: none;
+    border-right: none;
+    border-bottom: solid 1px #dddddd;
+    border-left: none; 
+    
+    text-align: left;
+  }
+  
+  A:link{  /* 방문전 상태 */
+    text-decoration: none; /* 밑줄 삭제 */
+    color: #555555;
+  }
+
+  A:visited{  /* 방문후 상태 */
+    text-decoration: none; /* 밑줄 삭제 */
+    color: #555555;
+  }
+  
+  A:hover{  /* A 태그에 마우스가 올라간 상태 */
+    text-decoration: underline; /* 밑줄 출력 */
+    color: #7777FF;
+  }
+  
+  A:active{  /* A 태그를 클릭한 상태 */
+    text-decoration: underline; /* 밑줄 출력 */
+    color: #7777FF;
+  }
+  
+  /* top menu */
+  .menu_link:link{  /* 방문전 상태 */
+    text-decoration: none; /* 밑줄 삭제 */
+    color: white;
+  }
+
+  .menu_link:visited{  /* 방문후 상태 */
+    text-decoration: none; /* 밑줄 삭제 */
+    color: white;
+  }
+
+  .menu_link:hover{  /* A 태그에 마우스가 올라간 상태 */
+    text-decoration: underline; /* 밑줄 출력 */
+    color: white;
+    /* font-weight: bold; */
+  }
+
+  .menu_link:active{  /* A 태그를 클릭한 상태 */
+    text-decoration: underline; /* 밑줄 출력 */
+    color: white;
+  }   
+  
+  .content_title{
+    border-top: none;
+    border-right: none;
+    border-bottom: solid 1px #999999;
+    border-left: none;
+     
+    margin-bottom: 20px;
+  }
+  
+  .content_bottom{
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    border-left: none;
+    margin: 20px 0;
+    text-align: right;
+    font-size: 0.8em;
+  }
+  
+  .li_left_menu_1{/* 화면 좌측 대분류 */
+    list-style: none;
+    margin: 15px 10px;
+    background: url(./images/li_left_menu_1.png) left center no-repeat; /* url 왼쪽 중간 반복x */
+    background-color:#eeeeee;
+    border-radius:10px;
+    background-size: 22px;
+    padding-left: 25px;
+    line-height: 30px;
+  }
+  
+  .li_left_menu_2{/* 화면 좌측 중분류 */
+    list-style: none;
+    margin: 15px 10px;
+    background: url(./images/li_left_menu_2.png) left center no-repeat; /* url 왼쪽 중간 반복x */
+    background-size: 10px;
+    margin-left: 20px;
+    padding-left: 20px;
+    line-height: 10px;
+  }
+  
+   .label_basic {
+    width: 200px;
+    background-color: #b3b3ff;
+    color: #FFFFFF;
+    font-weight: normal;
+    display: inline-block; /* 한줄의 영역을 블럭 박스 영역으로 확장 표시, 박스 모양에 float='left' 적용 */
+    text-align: right;
+    padding-right: 10px;
+  }
+  
+  /* 화면 내용 하단 메뉴 우측 배치 */
+  .content_bottom_menu {
+    clear: both;
+    padding-top: 20px;
+    padding-right: 20px;
+    text-align: right;
+    width: 100%;
+    background-color: white;
+  }
+  
+  /* 기타 메시지 */
+  .message {
+    width: 70%;
+    border: none;
+    margin: 0px auto;
+    text-align: center;
+    background-color: #FAFAFA;
+    padding: 30px;
+    
+  }
+  
+  /* 알림 메시지 */ 
+  .span_info {
+    color: #ffffff;
+    background-color: rgba(0, 200, 0, 0.6);
+    padding: 2px;
+  }
+  
+  /* 주의 메시지 */
+  .span_alert {
+    color: #ffffff;
+    background-color: rgba(0, 0, 200, 0.6);
+    padding: 2px;
+  }
+  
+  /* 경고 메시지 */  
+  .span_warning {
+    color: #FFFFFF;
+    background-color: rgba(255, 0, 0, 0.6);
+    padding: 2px; 
+  }
+  
+  /* 처리 성공 메시지 */
+  .span_success {
+    background: url('./images/url5.png') left center no-repeat;
+    background-size: 10px;
+    padding-top: 0px;
+    padding-left: 20px; 
+  }
+  
+  /* 처리 실패 메시지 */
+  .span_fail {
+    background: url('./images/url8.png') left center no-repeat;
+    background-size: 10px;
+    padding-top: 0px;
+    padding-left: 20px; 
+  }

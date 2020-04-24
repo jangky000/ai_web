@@ -77,6 +77,11 @@ UPDATE categrp
 SET visible='N' 
 WHERE categrpno=1;
 
+-- 전체 수정
+UPDATE categrp
+SET name='식당', seqno = 10, visible='Y'
+WHERE categrpno = 5;
+
 
 --DELETE
 DELETE FROM categrp
@@ -117,4 +122,4 @@ VALUES(categrp_seq.nextval, '캠핑', 3, 'Y', sysdate);
 
 
 
-
+commit;
