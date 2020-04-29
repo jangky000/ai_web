@@ -1,0 +1,16 @@
+package dev.mvc.cate;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component("dev.mvc.cate.CateProc")
+public class CateProc implements CateProcInter{
+  @Autowired
+  private CateDAOInter cateDAO;
+  
+
+  public int create(CateVO cateVO) {
+    int cnt = this.cateDAO.create(cateVO);
+    return 
+  }
+}

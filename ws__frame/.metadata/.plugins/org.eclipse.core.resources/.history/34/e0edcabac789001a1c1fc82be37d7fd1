@@ -1,0 +1,14 @@
+package dev.mvc.cate;
+
+public interface CateDAOInter {
+
+  /**
+   * 카테고리 입력
+   * @param cateVO
+   * @return 입력 레코드 개수
+   */
+  public int create(CateVO cateVO);
+  
+  public List<CateVO>
+  
+}

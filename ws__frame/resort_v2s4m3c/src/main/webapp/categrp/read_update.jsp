@@ -26,7 +26,7 @@
 <body>
 <jsp:include page="/menu/top.jsp" />
  
-  <DIV class='title_line'>카테고리 그룹＞조회(수정)</DIV>
+  <DIV class='title_line'>카테고리 그룹＞${categrpVO.name } 조회(수정)[categrpno: ${param.categrpno }]</DIV>
  
   <DIV id='panel_create' style='padding: 10px 0px 10px 0px; background-color: #F9F9F9; width: 100%; text-align: center;'>
     
@@ -78,11 +78,11 @@
  
   <thead>  
   <TR>
-    <TH class='th_basic'>순서</TH>
-    <TH class='th_basic'>대분류명</TH>
-    <TH class='th_basic'>등록일</TH>
-    <TH class='th_basic'>출력</TH>
-    <TH class='th_basic'>기타</TH>
+    <TH class='th_bs'>순서</TH>
+    <TH class='th_bs'>대분류명</TH>
+    <TH class='th_bs'>등록일</TH>
+    <TH class='th_bs'>출력</TH>
+    <TH class='th_bs'>기타</TH>
   </TR>
   </thead>
   
@@ -95,9 +95,10 @@
         <td class="td_bs">${categrpVO.rdate.substring(0, 10)}</td>
         <td class="td_bs">${categrpVO.visible}</td>
         <td>
-          <a href="./read_update.do?categrpno=${categrpno }">수정</a>
-          /
-          <a href="./read_delete.do?categrpno=${categrpno }">삭제</a>
+          <a href="./read_update.do?categrpno=${categrpno }"><img src="../css/images/create.png" style="margin:0 5px; width:20px; height:20px;"><span style="font-size: 0; line-height: 0;">수정</span></a>
+          <a href="./read_delete.do?categrpno=${categrpno }"><img src="../css/images/delete.png" style="margin:0 5px; width:20px; height:20px;"><span style="font-size: 0; line-height: 0;">삭제</span></a>
+          <a href="./update_seqno_up.do?categrpno=${categrpno }"><img src="../css/images/arrow_up.png" style="margin:0 5px; width:20px; height:20px;"><span style="font-size: 0; line-height: 0;">상향</span></a>
+          <a href="./update_seqno_down.do?categrpno=${categrpno }"><img src="../css/images/arrow_down.png" style="margin:0 5px; width:20px; height:20px;"><span style="font-size: 0; line-height: 0;">하향</span></a>
         </td>
       </tr>
     </c:forEach>

@@ -66,4 +66,27 @@ public interface CategrpDAOInter {
    * @return 처리된 레코드 갯수
    */
   public int delete(int categrpno);
+  
+  /**
+   * 우선순위 상향, 10 ▷ 1
+   * @param categrpno
+   * @return 처리된 레코드 개수
+   */
+  public int update_seqno_up(int categrpno);
+  
+  /**
+   * 우선순위 하향, 1 ▷ 10
+   * @param categrpno
+   * @return 처리된 레코드 개수
+   */
+  public int update_seqno_down(int categrpno);
+  
+  /**
+   * 출력 모드 변경
+   * @param categrpVO
+   * @return
+   */
+  public int update_visible(CategrpVO categrpVO);
+  
+  
 }

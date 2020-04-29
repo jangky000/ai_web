@@ -1,0 +1,37 @@
+package dev.mvc.cate;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component("dev.mvc.cate.CateProc")
+public class CateProc implements CateProcInter{
+  @Autowired
+  private CateDAOInter cateDAO;
+  
+
+  public int create(CateVO cateVO) {
+    int cnt = this.cateDAO.create(cateVO);
+    return cnt;
+  }
+
+  @Override
+  public List<CateVO> list_seqno_asc() {
+    List<CateVO> list = this.cateDAO.list_seqno_asc();
+    return list;
+  }
+
+  @Override
+  public CateVO read(int cateno) {
+    CateVO cateVO = this.cateDAO.read(cateno);
+    
+    return null;
+  }
+
+  @Override
+  public int update(CateVO cateVO) {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+}

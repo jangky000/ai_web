@@ -1,8 +1,8 @@
 /**********************************/
 /* Table Name: 카테고리 그룹 */
 /**********************************/
+DROP TABLE cate;
 DROP TABLE categrp;
-
 CREATE TABLE categrp(
 		categrpno                     		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		name                          		VARCHAR2(50)		 NOT NULL,
@@ -19,6 +19,8 @@ COMMENT ON COLUMN categrp.visible is '출력 모드';
 COMMENT ON COLUMN categrp.rdate is '그룹 생성일';
 
 
+-- 시퀀스 삭제
+DROP SEQUENCE categrp_seq;
 
 -- 시퀀스 생성
 CREATE SEQUENCE categrp_seq
@@ -28,8 +30,35 @@ CREATE SEQUENCE categrp_seq
     CACHE 2                     -- 2번은 메모리에서 계산, 2번 간 업데이트를 하지 않음 -> 속도 향상
     NOCYCLE;                   -- 다시 1부터 생성되는 것을 방지
     
--- 시퀀스 삭제
-DROP SEQUENCE categrp_seq;
+
+INSERT INTO categrp(categrpno, name, seqno, visible, rdate)
+VALUES(categrp_seq.nextval, '영화', 1, 'Y', sysdate);
+ 
+INSERT INTO categrp(categrpno, name, seqno, visible, rdate)
+VALUES(categrp_seq.nextval, '여행', 2, 'Y', sysdate);
+ 
+INSERT INTO categrp(categrpno, name, seqno, visible, rdate)
+VALUES(categrp_seq.nextval, '캠핑', 3, 'Y', sysdate);
+
+COMMIT;
+
+SELECT * FROM categrp;
+
+-- 위는 초기화 코드
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 -- SQL 만들기 시작
 
@@ -120,6 +149,52 @@ VALUES(categrp_seq.nextval, '캠핑', 3, 'Y', sysdate);
          2 여행                                                        2 Y 2020-04-22 10:10:38
          3 캠핑                                                        3 Y 2020-04-22 10:10:38
 
+-- 출력 순서에따른 전체 목록
+SELECT categrpno, name, seqno, visible, rdate
+FROM categrp
+ORDER BY seqno ASC;
+ 
+-- 출력 순서 상향, 10 ▷ 1
+UPDATE categrp
+SET seqno = seqno - 1
+WHERE categrpno=1;
+ 
+-- 출력순서 하향, 1 ▷ 10
+UPDATE categrp
+SET seqno = seqno + 1
+WHERE categrpno=1;
+
 
 
 commit;
+
+
+-- 출력 모드
+UPDATE categrp
+SET visible='Y'
+WHERE categrpno=1;
+
+UPDATE categrp
+SET visible='N'
+WHERE categrpno=1;
+
+commit;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -59,5 +59,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     WHERE categrpno=#{categrpno}
   </delete>
   
+  <!-- 우선순위 상향, 10 ▷ 1, id: update, 입력: int, 리턴: int -->
+  <update id="update_seqno_up" parameterType="int">
+    UPDATE categrp
+    SET seqno=seqno-1
+    WHERE categrpno=#{categrpno}
+  </update>
+  
+  <!-- 우선순위 하향, 1 ▷ 10, id: update, 입력: int, 리턴: int -->
+  <update id="update_seqno_down" parameterType="int">
+    UPDATE categrp
+    SET seqno=seqno+1
+    WHERE categrpno=#{categrpno}
+  </update>
+  
+  <!-- 출력 모드 변경 Y -->
+  <update id="update_visible" parameterType="CategrpVO">
+    UPDATE categrp
+    SET visible=#{visible}
+    WHERE categrpno=#{categrpno}
+  </update>
+  
 </mapper>
  

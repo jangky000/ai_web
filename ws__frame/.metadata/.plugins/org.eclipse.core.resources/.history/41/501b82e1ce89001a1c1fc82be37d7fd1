@@ -1,0 +1,24 @@
+package dev.mvc.cate;
+
+import java.util.List;
+
+public interface CateDAOInter {
+
+  /**
+   * 카테고리 입력
+   * @param cateVO
+   * @return 입력 레코드 개수
+   */
+  public int create(CateVO cateVO);
+  
+  /**
+   * 목록
+   * <xmp>
+   * <select id="list_seqno_asc" resultType="CateVO">
+   * </xmp> 
+   * @return 레코드 목록
+   */
+  public List<CateVO> list_seqno_asc();
+
+  
+}

@@ -1,0 +1,67 @@
+package dev.mvc.cate;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import dev.mvc.categrp.CategrpProcInter;
+import dev.mvc.categrp.CategrpVO;
+
+@Controller
+public class CateCont {
+  // 부모 테이블
+  @Autowired
+  @Qualifier("dev.mvc.categrp.CategrpProc")
+  private CategrpProcInter categrpProc;
+  
+  //자식 테이블
+  @Autowired
+  @Qualifier("dev.mvc.cate.CateProc")
+  private CateProcInter cateProc;
+  
+  public CateCont() {
+    System.out.println("   --> CateCont created");
+  }
+  
+  /**
+   * 등록 폼
+   * @return
+   */
+  @RequestMapping(value="/cate/create.do", method=RequestMethod.GET)
+  public ModelAndView create() {
+    ModelAndView mav = new ModelAndView();
+    
+    List<CategrpVO> list = this.categrpProc.list_categrpno_asc();
+    mav.addObject("list", list);
+    
+    mav.setViewName("/cate/create"); // webapp/cate/create.jsp
+    
+    return mav;
+  }
+  
+  /**
+   * 등록처리
+   * @param cateVO
+   * @return
+   */
+  @RequestMapping(value="/cate/create.do", method=RequestMethod.GET)
+  public ModelAndView create(CateVO cateVO) {
+    ModelAndView mav = new ModelAndView();
+    
+    List<CategrpVO> list = this.categrpProc.list_categrpno_asc();
+    mav.addObject("list", list);
+    
+    mav.setViewName("/cate/create"); // webapp/cate/create.jsp
+    
+    return mav;
+  }
+  
+  
+  
+  
+}

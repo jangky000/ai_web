@@ -79,18 +79,31 @@
         <td class="td_bs">${categrpVO.seqno}</td>
         <td class="td_bs_left"><a href="./read_update.do?categrpno=${categrpno }">${categrpVO.name}</a></td>
         <td class="td_bs">${categrpVO.rdate.substring(0, 10)}</td>
-        <td class="td_bs">${categrpVO.visible}</td>
+        <td class="td_bs">
+        <c:choose>
+          <c:when test="${categrpVO.visible=='Y'}">
+              <a href="./update_visible.do?categrpno=${categrpno}&visible=${categrpVO.visible}">
+                <span class="glyphicon glyphicon-eye-open" style="color:green;">Y</span>
+              </a>
+          </c:when>
+          <c:otherwise>
+              <a href="./update_visible.do?categrpno=${categrpno}&visible=${categrpVO.visible}">
+                <span class="glyphicon glyphicon-eye-close" style="color:red;">N</span>
+              </a>
+          </c:otherwise>
+        </c:choose>
+        </td>
         <td>
-          <a href="./read_update.do?categrpno=${categrpno }">수정</a>
-          /
-          <a href="./read_delete.do?categrpno=${categrpno }">삭제</a>
+          <a href="./read_update.do?categrpno=${categrpno }"><img src="../css/images/create.png" style="margin:0 5px; width:20px; height:20px;"><span style="font-size: 0; line-height: 0;">수정</span></a>
+          <a href="./read_delete.do?categrpno=${categrpno }"><img src="../css/images/delete.png" style="margin:0 5px; width:20px; height:20px;"><span style="font-size: 0; line-height: 0;">삭제</span></a>
+          <a href="./update_seqno_up.do?categrpno=${categrpno }"><img src="../css/images/arrow_up.png" style="margin:0 5px; width:20px; height:20px;"><span style="font-size: 0; line-height: 0;">상향</span></a>
+          <a href="./update_seqno_down.do?categrpno=${categrpno }"><img src="../css/images/arrow_down.png" style="margin:0 5px; width:20px; height:20px;"><span style="font-size: 0; line-height: 0;">하향</span></a>
         </td>
       </tr>
     </c:forEach> 
   </tbody>
  
 </TABLE>
- 
  
 <jsp:include page="/menu/bottom.jsp" />
 </body>

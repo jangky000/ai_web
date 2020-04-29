@@ -23,7 +23,8 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="dev.mvc.resort" />
-  <context:component-scan base-package="dev.mvc.categrp" />
+	<context:component-scan base-package="dev.mvc.resort" />    <!-- Main Home -->
+  <context:component-scan base-package="dev.mvc.categrp" /> <!-- 아로미 -->
+  <context:component-scan base-package="dev.mvc.cate" />      <!-- 투투 -->
 	
 </beans:beans>

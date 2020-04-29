@@ -8,7 +8,7 @@ package dev.mvc.categrp;
     rdate                             DATE     NOT NULL
 */
 public class CategrpVO {
-  /** 카테고리 번호 */
+  /** 카테고리 그룹 번호 */
   private int categrpno;
   /**  카테고리 이름 */
   private String name;

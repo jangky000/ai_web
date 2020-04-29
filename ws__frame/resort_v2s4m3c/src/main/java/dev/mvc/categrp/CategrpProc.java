@@ -49,8 +49,29 @@ public class CategrpProc implements CategrpProcInter {
   }
   
   @Override
+  public int update_seqno_up(int categrpno) {
+    int cnt = this.categrpDAO.update_seqno_up(categrpno);
+    return cnt;
+  }
+
+  @Override
+  public int update_seqno_down(int categrpno) {
+    int cnt = this.categrpDAO.update_seqno_down(categrpno);
+    return cnt;
+  }
+  
+  @Override
   public int delete(int categrpno) {
     int cnt = this.categrpDAO.delete(categrpno);
+    return cnt;
+  }
+
+  @Override
+  public int update_visible(CategrpVO categrpVO) {
+    
+    categrpVO.setVisible(categrpVO.getVisible().toUpperCase().equals("Y")?"N":"Y");
+    
+    int cnt = this.categrpDAO.update_visible(categrpVO);
     return cnt;
   }
 

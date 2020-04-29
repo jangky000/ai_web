@@ -9,12 +9,13 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="&lt;select id=&quot;list_categrpno_asc&quot; resultType=&quot;CategrpVO&quot; parameterType=&quot;int&quot;&gt;" key="selection"/>
+		<item value="span_" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="span_"/>
 			<item value="&lt;select id=&quot;list_categrpno_asc&quot; resultType=&quot;CategrpVO&quot; parameterType=&quot;int&quot;&gt;"/>
 			<item value="td_basic"/>
 			<item value="top_menu"/>

@@ -1,0 +1,46 @@
+package dev.mvc.cate;
+
+import java.util.List;
+
+import dev.mvc.categrp.CategrpVO;
+
+public interface CateDAOInter {
+
+  /**
+   * 카테고리 입력
+   * @param cateVO
+   * @return 입력 레코드 개수
+   */
+  public int create(CateVO cateVO);
+  
+  /**
+   * 목록
+   * <xmp>
+   * <select id="list_seqno_asc" resultType="CateVO">
+   * </xmp> 
+   * @return 레코드 목록
+   */
+  public List<CateVO> list_seqno_asc();
+
+  
+  /**
+   * 조회 + 수정폼(form 태그)
+   * <xmp>
+   *   <select id="read" resultType="CategrpVO" parameterType="int">
+   * </xmp>  
+   * @param categrpno
+   * @return 한 건의 레코드
+   */
+  public CategrpVO read(int categrpno);
+ 
+  /**
+   * 수정 처리
+   * <xmp>
+   *   <update id="update" parameterType="CategrpVO"> 
+   * </xmp>
+   * @param categrpVO
+   * @return 처리된 레코드 개수
+   */
+  public int update(CategrpVO categrpVO);
+  
+}

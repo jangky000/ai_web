@@ -16,6 +16,7 @@
       <span style='padding-left: 0.5%;'></span>
       <A class='menu_link'  href='${root }' >힐링 리조트</A> <span class='top_menu_sep'>&nbsp;</span>
       <A class='menu_link'  href='${root}/categrp/list.do'>카테고리 그룹</A> <span class='top_menu_sep'>&nbsp;</span>    
+      <A class='menu_link'  href='${root}/cate/list.do'>모든 카테고리</A> <span class='top_menu_sep'>&nbsp;</span>    
       <A class='menu_link'  href='${root}/contents/list_all_cate.do'>전체글</A> <span class='top_menu_sep'>&nbsp;</span>    
       <A class='menu_link'  href='${root}/member/list.do'>회원목록</A> <span class='top_menu_sep'> </span>  
           

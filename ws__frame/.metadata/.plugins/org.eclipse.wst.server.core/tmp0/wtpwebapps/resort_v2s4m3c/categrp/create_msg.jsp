@@ -26,14 +26,14 @@
   <fieldset class='fieldset_basic'>
     <UL>
       <c:choose>
-        <c:when test="${param.cnt==1}">
+        <c:when test="${cnt==1}">
           <li class="li_none">
-            <span class="span_success">새로운 카테고리 그룹을 등록했습니다. </span>
+            <span class="span_success">새로운 카테고리 그룹[${categrpVO.name}]을 등록했습니다. </span>
           </li>
         </c:when>
         <c:otherwise>
           <li class="li_none_left">
-            <span class="span_fail">새로운 카테고리 그룹에 실패했습니다. </span>
+            <span class="span_fail">새로운 카테고리 그룹[${categrpVO.name}] 등록에 실패했습니다. </span>
           </li>
           <li class="li_none_left" style="text-align: left;">
             <span class="span_fail">다시 시도해주세요</span>
@@ -43,7 +43,7 @@
 
       <LI class='li_none'>
         <br>
-        <button type='button' onclick="location.href='./create.do'">새로운 카테고리 그룹 등록</button>
+        <button type='button' onclick="location.href='./list.do'">새로운 카테고리 그룹 등록</button>
         <button type='button' onclick="location.href='./list.do'">목록</button>
       </LI>
     </UL>

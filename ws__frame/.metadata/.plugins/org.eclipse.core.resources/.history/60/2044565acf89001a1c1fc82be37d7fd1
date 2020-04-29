@@ -1,0 +1,135 @@
+package dev.mvc.cate;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import dev.mvc.categrp.CategrpProcInter;
+//import dev.mvc.categrp.CategrpVO;
+import dev.mvc.categrp.CategrpVO;
+
+@Controller
+public class CateCont {
+  // 부모 테이블
+  @Autowired
+  @Qualifier("dev.mvc.categrp.CategrpProc")
+  private CategrpProcInter categrpProc;
+  
+  //자식 테이블
+  @Autowired
+  @Qualifier("dev.mvc.cate.CateProc")
+  private CateProcInter cateProc;
+  
+  public CateCont() {
+    System.out.println("   --> CateCont created");
+  }
+  
+  /**
+   * 등록 폼
+   * @return
+   */
+  @RequestMapping(value="/cate/create.do", method=RequestMethod.GET)
+  public ModelAndView create() {
+    ModelAndView mav = new ModelAndView();
+    
+//    List<CategrpVO> list = this.categrpProc.list_categrpno_asc();
+//    mav.addObject("list", list);
+    
+    mav.setViewName("/cate/create"); // webapp/cate/create.jsp
+    
+    return mav;
+  }
+  
+  /**
+   * 등록처리
+   * @param cateVO
+   * @return
+   */
+  @RequestMapping(value="/cate/create.do", method=RequestMethod.POST)
+  public ModelAndView create(CateVO cateVO) {
+    ModelAndView mav = new ModelAndView();
+    
+    int cnt = this.cateProc.create(cateVO);
+    mav.addObject("cnt", cnt); // GET 방식으로 보내짐
+    
+    if(cnt == 1) {
+      mav.setViewName("/cate/create_msg");
+    } else {
+      mav.setViewName("/cate/create_msg"); // webapp/cate/create_msg.jsp
+    }
+    
+    return mav;
+  }
+  
+//http://localhost:9090/resort/cate/list.do
+  /**
+   * 전체 목록
+   * @return
+   */
+  @RequestMapping(value="/cate/list.do", method=RequestMethod.GET)
+  public ModelAndView list() {
+    ModelAndView mav = new ModelAndView();
+    
+    List<CateVO> list = null;
+    list = this.cateProc.list_seqno_asc();
+    
+    mav.addObject("list", list); // request.setAttribute("list", list);
+    
+    mav.setViewName("/cate/list"); // webapp/cate/list.jsp
+    return mav;
+  }
+  
+//http://localhost:9090/resort/cate/read.do?cateno=1
+ /**
+  * 한 건 조회, 수정 폼
+  * @param cateno 조회할 카테고리 번호
+  * @return mav
+  */
+ @RequestMapping(value="/cate/read_update.do", method=RequestMethod.GET)
+ public ModelAndView read_update(int categrpno) { // 파라미터가 들어옴
+   // request.setAttribute("categrpno", int categrpno) 작동 안됨
+   
+   ModelAndView mav = new ModelAndView();
+   
+   CategrpVO categrpVO = null;
+   categrpVO = this.categrpProc.read(categrpno);
+   
+   mav.addObject("categrpVO", categrpVO);
+   
+   List<CategrpVO> list = null;
+   list = this.categrpProc.list_seqno_asc();
+   
+   mav.addObject("list", list);
+   
+   mav.setViewName("/categrp/read_update"); // webapp/categrp/read_update.jsp
+   
+   return mav; // 포워드
+   
+ }
+ 
+ //http://localhost:9090/resort/categrp/update.do?categrpno=1
+ /**
+  * 업데이트 처리
+  * @param categrpno
+  * @return 수정된 레코드 개수
+  */
+@RequestMapping(value="/categrp/update.do", method=RequestMethod.POST)
+public ModelAndView update(CategrpVO categrpVO) { // 파라미터가 들어옴
+  // CategrpVO categrpVO   <--   <form> 태그 값으로 자동 생성
+  // request.setAttribute("categrpVO", categrpVO)
+  ModelAndView mav = new ModelAndView();
+  
+  int cnt = this.categrpProc.update(categrpVO);
+  mav.addObject("cnt", cnt);
+  
+  mav.setViewName("/categrp/update_msg.jsp"); // webapp/categrp/update_msg.jsp
+  
+  return mav;
+}
+  
+}

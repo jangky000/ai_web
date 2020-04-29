@@ -1,0 +1,11 @@
+package dev.mvc.cate;
+
+public interface CateDAOInter {
+
+  /**
+   * 
+   * @param cateVO
+   * @return
+   */
+  public int create(CateVO cateVO);
+}

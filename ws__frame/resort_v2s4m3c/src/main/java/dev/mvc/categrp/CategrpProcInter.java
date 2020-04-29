@@ -52,6 +52,28 @@ public interface CategrpProcInter {
   public int update(CategrpVO categrpVO);
   
   /**
+   * 우선순위 상향, 10 ▷ 1
+   * @param categrpno
+   * @return 처리된 레코드 개수
+   */
+  public int update_seqno_up(int categrpno);
+  
+  /**
+   * 우선순위 하향, 1 ▷ 10
+   * @param categrpno
+   * @return 처리된 레코드 개수
+   */
+  public int update_seqno_down(int categrpno);
+  
+  /**
+   * 출력 모드 변경
+   * @param categrpVO
+   * @return
+   */
+  public int update_visible(CategrpVO categrpVO);
+  
+  
+  /**
    * 삭제 처리
    * <xmp>
    *   <delete id="update" parameterType="int"> 

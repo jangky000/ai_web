@@ -54,11 +54,11 @@
  
   <thead>  
   <TR>
-    <TH class='th_basic'>순서</TH>
-    <TH class='th_basic'>대분류명</TH>
-    <TH class='th_basic'>등록일</TH>
-    <TH class='th_basic'>출력</TH>
-    <TH class='th_basic'>기타</TH>
+    <TH class='th_bs'>순서</TH>
+    <TH class='th_bs'>대분류명</TH>
+    <TH class='th_bs'>등록일</TH>
+    <TH class='th_bs'>출력</TH>
+    <TH class='th_bs'>기타</TH>
   </TR>
   </thead>
   
