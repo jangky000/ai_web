@@ -18,13 +18,24 @@
   
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<!-- <beans:property name="prefix" value="/WEB-INF/views/" /> -->
-    <beans:property name="prefix" value="/" />
+		<beans:property name="prefix" value="/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
 	<context:component-scan base-package="dev.mvc.resort" />    <!-- Main Home -->
-  <context:component-scan base-package="dev.mvc.categrp" /> <!-- 아로미 -->
-  <context:component-scan base-package="dev.mvc.cate" />      <!-- 투투 -->
-	
+  <context:component-scan base-package="dev.mvc.categrp" />  <!-- 아로미 -->
+  <context:component-scan base-package="dev.mvc.cate" />       <!-- 왕눈이 -->	
+  <context:component-scan base-package="dev.mvc.contents" /> <!-- 투투 -->  
+  <context:component-scan base-package="dev.mvc.attachfile" /> <!-- 아로미 -->  
+
+  <!-- FORM의 FILE 태그를 읽어 MultipartFile 객체로 변환 -->
+  <beans:bean id="multipartResolver"
+    class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+  </beans:bean>
+    	
 </beans:beans>
+
+
+
+
+

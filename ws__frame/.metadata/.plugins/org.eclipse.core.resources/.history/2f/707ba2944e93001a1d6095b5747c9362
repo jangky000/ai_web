@@ -1,0 +1,13 @@
+package dev.mvc.attachfile;
+
+public interface AttachfileProcInter {
+  
+  /**
+   * ют╥б
+   * @param attachfileVO
+   * @return
+   */
+  public int create(AttachfileVO attachfileVO);
+  
+  
+}

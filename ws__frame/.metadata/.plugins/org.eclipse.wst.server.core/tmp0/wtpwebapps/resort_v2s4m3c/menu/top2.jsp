@@ -1,9 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<% // String root = request.getContextPath(); // /resort %>
 <c:set var="root" value="${pageContext.request.contextPath}" />
-<% // == String root = request.getContextPath(); %>
-<!-- root = "/resort" -->
 
 <DIV class='container' style='width: 100%;'> 
   <!-- 화면 상단 메뉴 -->
@@ -13,7 +12,6 @@
       <span style='padding-left: 0.5%;'></span>
       <A class='menu_link'  href='${root}' >HOME</A> <span class='top_menu1'> | </span>
       
-      <%-- 
       <c:choose>
         <c:when test="${sessionScope.id == null}">
           <A class='menu_link'  href='${root}/member/login.do' >Login</A> <span class='top_menu1'> | </span>
@@ -22,7 +20,6 @@
           ${sessionScope.id } <A class='menu_link'  href='${root}/member/logout.do' >Logout</A> <span class='top_menu1'> | </span>
         </c:otherwise>
       </c:choose>
-      --%>
 
       <A class='menu_link'  href='${root}/categrp/list.do'>카테고리 그룹</A> <span class='top_menu1'> | </span>    
       <A class='menu_link'  href='${root}/contents/list_all_cate.do'>전체글</A> <span class='top_menu1'> | </span>    
@@ -46,3 +43,5 @@
     <DIV class="col-md-10 cont">  <!-- 내용 출력 컬럼 -->  
    
 <DIV class='content'>
+ 
+   

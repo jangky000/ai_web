@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
- 
+
 <!DOCTYPE html> 
 <html lang="ko"> 
 <head> 
@@ -27,17 +26,20 @@
 <body>
 <jsp:include page="/menu/top.jsp" />
  
-  <DIV class='title_line'><a href="../categrp/list.do">카테고리 그룹</a>＞모든 카테고리</DIV>
+  <DIV class='title_line'>
+    <A href="../categrp/list.do">카테고리 그룹</A> > 
+    <A href="./list.do">모든 카테고리</A>
+  </DIV>
  
   <DIV id='panel_create' style='padding: 10px 0px 10px 0px; background-color: #F9F9F9; width: 100%; text-align: center;'>
-    <FORM name='frm_create' id='frm_create' 
-                method='POST' action='./create.do'>
-      <!-- <input type='hidden' name='categrpno' value='1'> -->
-        
+    <FORM name='frm_create' id='frm_create' method='POST' 
+                action='./create.do'>
+      <!-- <input type='hidden' name='lang' id='lang' value='en'> --> <!-- ko, en -->
+
       <label>그룹 번호</label>
-      <input type='number' name='categrpno' value='1' required="required" min="1" step="1" style='width: 5%;'>  
-       <!-- step="1" -> 실수 입력 방지 -->
-        
+      <input type='number' name='categrpno' value='' required="required" 
+                min="1" max="99999" step="1" style='width: 5%;'>
+         
       <label>카테고리</label>
       <input type='text' name='name' value='' required="required" style='width: 25%;'>
  
@@ -59,12 +61,12 @@
   
 <TABLE class='table table-striped'>
   <colgroup>
-    <col style='width: 10%;'/>
+    <col style="width: 10%;"/>
     <col style='width: 5%;'/>
     <col style='width: 30%;'/>
     <col style='width: 20%;'/>
     <col style='width: 10%;'/>
-    <col style='width: 5%;'/>  
+    <col style='width: 5%;'/>        
     <col style='width: 20%;'/>
   </colgroup>
  
@@ -81,41 +83,40 @@
   </thead>
   
   <tbody>
-    <c:forEach var="cateVO" items="${list}"><!-- list는 request 객체에 저장되어 있음 -->
-      <c:set var="cateno" value="${cateVO.cateno}"/>
-      <tr>
-        <td class="td_bs">${cateVO.seqno}</td>
-        <td class="td_bs">${cateVO.categrpno}</td>
-        <td class="td_bs_left"><a href="./read_update.do?cateno=${cateno }">${cateVO.name}</a></td>
-        <td class="td_bs">${cateVO.rdate.substring(0, 10)}</td>
-        <td class="td_bs">
+  <c:forEach var="cateVO" items="${list }">  <!-- request 객체에 접근 -->
+    <c:set var="cateno" value="${cateVO.cateno}" />
+    <TR>
+      <TD class="td_bs">${cateVO.seqno }</TD>
+      <TD class="td_bs">${cateVO.categrpno }</TD>
+      <TD class="td_bs_left"><A href="./read_update.do?cateno=${cateno }">${cateVO.name }</A></TD>
+      <TD class="td_bs">${cateVO.rdate.substring(0, 10) }</TD>
+      <TD class="td_bs">
         <c:choose>
-          <c:when test="${cateVO.visible=='Y'}">
-              <a href="./update_visible.do?cateno=${cateno}&visible=${cateVO.visible}">
-                <span class="glyphicon glyphicon-eye-open" style="color:green;">Y</span>
-              </a>
+          <c:when test="${cateVO.visible == 'Y'}">
+            <A href="./update_visible.do?cateno=${cateno }&visible=${cateVO.visible }"><IMG src="./images/open.png"></A>
           </c:when>
           <c:otherwise>
-              <a href="./update_visible.do?cateno=${cateno}&visible=${cateVO.visible}">
-                <span class="glyphicon glyphicon-eye-close" style="color:red;">N</span>
-              </a>
+            <A href="./update_visible.do?cateno=${cateno }&visible=${cateVO.visible }"><IMG src="./images/close.png"></A>
           </c:otherwise>
         </c:choose>
-        </td>
-        <td class="td_bs">${cateVO.cnt}</td>
-        <td>
-          <a href="./read_update.do?cateno=${cateno }"><img src="../css/images/create.png" style="margin:0 5px; width:20px; height:20px;"><span style="font-size: 0; line-height: 0;">수정</span></a>
-          <a href="./read_delete.do?cateno=${cateno }"><img src="../css/images/delete.png" style="margin:0 5px; width:20px; height:20px;"><span style="font-size: 0; line-height: 0;">삭제</span></a>
-          <a href="./update_seqno_up.do?cateno=${cateno }"><img src="../css/images/arrow_up.png" style="margin:0 5px; width:20px; height:20px;"><span style="font-size: 0; line-height: 0;">상향</span></a>
-          <a href="./update_seqno_down.do?cateno=${cateno }"><img src="../css/images/arrow_down.png" style="margin:0 5px; width:20px; height:20px;"><span style="font-size: 0; line-height: 0;">하향</span></a>
-        </td>
-      </tr>
-    </c:forEach> 
+      </TD>
+      <TD class="td_bs">${cateVO.cnt }</TD>
+      <TD class="td_bs">
+        <A href="./read_update.do?cateno=${cateno }"><span class="glyphicon glyphicon-pencil"></span></A>
+        <A href="./read_delete.do?cateno=${cateno }"><span class="glyphicon glyphicon-trash"></span></A>
+        <A href="./update_seqno_up.do?cateno=${cateno }"><span class="glyphicon glyphicon-arrow-up"></span></A>
+        <A href="./update_seqno_down.do?cateno=${cateno }"><span class="glyphicon glyphicon-arrow-down"></span></span></A>         
+      </TD>             
+    </TR>
+  </c:forEach>
   </tbody>
  
 </TABLE>
+ 
  
 <jsp:include page="/menu/bottom.jsp" />
 </body>
  
 </html> 
+ 
+ 

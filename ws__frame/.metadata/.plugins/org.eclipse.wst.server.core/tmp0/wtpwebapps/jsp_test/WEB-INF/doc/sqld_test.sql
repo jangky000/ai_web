@@ -236,3 +236,75 @@ SELECT deptno, job, sal,
 RANK() OVER (ORDER BY sal DESC) all_rank, 
 RANK() OVER (PARTITION BY job ORDER BY sal DESC) job_rank
 FROM table3;
+
+
+SELECT * FROM DUAL WHERE null = null;
+
+SELECT * from sql1 where rownum = 1;
+
+SELECT * from sql2 WHERE rownum > 0;
+
+
+DROP TABLE student;
+CREATE TABLE student(
+sno NUMBER(10) PRIMARY KEY,
+sname VARCHAR2(100),
+address VARCHAR2(100),
+score NUMBER(10),
+dept NUMBER(10),
+CONSTRAINT dept_fk FOREIGN KEY(dept) REFERENCES department(dno)
+);
+
+INSERT INTO student VALUES(01, '홍길동', '서울', 80, 100);
+INSERT INTO student VALUES(02, '김철수', '대전', 90, 200);
+INSERT INTO student VALUES(03, '이순자', '강릉', 90, 100);
+INSERT INTO student VALUES(04, '이원영', '부산', 95, 200);
+INSERT INTO student VALUES(05, '홍남순', '서울', 65, 300);
+INSERT INTO student VALUES(06, '이름', '지역', null, null);
+
+DROP TABLE department;
+CREATE TABLE department(
+dno NUMBER(10) PRIMARY KEY,
+dname VARCHAR2(100),
+manager VARCHAR2(100)
+);
+
+INSERT INTO department VALUES(100, '정통', '이순신');
+INSERT INTO department VALUES(200, '전자', '강감찬');
+INSERT INTO department VALUES(300, '기계', '김유신');
+
+SELECT * FROM student s, department d WHERE s.dept > 100;
+
+SELECT * FROM student;
+
+SELECT count(*) FROM student;
+SELECT count(*) FROM student WHERE score >=10 or score<10;
+
+SELECT score, count(score) FROM student;
+
+
+SELECT NEXT_DAY(sysdate, '월요일') FROM DUAL;
+
+SELECT SIGN(100) FROM DUAL;
+
+SELECT v1, n1 from sql1 minus
+select v1, n1 from sql2 union
+select v1, n1 from sql2;
+
+select v1, n1 from sql1 where v1=1 order by n1;
+
+
+select * from sql1;
+
+insert into sql1 values(1, 'B');
+insert into sql1 values(2, 'B');
+
+select * from sql1 where (n1, v1) in ( (1, 'B'), (2, 'B') );
+
+SELECT 
+    CASE WHEN TO_CHAR(SYSDATE, 'YYYY') = '2013' THEN SYSDATE
+    WHEN TO_CHAR(SYSDATE, 'MM') = '11' THEN SYSDATE + 1 
+    ELSE NULL END SYS_DATE 
+FROM DUAL;
+
+select decode(expression, 'a') from dual;

@@ -26,33 +26,34 @@
   <fieldset class='fieldset_basic'>
     <UL>
       <c:choose>
-        <c:when test="${cnt==1}">
-          <li class="li_none">
-            <span class="span_success">카테고리 그룹을 삭제했습니다. </span>
-          </li>
+        <c:when test="${cnt == 1}">
+          <LI class='li_none'>
+            <span class="span_success">카테고리 그룹 [${categrpVO.name }]을 삭제했습니다.</span>
+          </LI>
         </c:when>
         <c:otherwise>
-          <li class="li_none_left">
-            <span class="span_fail">[${categrpVO.name }] 카테고리 그룹 삭제에 실패했습니다. </span>
-          </li>
-          <li class="li_none_left" style="text-align: left;">
-            <span class="span_fail">다시 시도해주세요</span>
-          </li>
+          <LI class='li_none_left'>
+            <span class="span_fail">[${categrpVO.name }] 카테고리 그룹 삭제에 실패했습니다.</span>
+          </LI>
+          <LI class='li_none_left'>
+            <span class="span_fail">다시 시도해주세요.</span>
+          </LI>
         </c:otherwise>
       </c:choose>
-
       <LI class='li_none'>
         <br>
-        <c:if test="${cnt != 1}">
+        <c:if test="${cnt != 1 }">
           <button type='button' onclick="history.back()">다시 시도</button>
         </c:if>
         <button type='button' onclick="location.href='./list.do'">목록</button>
       </LI>
     </UL>
   </fieldset>
+
 </DIV>
 
 <jsp:include page="/menu/bottom.jsp" flush='false' />
 </body>
 
 </html>
+

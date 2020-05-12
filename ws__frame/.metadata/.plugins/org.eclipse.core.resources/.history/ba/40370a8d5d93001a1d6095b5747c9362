@@ -1,0 +1,51 @@
+<!DOCTYPE html> 
+<html lang="ko"> 
+<head> 
+<meta charset="UTF-8"> 
+<title></title> 
+<link href="../../css/style.css" rel="Stylesheet" type="text/css">
+<script type="text/javascript">
+  function wl(str){
+    document.writeln(str + '<br>'); // body 태그로 출력
+    
+  }
+  
+  function add(su1, su2){
+    return su1 + su2;
+  }
+</script>
+</head> 
+<body>
+ 
+ <script type="text/javascript">
+  wl('함수 출력 테스트');
+  var tot = add(100, 200);
+  wl('tot: ' + tot);
+  
+  tot = add(100.3, 200.3);
+  wl('tot: ' + tot);
+  
+  tot = add('월요일', '화요일');
+  wl('tot: ' + tot);
+  
+  var no = 123.456;
+  wl('1) ' + Math.ceil(no)); // 124
+  wl('2) ' + Math.floor(no)); //123
+  wl('3) ' + Math.round(no)); //123
+  
+  no = no.toFixed(0);// 소수 첫번째 자리에서 반올림
+  wl('4) ' + no); //123
+  
+  no = 123.456;
+  no = no.toFixed(1); // 소수 두번째 자리에서 반올림
+  wl('5) ' + no); //123.5
+  
+  no = 123.456;
+  no = no.toFixed(2); // 소수 세번째 자리에서 반올림
+  wl('6) ' + no); //123.46
+  
+  
+</script>
+ 
+</body>
+</html> 

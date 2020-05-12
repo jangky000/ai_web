@@ -1,12 +1,12 @@
 package dev.mvc.categrp;
-
+ 
 /*
     categrpno                         NUMBER(10)     NOT NULL    PRIMARY KEY,
     name                              VARCHAR2(50)     NOT NULL,
     seqno                             NUMBER(7)    DEFAULT 0     NOT NULL,
     visible                           CHAR(1)    DEFAULT 'Y'     NOT NULL,
-    rdate                             DATE     NOT NULL
-*/
+    rdate                                 DATE     NOT NULL 
+ */
 public class CategrpVO {
   /** 카테고리 그룹 번호 */
   private int categrpno;
@@ -24,7 +24,7 @@ public class CategrpVO {
   }
  
   public void setName(String name) {
-    System.out.println("--> CategrpVO setName(\""+name+"\") 호출됨.");
+    // System.out.println("--> CategrpVO setName(\""+name+"\") 호출됨.");
     this.name = name;
   }
  
@@ -62,3 +62,5 @@ public class CategrpVO {
  
   
 } 
+ 
+  

@@ -1,0 +1,19 @@
+<!DOCTYPE html> 
+<html lang="ko"> 
+<head> 
+<meta charset="UTF-8"> 
+<title></title> 
+<link href="../../css/style.css" rel="Stylesheet" type="text/css">
+</head> 
+ 
+<body>
+  <script>
+    if(5%2 == 0){
+      document.writeln("짝수");
+    } else{
+      document.writeln("홀수"+"<br>");
+    }
+  </script>
+</body>
+ 
+</html>

@@ -154,6 +154,7 @@
 		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
 		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="C:\ai6\ws__frame\resort_v2s4m3c"/>
 			<item value="C:\ai6\ws__frame\jsp_test"/>
 			<item value="C:\ai6\ws_boot"/>
 		</list>

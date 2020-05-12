@@ -3,19 +3,18 @@ package dev.mvc.cate;
 /*
 CREATE TABLE cate(
     cateno                            NUMBER(10)     NOT NULL    PRIMARY KEY,
-    categrpno                         NUMBER(10)     NOT NULL,
+    categrpno                       NUMBER(10)     NOT NULL,
     name                              VARCHAR2(100)    NOT NULL,
     seqno                             NUMBER(10)     DEFAULT 1     NOT NULL,
-    visible                           CHAR(1)    DEFAULT 'Y'     NOT NULL,
-    rdate                             DATE     NOT NULL,
-    cnt                               NUMBER(10)     DEFAULT 0     NOT NULL,
+    visible                             CHAR(1)    DEFAULT 'Y'     NOT NULL,
+    rdate                              DATE     NOT NULL,
+    cnt                                 NUMBER(10)     DEFAULT 0     NOT NULL,
   FOREIGN KEY (categrpno) REFERENCES categrp (categrpno)
-);
-*/
-
+); 
+ */
 public class CateVO {
-  /**카테고리 번호*/
-  private int cateno;
+  /** 카테고리 번호 */
+  private int cateno;  
   /** 카테고리 그룹 번호 */
   private int categrpno;
   /**  카테고리 이름 */
@@ -74,3 +73,4 @@ public class CateVO {
   
   
 }
+

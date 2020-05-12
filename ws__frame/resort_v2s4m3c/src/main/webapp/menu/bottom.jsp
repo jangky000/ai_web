@@ -10,7 +10,9 @@
   <DIV style='text-align: center;'>
     <HR>
     Copyright Resort All rights reserved<br>
-    (HTML5 + CSS3 + JavaScript + Bootstrap + jQuery + JAVA + JSP + Spring + MyBATIS + Oracle)
+    (HTML5 + CSS3 + Bootstrap + jQuery + JAVA + JSP + Spring + MyBATIS + Oracle)
   </DIV>
 
-</DIV> <!-- container END -->
+</DIV> <!-- container END -->  
+   
+ 

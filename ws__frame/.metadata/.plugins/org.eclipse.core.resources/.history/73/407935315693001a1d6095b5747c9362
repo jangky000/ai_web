@@ -1,0 +1,19 @@
+package dev.mvc.attachfile;
+
+import java.util.List;
+
+public interface AttachfileProcInter {
+  
+  /**
+   * 입력
+   * @param attachfileVO
+   * @return
+   */
+  public int create(AttachfileVO attachfileVO);
+  
+  /**
+   * 전체 목록
+   * @return List<AttachfileVO>
+   */
+  public List<AttachfileVO> list();
+}

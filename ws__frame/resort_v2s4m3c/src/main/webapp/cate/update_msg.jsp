@@ -26,21 +26,20 @@
   <fieldset class='fieldset_basic'>
     <UL>
       <c:choose>
-        <c:when test="${cnt==1}">
-          <li class="li_none">
-            <span class="span_success">카테고리를 수정했습니다. </span>
-          </li>
+        <c:when test="${cnt == 1}">
+          <LI class='li_none'>
+            <span class="span_success">${cateVO.name } 카테고리를 수정했습니다.</span>
+          </LI>
         </c:when>
         <c:otherwise>
-          <li class="li_none_left">
-            <span class="span_fail">카테고리 수정에 실패했습니다. </span>
-          </li>
-          <li class="li_none_left" style="text-align: left;">
-            <span class="span_fail">다시 시도해주세요</span>
-          </li>
+          <LI class='li_none_left'>
+            <span class="span_fail">${cateVO.name } 카테고리 수정에 실패했습니다.</span>
+          </LI>
+          <LI class='li_none_left'>
+            <span class="span_fail">다시 시도해주세요.</span>
+          </LI>
         </c:otherwise>
       </c:choose>
-
       <LI class='li_none'>
         <br>
         <c:if test="${cnt != 1 }">
@@ -57,3 +56,4 @@
 </body>
 
 </html>
+

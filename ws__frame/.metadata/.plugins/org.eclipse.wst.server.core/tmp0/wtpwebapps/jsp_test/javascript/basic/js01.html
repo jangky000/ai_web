@@ -1,0 +1,63 @@
+<!DOCTYPE html> 
+<html lang="ko"> 
+<head> 
+<meta charset="UTF-8"> 
+<title></title> 
+<link href="../../css/style.css" rel="Stylesheet" type="text/css">
+</head> 
+<body>
+<script type="text/javascript">
+  if (5 % 2 == 0) {
+    document.writeln("짝수");
+  } else {
+    document.writeln("홀수");
+  }
+  document.writeln("<br>");
+  
+  
+  switch('summer'){  // JDK 1.7부터 문자열 비교 가능
+  case 'spring':
+    document.writeln("봄");
+    break;  
+  case 'summer':
+    document.writeln("여름");
+    break;  
+  case 'fall':
+    document.writeln("가을");
+    break;  
+  case 'winter':
+    document.writeln("겨울");
+    break;   
+  default:
+    document.writeln("해당하는 계절이 없습니다.");
+  }
+  
+  
+  document.writeln("<br>");
+  var cnt = 0;
+  while(true) {
+    cnt = cnt + 1;
+    document.writeln('cnt=' + cnt + '<br>');
+    if (cnt == 5) {
+      break;
+    }
+  }
+  
+  
+  document.writeln("<br>");
+  for (cnt = 1; cnt <= 5; cnt++) {
+    document.writeln('cnt=' + cnt + '<br>');
+  }
+  
+  
+  
+  document.writeln("<br>");
+  cnt = -100;
+  do {
+    document.write('점수는 0점 이상만 처리 가능합니다. ' + cnt);
+  } while(cnt >= 0);
+  
+</script> 
+</body>
+ 
+</html>

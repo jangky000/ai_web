@@ -1,0 +1,21 @@
+package dev.mvc.attachfile;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+public class AttachfileProc implements AttachfileProcInter {
+  
+  @Autowired
+  private AttachfileDAOInter attachfileDAO;
+  
+  public AttachfileProc(){
+    System.out.println("--> AttachfileProc created.");
+  }
+
+  @Override
+  public int create(AttachfileVO attachfileVO) {
+    int cnt = this.
+    return cnt;
+  }
+}

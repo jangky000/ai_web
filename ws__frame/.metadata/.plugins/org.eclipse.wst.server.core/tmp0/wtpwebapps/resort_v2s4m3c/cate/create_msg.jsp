@@ -26,21 +26,20 @@
   <fieldset class='fieldset_basic'>
     <UL>
       <c:choose>
-        <c:when test="${cnt==1}">
-          <li class="li_none">
-            <span class="span_success">새로운 카테고리 [${cateVO.name}]을 등록했습니다. </span>
-          </li>
+        <c:when test="${cnt == 1}">
+          <LI class='li_none'>
+            <span class="span_success">새로운 카테고리 [${cateVO.name }]을 등록했습니다.</span>
+          </LI>
         </c:when>
         <c:otherwise>
-          <li class="li_none_left">
-            <span class="span_fail">새로운 카테고리 [${cateVO.name}] 등록에 실패했습니다. </span>
-          </li>
-          <li class="li_none_left" style="text-align: left;">
-            <span class="span_fail">다시 시도해주세요</span>
-          </li>
+          <LI class='li_none_left'>
+            <span class="span_fail">새로운 카테고리 [${cateVO.name }] 등록에 실패했습니다.</span>
+          </LI>
+          <LI class='li_none_left'>
+            <span class="span_fail">다시 시도해주세요.</span>
+          </LI>
         </c:otherwise>
       </c:choose>
-
       <LI class='li_none'>
         <br>
         <button type='button' onclick="location.href='./create.do'">새로운 카테고리 등록</button>
@@ -55,3 +54,4 @@
 </body>
 
 </html>
+

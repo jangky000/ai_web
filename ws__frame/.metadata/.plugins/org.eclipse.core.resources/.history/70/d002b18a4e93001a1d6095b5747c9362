@@ -1,0 +1,18 @@
+package dev.mvc.attachfile;
+
+public interface AttachfileDAOInter {
+  
+  /**
+   * 입력
+   * @param attachfileVO
+   * @return
+   */
+  /*<insert id="create" parameterType="AttachfileVO">*/
+  public int create(AttachfileVO attachfileVO);
+
+  /**
+   * 전체 목록
+   * @return AttachfileVO
+   */
+  public AttachfileVO list();
+}

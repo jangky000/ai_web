@@ -2,74 +2,71 @@ package dev.mvc.cate;
 
 import java.util.List;
 
+import dev.mvc.categrp.CategrpVO;
+
 public interface CateDAOInter {
 
   /**
-   * 카테고리 입력
+   * 등록
    * @param cateVO
-   * @return 입력 레코드 개수
+   * @return
    */
   public int create(CateVO cateVO);
   
   /**
-   * 목록
-   * <xmp>
-   * <select id="list_seqno_asc" resultType="CateVO">
-   * </xmp> 
-   * @return 레코드 목록
+   * 출력 순서별 목록
+   * @return
    */
   public List<CateVO> list_seqno_asc();
-
   
   /**
-   * 조회 + 수정폼(form 태그)
-   * <xmp>
-   *   <select id="read" resultType="CateVO" parameterType="int">
-   * </xmp>  
-   * @param cateno
-   * @return 한 건의 레코드
+   * 조회, 수정폼
+   * @param categrpno 카테고리 그룹 번호, PK
+   * @return
    */
   public CateVO read(int cateno);
- 
+  
   /**
-   * 수정 처리
-   * <xmp>
-   *   <update id="update" parameterType="CateVO"> 
-   * </xmp>
+   * 수정 
    * @param cateVO
-   * @return 처리된 레코드 개수
+   * @return
    */
   public int update(CateVO cateVO);
   
   /**
    * 삭제 처리
-   * <xmp>
-   *   <delete id="update" parameterType="int"> 
-   * </xmp>
    * @param cateno
-   * @return 처리된 레코드 갯수
+   * @return
    */
   public int delete(int cateno);
-  
+ 
   /**
-   * 우선순위 상향, 10 ▷ 1
+   * 우선순위 상향, up 10 ▷ 1
    * @param cateno
-   * @return 처리된 레코드 개수
+   * @return
    */
   public int update_seqno_up(int cateno);
   
   /**
-   * 우선순위 하향, 1 ▷ 10
+   * 우선순위 하향, up 10 ▷ 1
    * @param cateno
-   * @return 처리된 레코드 개수
+   * @return
    */
   public int update_seqno_down(int cateno);
   
   /**
-   * 출력 모드 변경
+   * 출력 모드의 변경
    * @param cateVO
    * @return
    */
   public int update_visible(CateVO cateVO);
   
 }
+
+
+
+
+
+
+
+

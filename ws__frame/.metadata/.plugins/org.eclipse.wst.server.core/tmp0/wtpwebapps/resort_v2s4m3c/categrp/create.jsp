@@ -33,35 +33,39 @@
  
 <FORM name='frm' method='POST' action='./create.do' class="form-horizontal">
   <div class="form-group">
-    <label class="control-label col-md-2">카테고리 그룹 이름</label>
-    <div class="col-md-10">
-      <input type='text' name='name' value='' required="required" 
-                  autofocus="autofocus" style='width: 50%;' class="form-control">
-    </div>
+     <label class="control-label col-md-3">카테고리 그룹 이름</label>
+     <div class="col-md-9">
+       <input type='text' name='name' value='' required="required" 
+                  autofocus="autofocus" class="form-control" style='width: 50%;'>
+     </div>
   </div>
   <div class="form-group">
-    <label class="control-label col-md-2">출력 순서</label>
-    <div class="col-md-10">
-      <input type='number' name='seqno' value='1' required="required" placeholder="${seqno }" min="1" max="1000" step="1" style='width: 30%;' class="form-control">
-    </div>
-  </div>
+     <label class="control-label col-md-3">출력 순서</label>
+     <div class="col-md-9">
+       <input type='number' name='seqno' value='1' required="required" 
+                 placeholder="${seqno }" min="1" max="1000" step="1" 
+                 style='width: 30%;' class="form-control" >
+     </div>
+  </div>  
   <div class="form-group">
-    <label class="control-label col-md-2">출력 형식</label>
-    <div class="col-md-10">
-      <select name='visible' class="form-control" style='width: 20%;'>
-        <option value='Y' selected="selected">Y</option>
-        <option value='N'>N</option>
-      </select>
-    </div>
-  </div>
+     <label class="control-label col-md-3">출력 형식</label>
+     <div class="col-md-9">
+        <select name='visible' class="form-control" style='width: 20%;'>
+          <option value='Y' selected="selected">Y</option>
+          <option value='N'>N</option>
+        </select>
+     </div>
+  </div>   
 
-  <div class="content_bottom_menu" style="padding-right:20%;">
+  <div class="content_bottom_menu" style="padding-right: 20%;">
     <button type="submit" class="btn">등록</button>
     <button type="button" onclick="location.href='./list.do'" class="btn">목록</button>
   </div>
+
 </FORM>
  
 <jsp:include page="/menu/bottom.jsp" flush='false' />
 </body>
  
-</html>
+</html>   
+ 

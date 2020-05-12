@@ -19,8 +19,7 @@
 </head>
 <body>
 <jsp:include page="/menu/top.jsp" flush='false' />
-  <!-- JSP가 처리되어 HTML로 포함됨 -->
-  <!-- <%-- <%@ include file %> --%> JSP 소스를 그대로 포함 -->
+  
   <DIV style='width: 70%; margin: 30px auto;'>
     <IMG src='./menu/images/resort01.jpg' style='width: 100%;'>
   </DIV>
@@ -39,3 +38,4 @@
  
 </body>
 </html>
+  
