@@ -2,7 +2,7 @@
 <section name="Workbench">
 	<section name="DDLWizard">
 		<item value="false" key="schema"/>
-		<item value="false" key="drop"/>
+		<item value="true" key="drop"/>
 		<item value="true" key="comment"/>
 		<item value="MS949" key="encoding"/>
 		<item value="false" key="alterTable"/>

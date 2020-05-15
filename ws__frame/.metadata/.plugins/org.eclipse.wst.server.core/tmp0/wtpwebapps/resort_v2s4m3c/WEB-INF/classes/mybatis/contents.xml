@@ -21,6 +21,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     ORDER BY contentsno DESC
   </select>  
   
+  <!-- cateno별 목록 -->
+  <select id="list" resultType="ContentsVO" parameterType="int">
+    SELECT contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate 
+    FROM contents
+    WHERE cateno = #{cateno}
+    ORDER BY contentsno DESC
+  </select>  
+  
   <select id="read" resultType="ContentsVO" parameterType="int">
     SELECT contentsno, memberno, cateno, title, content, recom, web, ip, passwd, word, rdate 
     FROM contents
@@ -45,6 +53,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     DELETE FROM contents
     WHERE contentsno=#{contentsno}
   </delete>
+  
+  <!-- 전체 게시글 개수 -->
+  <select id="total_count" resultType="int">
+    SELECT COUNT(*) as cnt
+    FROM contents
+  </select>
   
 </mapper>
 

@@ -31,7 +31,8 @@
                    value="dev.mvc.categrp,
                               dev.mvc.cate,
                               dev.mvc.contents,
-                              dev.mvc.attachfile" />
+                              dev.mvc.attachfile,
+                              dev.mvc.member" />
     <property name="mapperLocations" value="classpath:mybatis/*.xml" />
   </bean>
   

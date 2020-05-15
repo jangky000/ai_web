@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import dev.mvc.cate.CateProcInter;
 import dev.mvc.cate.CateVO;
+import dev.mvc.contents.ContentsProcInter;
+import dev.mvc.contents.ContentsVO;
 import dev.mvc.tool.Tool;
 import dev.mvc.tool.Upload;
 
@@ -35,22 +38,25 @@ public class AttachfileCont {
    * @return
    */
   @RequestMapping(value="/attachfile/create.do", method=RequestMethod.GET)
-  public ModelAndView create() {
+  public ModelAndView create(int cateno) {
     ModelAndView mav = new ModelAndView();
-    
+
     mav.setViewName("/attachfile/create"); // webapp/attachfile/create.jsp
     return mav;
   }
   
  //http://localhost:9090/resort/attachfile/create.do
  /**
-  * 등록 처리
+  * 파일 등록 처리
+  * @param request
   * @param attachfileVO
+  * @param cateno 게시판 카테고리 번호
   * @return
   */
   @RequestMapping(value = "/attachfile/create.do", method = RequestMethod.POST)
   public ModelAndView create(HttpServletRequest request,
-                                           AttachfileVO attachfileVO) {
+                                           AttachfileVO attachfileVO,
+                                           int cateno) {
     // System.out.println("--> categrpno: " + categrpno);
     
     ModelAndView mav = new ModelAndView();
@@ -102,11 +108,11 @@ public class AttachfileCont {
     // ra.addAttribute("contentsno", attachfileVO.getContentsno());
     
     mav.addObject("upload_count", upload_count);
-    //mav.addObject("cateno", cateno);
+    mav.addObject("cateno", cateno);
     mav.addObject("contentsno", contentsno);
     
-    mav.setViewName("/attachfile/create_msg"); // webapp/attachfile.create_msg.jsp // 포워드를 사용하면 안됨
-    //mav.setViewName("redirect:/attachfile/create_msg.jsp");
+    //mav.setViewName("/attachfile/create_msg"); // webapp/attachfile.create_msg.jsp // 포워드를 사용하면 안됨
+    mav.setViewName("redirect:/attachfile/create_msg.jsp");
     
     return mav;
   }

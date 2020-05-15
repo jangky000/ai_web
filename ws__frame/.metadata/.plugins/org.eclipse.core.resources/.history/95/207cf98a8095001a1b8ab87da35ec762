@@ -1,0 +1,38 @@
+package dev.mvc.cate;
+
+/*
+   SELECT r.categrpno as r_categrpno, r.name as r_name, 
+               c.cateno, c.categrpno, c.name, c.seqno, c.visible, c.rdate, c.cnt
+    FROM categrp r, cate c
+    WHERE r.categrpno = c.categrpno
+    ORDER BY  c.categrpno ASC, c.seqno ASC
+*/
+
+public class Categrp_Cate_join {
+  // 부모 칼럼은 이름이 중복되니까 이름을 따로 지정
+  //------------------------------------------------------------
+  //categrp table
+  //------------------------------------------------------------
+  /** 부모 테이블 카테고리 그룹 번호 */
+  private int r_categrpno;
+  /** 부모 테이블 카테고리 그룹 이름 */
+  private String r_name;
+  
+  //자식 칼럼, 칼럼 이름을 그대로 사용
+  /** 카테고리 번호 */
+  private int cateno;  
+  /** 카테고리 그룹 번호 */
+  private int categrpno;
+  /**  카테고리 이름 */
+  private String name;
+  /** 출력 순서 */
+  private int seqno;
+  /** 출력 모드 */
+  private String visible;
+  /** 등록일 */
+  private String rdate;
+  /** 등록된 글 수 */
+  private int cnt;
+  
+  
+}

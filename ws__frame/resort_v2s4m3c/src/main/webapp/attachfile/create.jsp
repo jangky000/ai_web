@@ -37,8 +37,8 @@
                enctype="multipart/form-data" class="form-horizontal">
                
       <!-- FK cateno 지정 -->
-      <input type='hidden' name='cateno' id='cateno' value='1'>
-      <input type='hidden' name='contentsno' id='contentsno' value='1'>
+      <input type='hidden' name='cateno' id='cateno' value='${param.cateno }'>
+      <input type='hidden' name='contentsno' id='contentsno' value='${param.contentsno }'>
       
       <div class="form-group">   
         <div class="col-md-12">

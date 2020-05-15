@@ -33,7 +33,7 @@
           </LI>
           <LI class='li_none'>
             <button type='button' 
-                        onclick="location.href='./list.do?categrpno=${param.categrpno}'"
+                        onclick="location.href='./list.do?cateno=${cateno}'"
                         class="btn btn-info">목록</button>                        
           </LI>
         </c:when>
@@ -46,7 +46,7 @@
                         onclick="history.back();"
                         class="btn btn-info">재시도</button>
             <button type='button' 
-                        onclick="location.href='./list.do?categrpno=${param.categrpno}'"
+                        onclick="location.href='./list.do?cateno=${cateno}'"
                         class="btn btn-info">목록</button>                        
           </LI>
         </c:otherwise>

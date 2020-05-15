@@ -149,5 +149,102 @@ WHERE cateno=1;
 
 commit;
 
+-- 13) 통합 VO
+SELECT r.categrpno as r_categrpno, r.name as r_name, 
+           c.cateno, c.categrpno, c.name, 
+           c.seqno, c.visible, c.rdate, c.cnt
+FROM categrp r, cate c
+WHERE r.categrpno = c.categrpno
+ORDER BY  c.categrpno ASC, c.seqno ASC;
+
+R_CATEGRPNO R_NAME  CATENO  CATEGRPNO NAME    SEQNO V RDATE    CNT
+----------- -------------------- ------------------------- ---------- - ------------------- ----------
+          1 영화       1          1 SF                    1 Y 2020-05-12 04:04:32          0
+          1 영화       2          1 드라마              2 Y 2020-05-12 04:04:32          0
+          1 영화       3          1 스릴러              3 Y 2020-05-12 04:04:32          0
+          1 영화       7          1 유머                 4 Y 2020-05-13 04:11:59          0
+          1 영화       8          1 생존                 5 Y 2020-05-13 04:12:21          0
+          2 음악       6          2 메간 트레이너    1 Y 2020-05-13 12:51:01          0
+          2 음악       4          2 찰리푸스           2 Y 2020-05-13 12:48:56          0
+
+-- 14) 통합 VO, categrpno 별 cate 목록
+SELECT r.categrpno as r_categrpno, r.name as r_name, 
+           c.cateno, c.categrpno, c.name, 
+           c.seqno, c.visible, c.rdate, c.cnt
+FROM categrp r, cate c
+WHERE (r.categrpno = c.categrpno) AND r.categrpno = 1
+ORDER BY  c.categrpno ASC, c.seqno ASC;
+
+R_CATEGRPNO R_NAME  CATENO  CATEGRPNO NAME    SEQNO V RDATE    CNT
+----------- -------------------- ------------------------- ---------- - ------------------- ----------
+          1 영화       1          1 SF                    1 Y 2020-05-12 04:04:32          0
+          1 영화       2          1 드라마              2 Y 2020-05-12 04:04:32          0
+          1 영화       3          1 스릴러              3 Y 2020-05-12 04:04:32          0
+          1 영화       7          1 유머                 4 Y 2020-05-13 04:11:59          0
+          1 영화       8          1 생존                 5 Y 2020-05-13 04:12:21          0
+
+-- 참고 1) categrp + cate innner join / 1:다 관계, -> association 사용
+-- ANSI: 
+SELECT r.categrpno as r_categrpno, r.name as r_name, 
+           c.cateno as c_cateno, c.categrpno as c_categrpno, c.name as c_name, 
+           c.seqno as c_seqno, c.visible as c_visible, c.rdate as c_rdate, c.cnt as c_cnt
+FROM categrp r
+INNER JOIN cate c
+ON r.categrpno = c.categrpno
+ORDER BY  c.categrpno ASC, c.seqno ASC;
+
+-- EQUI JOIN
+SELECT r.categrpno as r_categrpno, r.name as r_name, 
+           c.cateno as c_cateno, c.categrpno as c_categrpno, c.name as c_name, 
+           c.seqno as c_seqno, c.visible as c_visible, c.rdate as c_rdate, c.cnt as c_cnt
+FROM categrp r, cate c
+WHERE r.categrpno = c.categrpno
+ORDER BY  c.categrpno ASC, c.seqno ASC;
+
+R_CATEGRPNO R_NAME   C_CATENO C_CATEGRPNO C_NAME           C_SEQNO C C_RDATE      C_CNT
+----------- ------------------------- ---------- ----------- ------------------------------------------------------------------
+          1 영화                      1           1 SF                  1 Y 2020-05-12 04:04:32          0
+          1 영화                      2           1 드라마            2 Y 2020-05-12 04:04:32          0
+          1 영화                      3           1 스릴러            3 Y 2020-05-12 04:04:32          0
+          2 여행                      6           2 국내여행         1 Y 2020-05-13 12:51:01          0
+          2 여행                      4           2 스위스            2 Y 2020-05-13 12:48:56          0
+          2 여행                      5           2 아이슬랜드      3 Y 2020-05-13 12:49:09          0
 
 
+-- 참고 2) categrp + cate innner join / 1:다 관계, collection, categrpno 별 cate 목록
+-- ANSI: 
+SELECT r.categrpno as r_categrpno, r.name as r_name, r.rdate as r_rdate, 
+           c.cateno as c_cateno, c.categrpno as c_categrpno, c.name as c_name, 
+           c.seqno as c_seqno, c.visible as c_visible, c.rdate as c_rdate, c.cnt as c_cnt
+FROM categrp r
+INNER JOIN cate c
+ON r.categrpno = c.categrpno
+WHERE r.categrpno=1
+ORDER BY  c.categrpno ASC, c.seqno ASC;
+
+-- EQUI JOIN
+SELECT r.categrpno as r_categrpno, r.name as r_name,  r.rdate as r_rdate, 
+           c.cateno as c_cateno, c.categrpno as c_categrpno, c.name as c_name, 
+           c.seqno as c_seqno, c.visible as c_visible, c.rdate as c_rdate, c.cnt as c_cnt
+FROM categrp r, cate c
+WHERE r.categrpno = c.categrpno AND r.categrpno=1
+ORDER BY  c.categrpno ASC, c.seqno ASC;
+
+R_CATEGRPNO R_NAME   C_CATENO C_CATEGRPNO C_NAME   C_SEQNO C C_RDATE  C_CNT
+----------- ------------------------- ---------- ----------- ------------------------------------------------------------------
+          1 영화                      1           1 SF                  1 Y 2020-05-12 04:04:32          0
+          1 영화                      2           1 드라마            2 Y 2020-05-12 04:04:32          0
+          1 영화                      3           1 스릴러            3 Y 2020-05-12 04:04:32          0
+
+
+-- 아래 기능은 contents 개발자가 필요한 기능이지만 cate 개발자가 개발해야 함
+
+-- contents 추가에 따른 등록된 글수의 증가
+UPDATE cate 
+SET cnt = cnt + 1 
+WHERE cateno=1;
+
+--  contents 추가에 따른 cate 테이블 글수 감소
+UPDATE cate 
+SET cnt = cnt - 1 
+WHERE cateno=1;

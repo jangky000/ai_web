@@ -1,5 +1,7 @@
 package dev.mvc.contents;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,9 +17,21 @@ import org.springframework.web.servlet.ModelAndView;
 
 import dev.mvc.cate.CateProcInter;
 import dev.mvc.cate.CateVO;
+import dev.mvc.categrp.CategrpProcInter;
+import dev.mvc.categrp.CategrpVO;
 
 @Controller
 public class ContentsCont {
+  //부모의 부모 테이블에 접근할 수 있는 CategrpProc
+  @Autowired
+  @Qualifier("dev.mvc.categrp.CategrpProc")
+  private CategrpProcInter categrpProc;
+  
+  // 부모 테이블에 접근할 수 있는 cateProc을 가져와서 사용
+  @Autowired
+  @Qualifier("dev.mvc.cate.CateProc")
+  private CateProcInter cateProc;
+  
   @Autowired
   @Qualifier("dev.mvc.contents.ContentsProc")
   private ContentsProcInter contentsProc;
@@ -32,8 +46,15 @@ public class ContentsCont {
    * @return
    */
   @RequestMapping(value="/contents/create.do", method=RequestMethod.GET )
-  public ModelAndView create() {
+  public ModelAndView create(int cateno) {
     ModelAndView mav = new ModelAndView();
+
+    CateVO cateVO = this.cateProc.read(cateno);
+    mav.addObject("cateVO", cateVO);
+    
+    CategrpVO categrpVO = this.categrpProc.read(cateVO.getCategrpno());
+    mav.addObject("categrpVO", categrpVO);
+    
     mav.setViewName("/contents/create"); // webapp/contents/create.jsp
     
     return mav;
@@ -57,8 +78,11 @@ public class ContentsCont {
     // request 객체에 변수 등록하는 것은 동일한 기능이다.
     
     if (cnt == 1) {
-      mav.setViewName("/contents/create_msg"); // webapp/contents/create_msg.jsp
-      // mav.setViewName("redirect:/contents/list.do"); // spring 재호출
+      int cateno = contentsVO.getCateno();
+      this.cateProc.increaseCnt(cateno); // 글 수 증가
+      mav.addObject("cateno", cateno);
+      // mav.setViewName("/contents/create_msg"); // webapp/contents/create_msg.jsp
+      mav.setViewName("redirect:/contents/list.do"); // spring 재호출
     } else { 
       mav.setViewName("/contents/create_msg"); // webapp/contents/create_msg.jsp
     }
@@ -82,9 +106,33 @@ public class ContentsCont {
     return mav;
   }
   
+//http://localhost:9090/resort/contents/list.do
+ /**
+  * 전체 목록
+  * @return
+  */
+ @RequestMapping(value="/contents/list.do", method=RequestMethod.GET )
+ public ModelAndView list(int cateno) {
+   ModelAndView mav = new ModelAndView();
+   
+   // 
+   CateVO cateVO = this.cateProc.read(cateno);
+   mav.addObject("cateVO", cateVO);
+   
+   // 
+   CategrpVO categrpVO= this.categrpProc.read(cateVO.getCategrpno());
+   mav.addObject("categrpVO", categrpVO);
+   
+   List<ContentsVO> list = this.contentsProc.list(cateno);
+   mav.addObject("list", list);
+
+   mav.setViewName("/contents/list"); // /webapp/contents/list.jsp
+   return mav;
+ }
+  
   // http://localhost:9090/resort/contents/read.do
   /**
-   * 전체 목록
+   * 조회
    * @return
    */
   @RequestMapping(value="/contents/read.do", method=RequestMethod.GET )
@@ -94,6 +142,12 @@ public class ContentsCont {
     ContentsVO contentsVO = this.contentsProc.read(contentsno);
     mav.addObject("contentsVO", contentsVO); // request.setAttribute("contentsVO", contentsVO);
 
+    CateVO cateVO = this.cateProc.read(contentsVO.getCateno());
+    mav.addObject("cateVO", cateVO);
+    
+    CategrpVO categrpVO = this.categrpProc.read(cateVO.getCategrpno());
+    mav.addObject("categrpVO", categrpVO);
+    
     mav.setViewName("/contents/read"); // /webapp/contents/read.jsp
     return mav;
   }
@@ -125,6 +179,17 @@ public class ContentsCont {
   public ModelAndView update(ContentsVO contentsVO) {
     ModelAndView mav = new ModelAndView();
     
+    CateVO cateVO = this.cateProc.read(contentsVO.getCateno());
+    //mav.addObject("cateVO", cateVO); // 전달 안됨
+    mav.addObject("cate_name", cateVO.getName()); // parameter 변수로 전달되게 함
+    mav.addObject("cateno", cateVO.getCateno());
+    
+    CategrpVO categrpVO = this.categrpProc.read(cateVO.getCategrpno());
+    //mav.addObject("categrpVO", categrpVO);
+    mav.addObject("categrp_name", categrpVO.getName()); // parameter 변수로 전달되게 함
+    
+    mav.addObject("contentsno", contentsVO.getContentsno());
+    
     HashMap<String, Object> hashMap = new HashMap<String, Object>();
     hashMap.put("contentsno", contentsVO.getContentsno());
     hashMap.put("passwd", contentsVO.getPasswd());
@@ -142,7 +207,8 @@ public class ContentsCont {
     mav.addObject("passwd_cnt", passwd_cnt);
     
     if (passwd_cnt==1 && cnt == 1) {
-      mav.setViewName("/contents/update_msg"); // webapp/contents/update_msg.jsp
+      mav.setViewName("redirect:/contents/update_msg.jsp");
+      // mav.setViewName("/contents/update_msg"); // webapp/contents/update_msg.jsp
       // mav.setViewName("redirect:/contents/list.do"); // spring 재호출
     } else { 
       mav.setViewName("/contents/update_msg"); // webapp/contents/update_msg.jsp
@@ -181,28 +247,32 @@ public class ContentsCont {
     HashMap<String, Object> hashMap = new HashMap<String, Object>();
     hashMap.put("contentsno", contentsno);
     hashMap.put("passwd", passwd);
-    
-    // 삭제 처리가 들어가기 전에 read 해야함
-    String title=this.contentsProc.read(contentsno).getTitle();
-    mav.addObject("title", title);
-    
+
     int passwd_cnt = 0;   //  패스워드 일치 레코드 개수
     int cnt = 0;               // 수정된 레코드 개수 
     
     passwd_cnt = this.contentsProc.passwd_check(hashMap);
     
+    // 삭제 처리가 들어가기 전에 read 해야함
+    ContentsVO contentsVO = this.contentsProc.read(contentsno);
+    String title=contentsVO.getTitle();
+    int cateno = contentsVO.getCateno();
+    
+    mav.addObject("title", title);
+
     if(passwd_cnt == 1) { // 패스워드 일치
       cnt = this.contentsProc.delete(contentsno);
-      
     }
     mav.addObject("cnt", cnt); // request에 저장
     mav.addObject("passwd_cnt", passwd_cnt);
+    mav.addObject("cateno", cateno);
     
     if (passwd_cnt==1 && cnt == 1) {
-      
+      this.cateProc.decreaseCnt(contentsVO.getCateno()); // 글 수 감소
+
       mav.setViewName("/contents/delete_msg"); // webapp/contents/delete_msg.jsp
       // mav.setViewName("redirect:/contents/list.do"); // spring 재호출
-    } else { 
+    } else {       
       mav.setViewName("/contents/delete_msg"); // webapp/contents/delete_msg.jsp
     }
 

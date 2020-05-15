@@ -21,17 +21,14 @@
 <body>
 <jsp:include page="/menu/top.jsp" flush='false' />
   <DIV class='title_line'>
-    <A href="../categrp/list.do">카테고리 그룹</A> > 
-    <A href="../cate/list.do">모든 카테고리</A> > 글 등록
+    ${cateVO.name }
   </DIV>
 
   <ASIDE style='float: left;'>
-    <A href=''>카테고리 그룹</A> > 
-    <A href=''>카테고리</A> >
-    신규 등록
+    ${categrpVO.name } > ${cateVO.name } > 신규 등록
   </ASIDE>
   <ASIDE style='float: right;'>
-    <A href=''>목록</A>
+    <A href='./list.do?cateno=${cateVO.cateno }'>목록</A><!-- 또는 param.cateno  -->
     <!-- <span class='menu_divide' >│</span> --> 
   </ASIDE> 
  
@@ -42,7 +39,7 @@
       <!-- FK memberno 지정 -->
       <input type='hidden' name='memberno' id='memberno' value='1'>
       <!-- FK categrpno 지정 -->
-      <input type='hidden' name='cateno' id='cateno' value='1'>
+      <input type='hidden' name='cateno' id='cateno' value='${param.cateno }'>
       
       <div class="form-group">   
         <div class="col-md-12">
@@ -52,7 +49,7 @@
       
       <div class="form-group">   
         <div class="col-md-12">
-          <textarea class="form-control" name='content' id='content' rows='10' placeholder="내용"></textarea>
+          <textarea class="form-control" name='content' id='content' rows='10' placeholder="내용" required="required"></textarea>
         </div>
       </div>
 
@@ -77,7 +74,7 @@
       <DIV class='content_bottom_menu'>
         <button type="submit" class="btn btn-info">등록</button>
         <button type="button" 
-                    onclick="location.href='./list.do?categrpno=${param.categrpno}'" 
+                    onclick="location.href='./list.do?cateno=${cateVO.cateno}'" 
                     class="btn btn-info">취소[목록]</button>
       </DIV>
        

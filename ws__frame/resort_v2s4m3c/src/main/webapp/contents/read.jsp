@@ -19,19 +19,20 @@
 
 <body>
 <c:set var="cateno" value="${cateVO.cateno}" />
+<c:set var="cateno" value="${contentsVO.cateno}" />
 <c:set var="contentsno" value="${contentsVO.contentsno }" />
 
 <jsp:include page="/menu/top.jsp" flush='false' />
   <DIV class='title_line'>
-    <A href="../categrp/list.do">카테고리 그룹</A> > 
-    <A href="../cate/list.do">모든 카테고리</A> > 글 등록
+    ${cateVO.name }
   </DIV>
   
   <ASIDE style='float: left;'>
-    <A href='../categrp/list.do'>카테고리 그룹</A> > 
-    <A href='./list.do?cateno=${cateno }'>${categrpVO.name }</A>
+    ${categrpVO.name } > ${cateVO.name }
   </ASIDE>
   <ASIDE style='float: right;'>
+    <A href="../attachfile/create.do?cateno=${cateno }&contentsno=${contentsno }">파일 등록</A>
+    <span class='menu_divide' > | </span> 
     <A href="javascript:location.reload();">새로고침</A>
     <span class='menu_divide' > | </span> 
     <A href='./list.do?cateno=${cateno }'>목록</A>

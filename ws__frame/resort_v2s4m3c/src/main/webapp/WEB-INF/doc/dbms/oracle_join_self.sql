@@ -222,6 +222,7 @@ SELECT * FROM position ORDER BY positionno ASC;
         11         사원        공효진            10
           
 -- Self join
+-- 자기 자신을 INNER JOIN
 SELECT p.positionno, p.name, p.employee, p.officer,
           c.name, c.employee
 FROM position p, position c
@@ -236,14 +237,90 @@ ORDER BY positionno ASC;
           4 부장       나길동            3 상무   가길동
           5 차장       다길동            4 부장   나길동
           6 과장       라길동            5 차장   다길동
-          7 대리       마길동            6 과장   라길동
-          8 대리       홍길순            6 과장   라길동
-          9 주임       강하늘            7 대리   마길동
-         10 사원      공효진            9 주임   강하늘
-          
--- 참고: FK 선언 없이 테이블 생성후 하나의 마스터 레코드(최초 등록) 입력후
--- FK 제약 조건 추가             
+          7 과장2     휴잭맨            5 차장   다길동
+          8 대리       마길동            6 과장   라길동
+          9 대리       홍길순            6 과장   라길동
+         10 주임       강하늘           9 대리   홍길순
+         11 사원      공효진           10 주임   강하늘
+ 
+ --ANSI
+ SELECT p.positionno, p.name, p.employee, p.officer,
+          c.name, c.employee
+FROM position p
+INNER JOIN position c
+ON p.officer = c.positionno 
+ORDER BY positionno ASC;
+
+-- 접속 > ai6 > 테이블 > position > 제약조건 > pk 제약조건명 확인
+-- 기본으로 만들어진 제약조건 삭제
+ALTER TABLE position DROP CONSTRAINT SYS_C007336;
+--오류 보고 -
+--ORA-02273: this unique/primary key is referenced by some foreign keys
+--02273. 00000 -  "this unique/primary key is referenced by some foreign keys"
+--*Cause:    Self-evident.
+--*Action:   Remove all references to the key before the key is to be dropped.
+-- fk 제약조건으로 인해 지울 수 없다.
+DELETE FROM position;
+COMMIT;
+-- 레코드를 다 삭제해도 지울 수 없다. 조심해서 사용해야 한다.
+
+-- FK 제약 조건 삭제 -- 가능
+ALTER TABLE position DROP CONSTRAINT SYS_C007337;
+-- PK 제약 조건 삭제 -- 가능
+ALTER TABLE position DROP CONSTRAINT SYS_C007336;
+
+--PK 제약조건 추가
+-- 제약조건명: position_pk, 찾기 쉽게 이름을 지정할 수 있다.
 ALTER TABLE position ADD CONSTRAINT position_pk PRIMARY KEY (positionno);
 
+--PK 제약조건 삭제
+ALTER TABLE position DROP CONSTRAINT position_pk;
+
+-- FK 제약조건 추가        
+-- 참고: FK 선언 없이 테이블 생성후 하나의 마스터 레코드(최초 등록) 입력후    
+-- 제약조건명: position_officer_fk: 테이블_컬럼_fk
 ALTER TABLE position ADD CONSTRAINT position_officer_fk 
                                  FOREIGN KEY (officer) REFERENCES position (positionno);
+
+-- 사용자 제약조건 칼럼 구성 출력
+DESC user_constraints;
+
+이름                널?       유형            
+----------------- -------- ------------- 
+OWNER                      VARCHAR2(120) 
+CONSTRAINT_NAME   NOT NULL VARCHAR2(30)  
+CONSTRAINT_TYPE            VARCHAR2(1)   
+TABLE_NAME        NOT NULL VARCHAR2(30)  
+SEARCH_CONDITION           LONG          
+R_OWNER                    VARCHAR2(120) 
+R_CONSTRAINT_NAME          VARCHAR2(30)  
+DELETE_RULE                VARCHAR2(9)   
+STATUS                     VARCHAR2(8)   
+DEFERRABLE                 VARCHAR2(14)  
+DEFERRED                   VARCHAR2(9)   
+VALIDATED                  VARCHAR2(13)  
+GENERATED                  VARCHAR2(14)  
+BAD                        VARCHAR2(3)   
+RELY                       VARCHAR2(4)   
+LAST_CHANGE                DATE          
+INDEX_OWNER                VARCHAR2(30)  
+INDEX_NAME                 VARCHAR2(30)  
+INVALID                    VARCHAR2(7)   
+VIEW_RELATED               VARCHAR2(14)  
+
+-- ai6 사용자의 모든 제약조건 출력
+SELECT * FROM user_constraints; 
+
+-- POSITION 테이블에 해당하는 제약조건
+-- 테이블명 반드시 대문자로
+SELECT constraint_name, constraint_type, search_condition 
+FROM user_constraints 
+WHERE table_name = 'POSITION'; 
+
+CONSTRAINT_NAME                C SEARCH_CONDITION                                                                
+------------------------------ - --------------------------------------------------------------------------------
+SYS_C007332                    C "POSITIONNO" IS NOT NULL                                                        
+SYS_C007333                    C "NAME" IS NOT NULL                                                              
+SYS_C007334                    C "EMPLOYEE" IS NOT NULL                                                          
+SYS_C007335                    C "OFFICER" IS NOT NULL                                                           
+POSITION_PK                    P    

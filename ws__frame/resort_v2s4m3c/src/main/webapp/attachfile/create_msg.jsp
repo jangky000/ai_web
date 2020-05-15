@@ -26,12 +26,12 @@
   <fieldset class='fieldset_basic'>
     <UL>
       <c:choose>
-        <c:when test="${upload_count > 0 }">
+        <c:when test="${param.upload_count > 0 }">
           <LI class='li_none'>
             <span class='span_success'>파일을 등록했습니다.</span>
           </LI>
           <LI class='li_none'>
-            <span class='span_success'>정상 등록된 파일 ${upload_count} 건</span>
+            <span class='span_success'>정상 등록된 파일 ${param.upload_count} 건</span>
           </LI>
         </c:when>
         <c:otherwise>
@@ -43,13 +43,13 @@
       <LI class='li_none'>
         <br>
         <button type='button' 
-                    onclick="location.href='./create.do?contentsno=${contentsno }'"
+                    onclick="location.href='./create.do?contentsno=${param.contentsno }'"
                     class="btn btn-info">파일 계속 업로드</button>
         <button type='button' 
-                    onclick="location.href='../contents/read.do?contentsno=${contentsno }'"
+                    onclick="location.href='../contents/read.do?contentsno=${param.contentsno }'"
                     class="btn btn-info">업로드된 파일 확인</button>
         <button type='button' 
-                    onclick="location.href='../contents/list.do?cateno=${cateno}'"
+                    onclick="location.href='../contents/list.do?cateno=${param.cateno}'"
                     class="btn btn-info">목록</button>
       </LI>
      </UL>

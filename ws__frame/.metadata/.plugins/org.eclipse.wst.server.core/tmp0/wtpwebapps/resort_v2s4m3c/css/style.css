@@ -43,6 +43,7 @@
     height: 25px;
   }
   
+  /* <span class='top_menu_sep'>&nbsp;</span> */
   .top_menu_sep { /* 화면 상단 메뉴 세로 구분선 */
     background: url('./images/gray.jpg') center center no-repeat;
     background-size: 1px;

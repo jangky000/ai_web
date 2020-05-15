@@ -21,18 +21,26 @@
 <jsp:include page="/menu/top.jsp" flush='false' />
  
   <DIV class='title_line'>
-    <A href="../categrp/list.do">카테고리 그룹</A> > 
-    <A href="../cate/list.do">모든 카테고리</A> > 삭제
+    ${param.cate_name }
   </DIV>
+ 
+ <ASIDE style='float: left;'>
+    ${param.categrp_name } > ${param.cate_name } > 글 수정
+  </ASIDE>
+  <ASIDE style='float: right;'>
+    <A href='./list.do?cateno=${param.cateno }'>목록</A>
+  </ASIDE> 
+ 
+ <div class='menu_line'></div>
  
 <DIV class='message'>
   <fieldset class='fieldset_basic'>
     <UL>
       
       <c:choose>
-        <c:when test="${passwd_cnt == 1 }"> <!-- 패스워드 일치 -->
+        <c:when test="${param.passwd_cnt == 1 }"> <!-- 패스워드 일치 -->
           <c:choose>
-            <c:when test="${cnt==1 }"><!-- 글 수정 성공 -->
+            <c:when test="${param.cnt==1 }"><!-- 글 수정 성공 -->
               <LI class='li_none'>
                 <span class='span_success'>컨텐츠 수정했습니다.</span>
               </LI>
@@ -54,13 +62,13 @@
       </c:choose>
       
       <c:choose>
-        <c:when test="${cnt == 1 && passwd_cnt == 1 }">
+        <c:when test="${param.cnt == 1 && param.passwd_cnt == 1 }">
           <LI class='li_none'>
             <button type='button' 
-                        onclick="location.href='./read.do?categrpno=${param.categrpno}&contentsno=${param.contentsno}'"
+                        onclick="location.href='./read.do?cateno=${param.cateno}&contentsno=${param.contentsno}'"
                         class="btn btn-info">변경 확인</button>
             <button type='button' 
-                        onclick="location.href='./list.do?categrpno=${param.categrpno}'"
+                        onclick="location.href='./list.do?cateno=${param.cateno}'"
                         class="btn btn-info">목록</button>                        
           </LI>
         </c:when>
@@ -70,7 +78,7 @@
                         onclick="history.back();"
                         class="btn btn-info">재시도</button>
             <button type='button' 
-                        onclick="location.href='./list.do?categrpno=${param.categrpno}'"
+                        onclick="location.href='./list.do?cateno=${param.cateno}'"
                         class="btn btn-info">목록</button>                        
           </LI>
         </c:otherwise>

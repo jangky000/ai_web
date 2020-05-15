@@ -43,7 +43,7 @@
       <LI class='li_none'>
         <br>
         <button type='button' onclick="location.href='./create.do'">새로운 카테고리 등록</button>
-        <button type='button' onclick="location.href='./list.do'">목록</button>
+        <button type='button' onclick="location.href='./list_join_by_categrpno.do?categrpno=${categrpVO.categrpno}'">목록</button>
       </LI>
     </UL>
   </fieldset>

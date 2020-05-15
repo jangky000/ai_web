@@ -26,6 +26,12 @@ public class ContentsProc implements ContentsProcInter {
     List<ContentsVO> list = this.contentsDAO.list_all();
     return list;
   }
+  
+  @Override
+  public List<ContentsVO> list(int cateno) {
+    List<ContentsVO> list = this.contentsDAO.list(cateno);
+    return list;
+  }
 
   @Override
   public ContentsVO read(int contentsno) {
@@ -61,9 +67,12 @@ public class ContentsProc implements ContentsProcInter {
     int cnt = this.contentsDAO.delete(contentsno);
     return cnt;
   }
-  
 
-
+  @Override
+  public int total_count() {
+    int cnt = this.contentsDAO.total_count();
+    return cnt;
+  }
 
 }
 

@@ -9,26 +9,31 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="title_line" key="selection"/>
+		<item value="read" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="read"/>
+			<item value="top_menu_sep"/>
+			<item value="top_menu_ser"/>
+			<item value="top_menu_seq"/>
+			<item value="top_menu"/>
+			<item value="cateVO"/>
 			<item value="title_line"/>
 			<item value="categrp"/>
 			<item value="contentsVO"/>
 			<item value="span_"/>
 			<item value="&lt;select id=&quot;list_categrpno_asc&quot; resultType=&quot;CategrpVO&quot; parameterType=&quot;int&quot;&gt;"/>
 			<item value="td_basic"/>
-			<item value="top_menu"/>
 			<item value="-sm-"/>
 			<item value="sm"/>
 			<item value="li_none"/>
-			<item value="fieldset"/>
-			<item value="li_non"/>
 		</list>
 		<list key="replacehistory">
+			<item value="categrp_Cate_VO"/>
+			<item value="Categrp_Cate_VO"/>
 			<item value="cate"/>
 			<item value="-md-"/>
 			<item value="md"/>

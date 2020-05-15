@@ -1,0 +1,12 @@
+package test;
+
+import dev.mvc.categrp.CategrpVO;
+
+public class Categrp_Cate_VO_Test {
+
+  public static void main(String[] args) {
+    CategrpVO categrpVO = new CategrpVO(1, "µå¶ó¸¶", 1, "Y", "2020-05-13");
+
+  }
+
+}

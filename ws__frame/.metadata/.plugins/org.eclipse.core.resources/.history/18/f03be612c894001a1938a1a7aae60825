@@ -1,0 +1,9 @@
+package dev.mvc.cate;
+
+import dev.mvc.categrp.CategrpVO;
+
+public class Categrp_Cate_VO {
+  private CategrpVO categrpVO;
+  private CateVO cateVO;
+
+}

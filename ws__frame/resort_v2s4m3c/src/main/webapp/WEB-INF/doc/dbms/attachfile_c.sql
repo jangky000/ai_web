@@ -61,7 +61,7 @@ VALUES(attachfile_seq.nextval, 1, 'samyang3.jpg', 'samyang3_1.jpg', 'samyang3_t.
 
 COMMIT;
       
--- 2) 목록( contentsno 기준 내림 차순, attachfileno 기준 오르차순)
+-- 2) 목록( contentsno 기준 내림 차순, attachfileno 기준 오름차순)
 SELECT attachfileno, contentsno, fname, fupname, thumb, fsize, rdate
 FROM attachfile
 ORDER BY contentsno DESC,  attachfileno ASC;
@@ -99,6 +99,10 @@ ORDER BY fname ASC;
 -- 4) 하나의 파일 삭제
 DELETE FROM attachfile
 WHERE attachfileno = 1;
+
+-- 4-1) 모두 삭제
+DELETE FROM attachfile;
+COMMIT;
 
 
 -- 5) FK contentsno 부모키 별 조회

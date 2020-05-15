@@ -40,12 +40,11 @@
   <DIV style='width: 100%;'>
     <FORM name='frm' method='POST' action='./update.do' class="form-horizontal">
       
-      <!--       
-      FK memberno 지정
+    
+      <!-- FK memberno 지정 -->
       <input type='hidden' name='memberno' id='memberno' value='1'>
-      FK categrpno 지정
-      <input type='hidden' name='cateno' id='cateno' value='1'>
-       -->
+      <!-- FK categrpno 지정 -->
+      <input type='hidden' name='cateno' id='cateno' value='${param.cateno }'>
        
       <input type='hidden' name='contentsno' id='contentsno' value='${contentsVO.contentsno }'>
        

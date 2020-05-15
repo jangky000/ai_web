@@ -78,10 +78,16 @@ ORDER BY contentsno ASC;
 
 COMMIT;
 
-2) 목록
+2) 전체 목록
 SELECT contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate 
 FROM contents 
-ORDER BY contentsno DESC;    
+ORDER BY contentsno DESC;
+
+2-1) cateno 별 목록
+SELECT contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate 
+FROM contents
+WHERE cateno = 1
+ORDER BY contentsno DESC;
 
 3) 1건 조회
 SELECT contentsno, memberno, cateno, title, content, recom, web, ip, passwd, word, rdate 
@@ -104,3 +110,13 @@ DELETE FROM contents
 WHERE contentsno=1;
 
 COMMIT;
+
+7) 모든 레코드 개수
+SELECT COUNT(*) as cnt
+FROM contents;
+ 
+ COUNT
+ -----
+     10
+
+

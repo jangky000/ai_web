@@ -16,6 +16,16 @@ public interface ContentsDAOInter {
    * @return
    */
   public List<ContentsVO> list_all();
+
+  /**
+   * <xmp>
+   * cateno별 목록
+   * <select id="list" resultType="ContentsVO" parameterType="int">
+   * </xmp>
+   * @param cateno
+   * @return
+   */
+  public List<ContentsVO> list(int cateno);
   
   /**
    * 조회
@@ -45,6 +55,14 @@ public interface ContentsDAOInter {
    */
   public int delete(int contentsno);
   
+  /**
+   * <xmp>
+   * 전체 게시글 개수
+   * <select id="total_count" resultType="int">
+   * </xmp>
+   * @return
+   */
+  public int total_count();
 }
 
 
