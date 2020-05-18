@@ -29,8 +29,12 @@ C:\ai6\ws__frame\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\219123415
 \mvc\src
 C:\ai6\ws__frame\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4035064535.index
 \blog_v2jc\src
+C:\ai6\ws__frame\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3924203560.index
+\jsp_test\src
 C:\ai6\ws__frame\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1661455190.index
 \mvc\src
+C:\ai6\ws__frame\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1156073254.index
+\jsp_test\src
 C:\ai6\ws__frame\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\123282693.index
 \resort_v2s4m3c_old\src\main\java
 C:\ai6\ws__frame\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2815006913.index

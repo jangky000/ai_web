@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+
+<script type="text/javascript">
+  /* head 태그 안에 함수 선언 */
+  window.onload=function(){// html이 실행될 때(브라우저에 로드 직후) 자동 메소드 실행
+    // alert('여름 Gallery'); //window.alert('')에서 window를 생략함
+    create();
+    create_H1();
+    create_IMG();
+    style();
+  }
+  
+  // 문자열을 이용한 태그 생성
+  function create(){
+    var tags = "<IMG src='./images/summer04.jpg' style='width: 280px; height: 180px; margin: 2px;'>";
+    tags += "<IMG src='./images/summer05.jpg' style='width: 280px; height: 180px; margin: 2px;'>";    
+    tags += "<IMG src='./images/summer06.jpg' style='width: 280px; height: 180px; margin: 2px;'>";
+    
+    var panel1 = document.getElementById("panel1");
+    // innerHTML 속성: 태그 문장을 생성하여 값을 할당 
+    panel1.innerHTML = tags;
+    
+    var panel2 = document.getElementById("panel2");
+    panel2.innerHTML = tags;
+    
+  }
+  
+  // DOM을 이용한 H1 태그 생성
+  // 없는 태그를 직접 생성해서 사용 document.createElement
+  // 전형적인 DOM 표준 문법
+  // 프로그래밍적으로 접근
+  function create_H1() {
+    var title = document.createElement("H1");//태그 생성
+    var title_text = document.createTextNode('환상의 여름'); // 텍스트 저장
+    title.appendChild(title_text);  // 태그에 값 추가
+    document.getElementById('panel3').appendChild(title); // panel3 태그 안에 추가
+  }
+  
+  // DOM을 이용한 IMG 이미지 태그 생성
+  function create_IMG() {
+    var img = document.createElement("IMG");
+    // . 으로 속성에 접근
+    img.src='./images/summer07.jpg'; 
+    img.width=280;
+    img.height=180;
+    img.style.margin='2px';
+    document.getElementById('panel3').appendChild(img);
+    
+    img = document.createElement("IMG");
+    img.src='./images/summer08.jpg';
+    img.width=280;
+    img.height=180;
+    img.style.margin='2px';
+    document.getElementById('panel3').appendChild(img);
+    
+    img = document.createElement("IMG");
+    img.src='./images/summer09.jpg';
+    img.width=280;
+    img.height=180;
+    img.style.margin='2px';
+    document.getElementById('panel3').appendChild(img);
+  }
+  
+  // DOM을 이용한 Style의 적용
+  function style() {
+    // .style.속성
+    var panel3 = document.getElementById('panel3');
+    panel3.style.border='solid 1px #FF0000';
+    panel3.style.width='90%';
+    panel3.style.backgroundColor='#EEEEFF'; // background-color
+  }
+  
+  //DOM을 이용한 자식 태그 삭제
+  // removeChild()
+  // 새로고침 시에는 처음 상태로 복구됨
+  function remove_panel1() {
+    var panel1 = document.getElementById("panel1");
+    var sw = confirm('panel1을 삭제 하시겠습니까?');
+    if (sw == true) {
+      document.getElementById("container").removeChild(panel1);
+    }
+  }
+  
+  // 자식 태그(panel2)를 삭제후 다른 이미지로 변경
+  function replace_panel2() {
+    var panel2 = document.getElementById("panel2");
+    var sw = confirm('panel2의 이미지를 교체 하시겠습니까?');
+    
+    while(panel2.hasChildNodes()) { // 다음 자식 태그가 있으면 순환함으로 모든 태그 삭제
+      panel2.removeChild(panel2.firstChild); // 첫번째 자식 태그 삭제
+    } // -> 세 개의 이미지 태그 삭제
+    
+    // setTimeout(function() { }, ms)
+    
+    // 2초후 1회만 실행
+    // setTimeout(함수, 시간): 시간 경과 후 함수 실행
+    // 너무 길어지면 animation 적용
+    setTimeout(function() {
+      var img = document.createElement("IMG");
+      img.src='./images/summer01.jpg';
+      img.width=280;
+      img.height=180;
+      img.style.margin='2px';
+      document.getElementById('panel2').appendChild(img);
+      
+      img = document.createElement("IMG");
+      img.src='./images/summer02.jpg';
+      img.width=280;
+      img.height=180;
+      img.style.margin='2px';
+      document.getElementById('panel2').appendChild(img);
+      
+      img = document.createElement("IMG");
+      img.src='./images/summer03.jpg';
+      img.width=280;
+      img.height=180;
+      img.style.margin='2px';
+      document.getElementById('panel2').appendChild(img);
+    }, 3000);
+  }
+  
+  
+//body 태그안의 모든 태그 삭제
+  function remove() {
+    var container = document.getElementById("container");
+    var sw = confirm('화면을 모두삭제 하시겠습니까?');
+    if (sw == true) {
+      document.body.removeChild(container);
+    }
+  }
+</script>
+
+</head>
+<body>
+  <DIV id='container'>
+    <!-- 자바스크립트는 id를 주 대상으로 적용한다. -->
+    <DIV id='panel1' style='margin: 0px auto; text-align: center;'></DIV>
+    <DIV id='panel2' style='margin: 0px auto; text-align: center;'></DIV>
+    <DIV id='panel3' style='margin: 0px auto; text-align: center;'></DIV>
+    <DIV style='text-align: center;'>
+      <button type='button' onclick="remove_panel1();">Panel1 삭제</button>
+      <button type='button' onclick="replace_panel2();">Panel2 이미지 교체</button>
+      <button type='button' onclick="location.reload();">초기화</button>
+      <button type='button' onclick="remove();">모두삭제</button>
+    </DIV>
+  </DIV>
+  
+  <script>
+  
+  </script>
+  
+</body>
+</html>

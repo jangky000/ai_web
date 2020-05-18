@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+  window.onload = function(){
+    document.getElementById('btn_basic').addEventListener('click', basic); // id가 btn_basic인 태그를 찾아서 basic 함수에 연결
+    document.getElementById('btn_increaseCnt').addEventListener('click',increaseCnt); 
+    document.getElementById('btn_decreaseCnt').addEventListener('click',decreaseCnt);
+    document.getElementById('btn_send1').addEventListener('click',send1);
+    
+    // 에러가 뜨고 
+    document.getElementById('frm').addEventListener('click',send2);
+    
+    // id는 고유해야 함 -> 그래서 같은 같은 기능이지만 다른 아이디를 사용
+    // 파라미터를 넘겨주기 위해서 function으로 감싼다. 그렇지 않으면 호출 불가** 
+    // this. : 이벤트가 등록된 태그
+    document.getElementById('btn_price').addEventListener('click',price);
+    document.getElementById('btn_price2').addEventListener('click',price);
+  }
+  
+  function wl(str) {
+    document.writeln(str + '<br>'); // BODY 태그로 출력됨.
+  }
+  
+  // 정규 표현식
+  function comma(su) {
+    return su.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  // 태그 이름(name)으로 접근 (form에서 name은 고유하다)
+  function basic(){ // 기본 예약 선택
+    // form의 name 값: frm
+    document.frm.rname.value='바다 전망 30평'; //객실: rname
+    // document생략
+    frm.py.value=30; // 크기: py
+    frm.cnt.value=3; // 인원: cnt
+  }
+  
+  function increaseCnt(){//인원 증가
+    var cnt = parseInt(frm.cnt.value) + 1; // parseInt() 형변환**
+    if(cnt > 10){
+      alert('최대 인원수는 10명까지 입니다.');
+      cnt = 10;
+    }
+    frm.cnt.value = cnt;
+  }
+  
+  function decreaseCnt(){ // 인원 증가
+    var cnt = parseInt(frm.cnt.value) - 1; // parseInt() 형변환**
+    if(cnt < 1){
+      alert('최소 인원수는 1명입니다.');
+      cnt = 1;
+    }
+    frm.cnt.value = cnt;
+  }
+  
+  function send1(){ // 신청1
+    // 필터링 trim.length -> 중요** 
+    if(frm.rname.value.trim().length <= 1){
+      alert('객실명을 입력해주세요.');
+      frm.rname.focus(); // 커서를 rname 태그로 보냄
+      return; // 실행 중지, 함수 탈출
+    }
+    
+    // 입력 문자가 없거나 값이 0이거나
+    // 필터링
+    if(frm.py.value.trim().length == 0 || frm.py.value == 0){
+      alert('평수를 입력해주세요');
+      frm.py.focus();
+      return;
+    }
+    
+ // 필터링
+    if(frm.cnt.value.trim().length == 0 || frm.cnt.value == 0){
+      alert('인원 수를 입력해주세요');
+      frm.cnt.focus();
+      return;
+    }
+  
+    frm.submit(); // <button type='submit'/>과 같다
+  }
+  
+  // form 태그에 onsubmit="return send2();"
+  // 값에 문제가 있으면 return false;
+  // 정상적이면 return true;
+  // send2() -> submit
+  function send2(){ // 신청2
+    // 필터링 trim.length
+    if(frm.rname.value.trim().length <= 1){
+      alert('객실명을 입력해주세요.');
+      frm.rname.focus(); // 커서를 rname 태그로 보냄
+      return false; // 비정상
+    }
+    
+    // 입력 문자가 없거나 값이 0이거나
+    // 필터링
+    if(frm.py.value.trim().length == 0 || frm.py.value == 0){
+      alert('평수를 입력해주세요');
+      frm.py.focus();
+      return false;
+    }
+    
+    // 필터링
+    if(frm.cnt.value.trim().length == 0 || frm.cnt.value == 0){
+      alert('인원 수를 입력해주세요');
+      frm.cnt.focus();
+      return false;
+    }
+  
+    return true;
+  }
+  
+  function price(event) { // event 객체가 브라우저에 의해 자동으로 생성됨
+    var f = event.currentTarget.form; // 이벤트가 발생한 form // 호출되는 form에 따라서 변경됨
+    var cnt = f.cnt.value.trim();
+    if (cnt.length == 0) {
+      alert('인원수를 입력하세요.');
+      f.cnt.focus();
+    } else {
+      var amount = parseInt(f.cnt.value) * 30000;
+      amount = comma(amount);
+      alert('결재 예상 금액: ' + amount);
+    }
+  }
+</script>
+</head>
+<body>
+<DIV class='container'>
+  <DIV class='content'>
+    <DIV class='title_box'>펜션 예약</DIV>
+    <form id='frm' name='frm' action='./input_proc.jsp' method='post'>
+      <ul>
+        <li class='li_none'>
+          객실: <input type='text' name='rname' value='' required="required">
+        </li>
+        <li class='li_none'>
+          크기: <input type='number' name='py' value=''
+                            step='1' min='5' max='50'> 평
+        </li>
+        <li class='li_none'>
+          인원: <input type='number' name='cnt' value=''
+                            step='1' min='1' max='10'> 명
+        </li>
+        <li class='li_none'>
+          <button type='button' id='btn_basic'>기본 예약 선택</button>
+          <button type='button' id='btn_increaseCnt'>인원 증가</button>
+          <button type='button' id='btn_decreaseCnt'>인원 감소</button>
+          <button type='reset'>입력값 삭제</button> <!-- form 데이터 삭제 -->
+          <button type='button' id='btn_send1'>신청 1</button>
+          <button type='submit'>신청 2</button>
+          <!-- this.form = 현재 태그가 위치한 form을 나타냄, 버튼에서는 this로 접근 -->
+          <button type='button' id='btn_price'>금액 계산</button>
+        </li>
+        
+      </ul>
+    </form>
+    <br>
+    추가 옵션<BR>
+    <form name='frm2'>
+      <ul>
+        <li class='li_none'>
+          인원: <input type='number' name='cnt' value=''
+                            step='1' min='1' max='10'> 명
+        </li>
+        <li class='li_none'>
+          <button type='button' id='btn_price2'>금액 계산</button>
+
+        </li>
+      </ul>  
+    </form>
+  </DIV> 
+</DIV>
+</body>
+</html>

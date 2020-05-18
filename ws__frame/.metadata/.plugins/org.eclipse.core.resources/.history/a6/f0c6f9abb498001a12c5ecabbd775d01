@@ -1,0 +1,68 @@
+<!DOCTYPE html> 
+<html lang="ko"> 
+<head> 
+<meta charset="UTF-8"> 
+<title></title> 
+<link href="../../css/style.css" rel="Stylesheet" type="text/css">
+</head> 
+<body>
+<script type="text/javascript">
+  function wl(str) {
+    document.writeln(str + '<br>'); // BODY 태그로 출력됨.
+  }
+  
+  function display(args) {
+    for(var i=0; i < args.length; i++) {
+      wl(args[i]);
+    }
+  }
+  
+  //자바스크립트, '/"는 모두 동일한 문자열
+  var trip = ['동해', '서해', '남해'];
+  // 시작 인덱스 0부터
+  wl(trip[0]);
+  wl(trip[1]);
+  wl(trip[2]);
+  wl('------------------');
+  
+  //비어 있는 배열 선언
+  var mountain = []; 
+  mountain[0] = '노고단';
+  mountain[1] = '한계령';
+  mountain[2] = '미시령옛길';
+  //파라미터로 함수에 배열 전달 가능
+  display(mountain); 
+  wl('------------------');
+  
+  // 배열 선언2, 
+  // 객체 생성 방식
+  // 타입이 달라도 다양한 타입 모두 저장 가능**
+  var korea = new Array('내장산', '걷기 편한 단풍산책', 30, true);
+  display(korea);
+  
+  wl('------------------');
+  
+  // 클래스(첫자가 대문자이기 때문)
+  // 생성자, 클래스, 함수 모두 function 사용
+  function Product(name, price) { // 함수, 클래스선언, 생성자 역활
+    this.name = name;
+    this.price = price;
+  }
+  
+  // 배열에 객체 저장
+  var cart = new Array();
+  // push()로 저장
+  cart.push(new Product('HTML5', 22000));
+  cart.push(new Product('JS', 25000));
+  cart.push(new Product('CSS', 23000));
+  
+  
+  for (var i=0; i < cart.length; i++) { // 0 ~ 2
+    console.log(cart[i].name + ' ' + cart[i].price);
+    wl(cart[i].name + ' ' + cart[i].price);
+  }
+  
+</script> 
+</body>
+ 
+</html>

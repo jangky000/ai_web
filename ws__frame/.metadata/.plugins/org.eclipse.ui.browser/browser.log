@@ -1,3 +1,14 @@
 
 4월 16, 2020 11:48:36.99 NEW SESSION
 4월 16, 2020 11:48:36.99 [8684:1944:0416/114836.978:ERROR:mcs_client.cc(758)] Received close command, resetting connection.
+
+5월 18, 2020 15:43:36.40 NEW SESSION
+5월 18, 2020 15:43:36.40 [4372:4356:0518/154336.278:ERROR:browser_switcher_service.cc(238)] XXX Init()
+5월 18, 2020 15:43:52.67 [4372:4356:0518/154352.674:ERROR:device_event_log_impl.cc(162)] [15:43:52.673] Bluetooth: bluetooth_adapter_winrt.cc:718 GetBluetoothAdapterStaticsActivationFactory failed: 클래스가 등록되지 않았습니다. (0x80040154)
+5월 18, 2020 16:32:31.01 [4372:4356:0518/163231.019:ERROR:page_load_metrics_update_dispatcher.cc(165)] Invalid first_paint (unset) for first_image_paint 1.163 s
+5월 18, 2020 16:32:32.02 [4372:4356:0518/163232.021:ERROR:page_load_metrics_update_dispatcher.cc(165)] Invalid first_paint 1.19 s for first_image_paint 1.163 s
+5월 18, 2020 16:32:33.07 [4372:4356:0518/163233.070:ERROR:page_load_metrics_update_dispatcher.cc(165)] Invalid first_paint 1.19 s for first_image_paint 1.163 s
+5월 18, 2020 16:32:36.00 [4372:4356:0518/163236.001:ERROR:page_load_metrics_update_dispatcher.cc(165)] Invalid first_paint 1.19 s for first_image_paint 1.163 s
+5월 18, 2020 16:32:37.34 [4372:4356:0518/163237.345:ERROR:page_load_metrics_update_dispatcher.cc(165)] Invalid first_paint 1.19 s for first_image_paint 1.163 s
+5월 18, 2020 16:32:38.61 [4372:4356:0518/163238.618:ERROR:page_load_metrics_update_dispatcher.cc(165)] Invalid first_paint 1.19 s for first_image_paint 1.163 s
+5월 18, 2020 16:32:39.82 [4372:4356:0518/163239.825:ERROR:page_load_metrics_update_dispatcher.cc(165)] Invalid first_paint 1.19 s for first_image_paint 1.163 s
