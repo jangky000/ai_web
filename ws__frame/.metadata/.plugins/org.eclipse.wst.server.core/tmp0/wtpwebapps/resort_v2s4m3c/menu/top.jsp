@@ -18,7 +18,8 @@
       <A class='menu_link'  href='${root}/cate/list_all.do'>모든 카테고리</A><span class='top_menu_sep'>&nbsp;</span>
       <A class='menu_link'  href='${root}/contents/list_all.do'>전체글</A><span class='top_menu_sep'>&nbsp;</span>
       <A class='menu_link'  href='${root}/attachfile/list.do'>전체이미지</A><span class='top_menu_sep'>&nbsp;</span>    
-      <A class='menu_link'  href='${root}/member/list.do'>회원목록</A><span class='top_menu_sep'> </span>  
+      <A class='menu_link'  href='${root}/member/list.do'>회원목록</A><span class='top_menu_sep'>&nbsp;</span>  
+      <A class='menu_link'  href='${root}/member/create.do'>회원가입</A><span class='top_menu_sep'>&nbsp;</span>  
           
     </NAV>
   </DIV>

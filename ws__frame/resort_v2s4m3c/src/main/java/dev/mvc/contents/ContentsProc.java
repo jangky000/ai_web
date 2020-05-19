@@ -36,6 +36,21 @@ public class ContentsProc implements ContentsProcInter {
   @Override
   public ContentsVO read(int contentsno) {
     ContentsVO contentsVO = this.contentsDAO.read(contentsno);
+    
+    System.out.println(contentsVO.toString());
+    
+//    if(contentsVO.getWeb() == null) {
+//      System.out.println("web null입니다.");
+//    }
+    
+    // VO에서 private String web = "";  -> web 공백입니다 출력
+    // VO에서 private String web; -> 에러 발생
+    // 그래서 equal로 비교하면 안된다.
+//   if(contentsVO.getWeb().equals("")) {
+//     System.out.println("web 공백입니다.");
+//   }
+    
+    
     String content = contentsVO.getContent();
     content = Tool.convertChar(content);
     contentsVO.setContent(content);

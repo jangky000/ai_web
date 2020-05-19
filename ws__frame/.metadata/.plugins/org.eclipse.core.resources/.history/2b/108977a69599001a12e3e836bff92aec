@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="../../css/style.css" rel="Stylesheet" type="text/css">
+
+<script type="text/javascript">
+function wl(str) {
+  document.writeln(str + '<br>'); // BODY 태그로 출력됨.
+}
+
+// 정규 표현식
+function comma(su) {
+  return su.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+$(function(){
+  //
+});
+</script>
+
+</head>
+<body>
+<DIV class='container'>
+<DIV class='content'>
+성적 처리<br><br>
+
+<form name='frm' id='frm'>
+  성명  : <input type='text' name='name' id='name' value='아로미'> <br>
+  JAVA : <input type='number' name='java' id='java' min='0' max='100' step='1' value='70'> <br>
+  HTML5 : <input type='number' name='html' id='html' min='0' max='100' step='1' value='80'> <br>
+  CSS3 : <input type='number' name='css' min='0' id='css' max='100' step='1' value='90'> <br>
+  <button type="button" id="btn_send">성적 확인</button>
+</form>
+
+<DIV id='panel' class='message' style='text-align: center; display:none; background-color: #FFFFFF; '></DIV>
+ 
+</DIV> <!-- content END -->
+</DIV> <!-- container END -->
+</body>
+</html>

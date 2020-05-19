@@ -1,0 +1,14 @@
+package dev.mvc.porder;
+
+public class PorderVO {
+  /*
+    porderno                         NUMBER(10)     NOT NULL    PRIMARY KEY,
+    rdate                             DATE     NOT NULL,
+    total_price                       NUMBER(10)     DEFAULT 0     NOT NULL,
+    status                            CHAR(1)    NOT NULL,
+    memberno                          NUMBER(10)     NOT NULL,
+ */
+  
+  /**  */
+  private int porderno
+}

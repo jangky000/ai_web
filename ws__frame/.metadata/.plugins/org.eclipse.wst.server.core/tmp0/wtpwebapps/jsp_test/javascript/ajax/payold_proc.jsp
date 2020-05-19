@@ -15,7 +15,7 @@
 <DIV class='container'>
 <DIV class='content'>
  
-<DIV class="title_line" style='width: 30%;'>조회 결과</DIV>
+<DIV class="title_line" style='width: 80%;'>조회 결과</DIV>
  
 <DIV style='width: 50%; margin: 0px auto; background-color: #EEEEEE;'>
   <%

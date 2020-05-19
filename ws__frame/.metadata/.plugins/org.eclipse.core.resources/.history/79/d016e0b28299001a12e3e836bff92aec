@@ -1,0 +1,17 @@
+<%@ page contentType="text/plain; charset=UTF-8" %> 
+ <%@ page import="org.json.JSONObject" %>
+ 
+<%
+Thread.sleep(5000); // 5초
+
+/* 
+{
+"name":"가길동",
+"id":"user1",
+"web":80,
+"data":90
+} 
+*/
+
+%>
+

@@ -21,8 +21,35 @@
   }); 
   
   function send(){
-    var params = $('#frm').serialize();
-    alert('params: '+ params);
+    var params = $('#frm').serialize(); // 직렬화, 폼의 데이터를 가져와 키와 값의 구조로 조합
+    // alert('params: '+ params); // 결과: id=user1&passwd=123
+    // $.ajax(); -> ajax 함수
+    // $.ajax({}); -> 객체를 전달
+    // 제이쿼리는 $로 시작, $ 자체도 함수, $: 스트링
+    $.ajax({
+      url: './pay_proc.jsp',
+      type: 'post', // 또는 get
+      cache: false, // 응답받은 결과를 브라우저 임시 메모리에 저장하지 않음
+      async: true, // true: 비동기 통신
+      dataType: 'html', // 응답 형식: json > html >> xml ... 
+      data: params, // 보내는 데이터
+      success: function(rdata){ // 응답이 온 경우
+        // alert(rdata); // 데이터가 잘 전달되었는지 확인
+        $('#panel').html(rdata); // id가 panel인 태그(ex. div, span... )을 찾아서 rdata를 추가시킴
+      },
+      // Ajax 통신 에러, 응답 코드가 200이 아닌경우에만 작동, 통신에러(?), dataType이 다른경우 
+      error: function(request, status, error) { // callback 함수
+        var msg = 'ERROR<br><br>';
+        msg += '<strong>request.status</strong><br>'+request.status + '<hr>';
+        msg += '<strong>error</strong><br>'+error + '<hr>';
+        console.log(msg);
+      }
+    });
+    
+    //$('#panel').html('급여를 조회 중입니다...'); // show 앞에 있으나 뒤에 있으나 결과는 같음
+    $('#panel').html('<img src="./images/ani.gif" style="width:20%;">');
+    $('#panel').show(); // 숨겨진 태그의 출력 -> display: none;을 display: block;으로 바꿈
+    
   }
   
 </script>
@@ -31,10 +58,9 @@
 <body>
 <DIV class='container'>
 <DIV class='content'>
- 
   <DIV class="title_line" style='width: 50%;'>급여 조회</DIV>
  
-  <DIV id='panel' style='display: none; margin: 10px auto; text-align: center; width: 60%;'></DIV>
+  <DIV id='panel' style='display:none; margin: 10px auto; text-align: center; width: 60%;'></DIV>
  
   <FORM id='frm' name='frm'>
     <TABLE class='table' style='width: 50%; margin: 0px auto;'>

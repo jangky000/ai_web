@@ -105,7 +105,8 @@ VALUES (member_seq.nextval, 'team2', '1234', '웹퍼블리셔팀', '000-0000-0000', '1
  
 INSERT INTO member(memberno, id, passwd, mname, tel, zipcode, address1, address2, mdate)
 VALUES (member_seq.nextval,'team3', '1234', '디자인팀', '000-0000-0000', '12345', '서울시 종로구', '관철동', sysdate);
- 
+
+COMMIT;
  
 2. 목록
 - 검색을 하지 않는 경우, 전체 목록 출력

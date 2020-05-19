@@ -13,4 +13,10 @@ public class MemberProc implements MemberProcInter {
   public MemberProc(){
     System.out.println("--> MemberProc created.");
   }
+
+  @Override
+  public int checkID(String id) {
+    int cnt = this.memberDAO.checkID(id); // id는 Unique로 설정되어 있다.
+    return cnt;
+  }
 }

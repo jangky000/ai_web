@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.porder.PorderDAOInter">
+  <insert id="create" parameterType="ContentsVO">
+    INSERT INTO contents(contentsno, memberno, cateno, title, content, web, ip,
+                                     passwd, word, rdate)
+    VALUES(contents_seq.nextval, #{memberno}, #{cateno}, #{title}, #{content}, #{web}, #{ip},
+                #{passwd}, #{word}, sysdate)
+  </insert>
+</mapper> 

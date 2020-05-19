@@ -1,0 +1,11 @@
+<%@ page contentType="text/plain; charset=UTF-8" %>
+<!-- html 대신 plain 사용 -->
+<%
+Thread.sleep(3000); // 3초
+%>
+<!--  -->
+{
+"name": "가길동",
+"id": "user1",
+
+}

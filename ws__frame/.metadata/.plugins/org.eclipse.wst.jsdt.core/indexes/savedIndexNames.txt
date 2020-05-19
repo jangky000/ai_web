@@ -1,10 +1,5 @@
 INDEX VERSION 1.4+C:\ai6\ws__frame\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-3924203560.index
-2249400052.index
-2795381954.index
-2535063592.index
-496651688.index
 999236366.index
-226307261.index
+1140085111.index
 545389703.index
-3924879159.index
+2795381954.index

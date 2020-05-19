@@ -1,0 +1,6 @@
+package dev.mvc.member;
+
+public interface MemberDAOInter {
+
+  public int checkId(String id);
+}
