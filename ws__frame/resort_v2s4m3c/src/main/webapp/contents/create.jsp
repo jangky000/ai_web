@@ -15,7 +15,14 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
- 
+
+<script type="text/javascript" src="../ckeditor/ckeditor.js"></script>
+
+<script type="text/javascript">
+  $(function() {
+    CKEDITOR.replace('content');  // <TEXTAREA>태그 id 값
+  });
+</script> 
 </head> 
  
 <body>
@@ -28,7 +35,7 @@
     ${categrpVO.name } > ${cateVO.name } > 신규 등록
   </ASIDE>
   <ASIDE style='float: right;'>
-    <A href='./list.do?cateno=${cateVO.cateno }'>목록</A><!-- 또는 param.cateno  -->
+    <A href='./list.do?cateno=${param.cateno }'>목록</A>
     <!-- <span class='menu_divide' >│</span> --> 
   </ASIDE> 
  
@@ -49,7 +56,7 @@
       
       <div class="form-group">   
         <div class="col-md-12">
-          <textarea class="form-control" name='content' id='content' rows='10' placeholder="내용" required="required"></textarea>
+          <textarea class="form-control" name='content' id='content' rows='6' placeholder="내용"></textarea>
         </div>
       </div>
 
@@ -74,7 +81,7 @@
       <DIV class='content_bottom_menu'>
         <button type="submit" class="btn btn-info">등록</button>
         <button type="button" 
-                    onclick="location.href='./list.do?cateno=${cateVO.cateno}'" 
+                    onclick="location.href='./list.do?cateno=${param.cateno}'" 
                     class="btn btn-info">취소[목록]</button>
       </DIV>
        

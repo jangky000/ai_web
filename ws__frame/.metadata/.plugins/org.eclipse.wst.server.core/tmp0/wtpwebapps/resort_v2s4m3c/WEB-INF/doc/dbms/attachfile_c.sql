@@ -9,7 +9,7 @@ CREATE TABLE attachfile(
         fupname                      VARCHAR2(100)         NOT NULL,
         thumb                         VARCHAR2(100)         NULL ,
         fsize                                 NUMBER(10)         DEFAULT 0         NOT NULL,
-    rdate                           DATE     NOT NULL,
+        rdate                           DATE     NOT NULL,
   FOREIGN KEY (contentsno) REFERENCES contents (contentsno)
 );
 
@@ -29,39 +29,20 @@ CREATE SEQUENCE attachfile_seq
   MAXVALUE 9999999999 -- 최대값: 9999999 --> NUMBER(7) 대응
   CACHE 2                       -- 2번은 메모리에서만 계산
   NOCYCLE;                     -- 다시 1부터 생성되는 것을 방지
-
--- 1) 등록 -> 서브 쿼리 사용시 insert가 반복되면 부하가 많이 발생, 단점이 더 많다
-SELECT NVL(MAX(attachfileno), 0) + 1 as attachfileno FROM attachfile;
-
- ATTACHFILENO
- ------------
-            1
-
-SELECT contentsno, memberno, categrpno, title
-FROM contents
-ORDER BY contentsno ASC;
- 
-CONTENTSNO MEMBERNO CATEGRPNO TITLE
- ---------- -------- --------- -----
-          1        1         1 삼양 목장
-
-          
---INSERT INTO attachfile(attachfileno, contentsno, fname, fupname, thumb, fsize, rdate)
---VALUES((SELECT NVL(MAX(attachfileno), 0) + 1 as attachfileno FROM attachfile),
---             1, 'samyang.jpg', 'samyang_1.jpg', 'samyang_t.jpg', 1000, sysdate);
-
+  
+-- 1) 등록
 INSERT INTO attachfile(attachfileno, contentsno, fname, fupname, thumb, fsize, rdate)
 VALUES(attachfile_seq.nextval, 1, 'samyang.jpg', 'samyang_1.jpg', 'samyang_t.jpg', 1000, sysdate);
 
 INSERT INTO attachfile(attachfileno, contentsno, fname, fupname, thumb, fsize, rdate)
-VALUES(attachfile_seq.nextval,1, 'samyang2.jpg', 'samyang2_1.jpg', 'samyang2_t.jpg', 2000, sysdate);
+VALUES(attachfile_seq.nextval, 1, 'samyang2.jpg', 'samyang2_1.jpg', 'samyang2_t.jpg', 2000, sysdate);
              
 INSERT INTO attachfile(attachfileno, contentsno, fname, fupname, thumb, fsize, rdate)
-VALUES(attachfile_seq.nextval, 1, 'samyang3.jpg', 'samyang3_1.jpg', 'samyang3_t.jpg', 3000, sysdate);        
+VALUES(attachfile_seq.nextval,  1, 'samyang3.jpg', 'samyang3_1.jpg', 'samyang3_t.jpg', 3000, sysdate);   
 
 COMMIT;
-      
--- 2) 목록( contentsno 기준 내림 차순, attachfileno 기준 오름차순)
+             
+-- 2) 목록( contentsno 기준 내림 차순, attachfileno 기준 오르차순)
 SELECT attachfileno, contentsno, fname, fupname, thumb, fsize, rdate
 FROM attachfile
 ORDER BY contentsno DESC,  attachfileno ASC;
@@ -72,11 +53,9 @@ ORDER BY contentsno DESC,  attachfileno ASC;
             2          1 samyang2.jpg samyang2_1.jpg samyang2_t.jpg  2000 2019-12-04 14:50:52.0
             3          1 samyang3.jpg samyang3_1.jpg samyang3_t.jpg  3000 2019-12-04 14:50:53.0
 
---
 SELECT attachfileno, fname, fupname, thumb
 FROM attachfile
-ORDER BY contentsno DESC,  attachfileno ASC;
-
+ORDER BY contentsno DESC,  attachfileno ASC;            
 
 -- 3) 글별 파일 목록(contentsno 기준 내림 차순, attachfileno 기준 오르차순)
 SELECT attachfileno, contentsno, fname, fupname, thumb, fsize, rdate
@@ -97,12 +76,12 @@ ORDER BY fname ASC;
             8          1 spring20.jpg spring20.jpg spring20_t.jpg 345322 2019-12-05 09:55:07.0
 
 -- 4) 하나의 파일 삭제
-DELETE FROM attachfile
-WHERE attachfileno = 1;
-
--- 4-1) 모두 삭제
+-- 모두 삭제
 DELETE FROM attachfile;
 COMMIT;
+
+DELETE FROM attachfile
+WHERE attachfileno = 1;
 
 
 -- 5) FK contentsno 부모키 별 조회
@@ -126,14 +105,16 @@ WHERE contentsno=1;
    3             
              
 -- 6) FK 부모 테이블별 레코드 삭제
+-- 모두 삭제
+DELETE FROM attachfile;
+COMMIT;
+
 DELETE FROM attachfile
 WHERE contentsno=1;
 
-(3 rows affected)
-
-
 COMMIT;
-   
+
+  
 -- 7) Contents, Attachfile join
     SELECT c.title, 
                a.attachfileno, a.contentsno, a.fname, a.fupname, a.thumb, a.fsize, a.rdate
@@ -154,3 +135,5 @@ COMMIT;
 SELECT attachfileno, contentsno, fname, fupname, thumb, fsize, rdate
 FROM attachfile
 WHERE attachfileno=1;
+
+

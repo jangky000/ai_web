@@ -2,22 +2,19 @@ package dev.mvc.attachfile;
 
 import java.util.List;
 
-import dev.mvc.cate.CateVO;
-
 public interface AttachfileDAOInter {
-  
   /**
-   * 입력
+   * 파일 등록  
    * @param attachfileVO
    * @return
    */
   public int create(AttachfileVO attachfileVO);
-
+  
   /**
-   * 전체 목록
-   * @return List<AttachfileVO>
+   * 전체 이미지 목록
+   * @return
    */
-  public List<AttachfileVO> list();
+  public List<AttachfileVO> list(); 
   
   /**
    * 조회
@@ -25,11 +22,17 @@ public interface AttachfileDAOInter {
    * @return
    */
   public AttachfileVO read(int attachfileno);
-
+  
   /**
-   * 삭제 처리
+   * 삭제
    * @param attachfileno
    * @return
    */
   public int delete(int attachfileno);
+  
+
 }
+
+
+
+

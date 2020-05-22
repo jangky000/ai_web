@@ -17,8 +17,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload; 
 import org.apache.commons.fileupload.FileUploadException;
 import org.springframework.web.multipart.MultipartFile; 
-
-// 개발자가 개발하지 않는다. 공통 모듈은 받아서 사용한다.
+ 
 /** 
  * HttpServletRequestWrapper 클래스는 HttpServletRequest 
  * 인터페이스를 임시로 구현한 클래스로 개발자가 내부객체인 
@@ -397,7 +396,7 @@ public class Upload extends HttpServletRequestWrapper {
                 // System.out.println("업로드 후 fileName: " + fileName);
                 // System.out.println("업로드 후 serverFullPath: " + serverFullPath);
                 
-                outputStream = new FileOutputStream( serverFullPath ); // 자바 시간에 사용하는 파일 스트림, C#은 언어 자체에서 파일 전송을 지원함
+                outputStream = new FileOutputStream( serverFullPath );
  
                 // 버퍼를 만든다.
                 int readBytes = 0;
@@ -421,3 +420,7 @@ public class Upload extends HttpServletRequestWrapper {
     }
  
 } 
+
+
+
+ 

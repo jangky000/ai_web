@@ -28,13 +28,10 @@ public class CateVO {
   /** 등록된 글 수 */
   private int cnt;
   
-  
-  //기본 생성자
   public CateVO() {
-    // TODO Auto-generated constructor stub
+  
   }
   
-  // 인수 있는 생성자
   public CateVO(int cateno, int categrpno, String name, int seqno, String visible, String rdate, int cnt) {
     this.cateno = cateno;
     this.categrpno = categrpno;
@@ -44,8 +41,6 @@ public class CateVO {
     this.rdate = rdate;
     this.cnt = cnt;
   }
-
-
 
   public int getCateno() {
     return cateno;

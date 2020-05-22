@@ -1,0 +1,13 @@
+package dev.mvc.porder;
+
+public interface PorderDAOInter {
+  
+  /**
+   * <xmp>
+   * 주문 등록
+   * <insert id="create" parameterType="PorderVO">
+   * <xmp>
+   * @return
+   */
+  public int create(PorderVO porderVO);
+}

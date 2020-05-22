@@ -9,4 +9,6 @@
 	<item value="3" key="org.eclipse.wst.jsdt.uiformatter_page.modify_dialog_tab_page.last_focus_index"/>
 	<item value="1" key="org.eclipse.wst.jsdt.uiformatter_page.line_wrapping_tab_page.last_category_index"/>
 	<item value="993" key="org.eclipse.wst.jsdt.uiformatter_pagemodify_dialog.preferred_width"/>
+	<section name="completion_proposal_size">
+	</section>
 </section>

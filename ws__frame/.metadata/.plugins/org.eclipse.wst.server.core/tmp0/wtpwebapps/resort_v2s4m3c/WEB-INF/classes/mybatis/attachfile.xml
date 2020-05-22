@@ -9,24 +9,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     VALUES(attachfile_seq.nextval, #{contentsno}, #{fname}, #{fupname}, #{thumb}, #{fsize}, sysdate)
   </insert>
   
-  <!-- 전체 목록 -->
   <select id="list" resultType="AttachfileVO">
     SELECT attachfileno, contentsno, fname, fupname, thumb, fsize, rdate
     FROM attachfile
     ORDER BY contentsno DESC,  attachfileno ASC
   </select>
   
-  <!-- 조회 -->
+  <delete id="delete" parameterType="int">
+    DELETE FROM attachfile
+    WHERE attachfileno = #{attachfileno}    
+  </delete>
+  
   <select id="read" resultType="AttachfileVO" parameterType="int">
     SELECT attachfileno, contentsno, fname, fupname, thumb, fsize, rdate
     FROM attachfile
-    WHERE attachfileno=#{attachfileno }
+    WHERE attachfileno=#{attachfileno}  
   </select>
-
-  <!-- 삭제 -->
-  <delete id="delete" parameterType="int">
-    DELETE FROM attachfile
-    WHERE attachfileno = #{attachfileno}
-  </delete>
-  
 </mapper> 
+
+
+
+
+
+
+
+
+

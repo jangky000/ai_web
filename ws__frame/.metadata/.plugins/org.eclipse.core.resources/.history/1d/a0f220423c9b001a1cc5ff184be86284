@@ -1,0 +1,53 @@
+package dev.mvc.porder;
+
+import java.util.List;
+
+public interface PorderDAOInter {
+  
+  /**
+   * <xmp>
+   * 주문 등록
+   * <insert id="create" parameterType="PorderVO">
+   * <xmp>
+   * @return
+   */
+  public int create(PorderVO porderVO);
+
+  /**
+   * <xmp>
+   * 주문 목록
+   * <select id="list" resultType="PorderVO">
+   * <xmp>
+   * @return
+   */
+    public List<PorderVO> list();
+    
+    /**
+     * <xmp>
+     * 주문 조회
+     * <select id="read" resultType="PorderVO" parameterType="int">
+     * <xmp>
+     * @return
+     */
+      public PorderVO read(int porderno);
+    
+  <!-- 주문 조회 -->
+  <select id="read" resultType="PorderVO" parameterType="int">
+    SELECT porderno, memberno, rdate, total_price, status
+    FROM porder
+    WHERE porderno = #{porderno}
+  </select>  
+  
+  <!-- 주문 수정 -->
+  <update id="update" parameterType="PorderVO">
+    UPDATE porder
+    SET memberno=1, total_price=1000, status='C'
+    WHERE porderno = #{porderno}
+  </update>
+  
+  <!-- 주문 삭제-->
+  <delete id="delete" parameterType="int">
+    DELETE FROM porder
+    WHERE porderno = #{porderno}
+  </delete>
+}

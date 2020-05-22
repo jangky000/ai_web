@@ -18,6 +18,5 @@ public class Categrp_Cate_VO {
   public void setCateVO(CateVO cateVO) {
     this.cateVO = cateVO;
   }
-
   
 }

@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%-- <%@ page import="dev.mvc.tool.Tool" %> --%>
-
+ 
 <!DOCTYPE html> 
 <html lang="ko"> 
 <head> 
@@ -16,6 +15,14 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="../ckeditor/ckeditor.js"></script>
+
+<script type="text/javascript">
+  $(function() {
+    CKEDITOR.replace('content');  // <TEXTAREA>태그 id 값
+  });
+</script> 
  
 </head> 
  
@@ -28,8 +35,7 @@
 
   <ASIDE style='float: left;'>
     <A href=''>카테고리 그룹</A> > 
-    <A href=''>카테고리</A> >
-    신규 등록
+    <A href=''>카테고리</A> > 수정
   </ASIDE>
   <ASIDE style='float: right;'>
     <A href=''>목록</A>
@@ -39,18 +45,16 @@
   <div class='menu_line'></div>
   <DIV style='width: 100%;'>
     <FORM name='frm' method='POST' action='./update.do' class="form-horizontal">
-      
-    
       <!-- FK memberno 지정 -->
       <input type='hidden' name='memberno' id='memberno' value='1'>
       <!-- FK categrpno 지정 -->
       <input type='hidden' name='cateno' id='cateno' value='${param.cateno }'>
-       
+      
       <input type='hidden' name='contentsno' id='contentsno' value='${contentsVO.contentsno }'>
-       
+      
       <div class="form-group">   
         <div class="col-md-12">
-          <input type='text' class="form-control" name='title' value="${contentsVO.title }" 
+          <input type='text' class="form-control" name='title' value='${contentsVO.title }' 
                     placeholder="제목" required="required" style='width: 80%;' autofocus="autofocus">
         </div>
       </div>   

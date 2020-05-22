@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%-- <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> --%>
  
 <style type="text/css">
 /* fieldset 전체 적용 */
@@ -21,7 +20,7 @@
 }
  
 /* 카테고리 그룹 이름에 적용, Spring에서 사용 */
-.categrp_name{
+.categrp_name {
   margin-left: 5%;
   font-weight: bold;
   list-style-image: url("${pageContext.request.contextPath}/cate/images/categrp.png");
@@ -34,7 +33,7 @@
 }
 </style>
  
-<fieldset class='categrp_category_left' >
+<fieldset class='categrp_cate_left' >
   <DIV>
     ▷
     <A href="${pageContext.request.contextPath}/contents/list_all.do">전체 보기</A>
@@ -47,3 +46,5 @@
   </UL>
 </fieldset>
 <br>
+   
+   

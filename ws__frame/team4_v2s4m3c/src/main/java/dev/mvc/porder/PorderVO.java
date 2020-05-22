@@ -13,20 +13,26 @@ public class PorderVO {
   /** 주문no */
   private int porderno;
   /** 회원번호 */
-  private int rdate;
-  /** 주문날짜 */
-  private int total_price;
-  /** 주문총액 */
-  private int status;
-  /** 주문상태 */
   private int memberno;
+  /** 주문날짜 */
+  private int rdate;
+  /** 주문총액 */
+  private int total_price;
+  /** 주문상태 */
+  private String status;
   
-  // getter / setter
+  //getter / setter
   public int getPorderno() {
     return porderno;
   }
   public void setPorderno(int porderno) {
     this.porderno = porderno;
+  }
+  public int getMemberno() {
+    return memberno;
+  }
+  public void setMemberno(int memberno) {
+    this.memberno = memberno;
   }
   public int getRdate() {
     return rdate;
@@ -40,18 +46,13 @@ public class PorderVO {
   public void setTotal_price(int total_price) {
     this.total_price = total_price;
   }
-  public int getStatus() {
+  public String getStatus() {
     return status;
   }
-  public void setStatus(int status) {
+  public void setStatus(String status) {
     this.status = status;
   }
-  public int getMemberno() {
-    return memberno;
-  }
-  public void setMemberno(int memberno) {
-    this.memberno = memberno;
-  }
-  
+
+ 
   
 }

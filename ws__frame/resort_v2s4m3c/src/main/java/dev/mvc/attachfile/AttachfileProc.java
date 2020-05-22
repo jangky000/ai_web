@@ -6,42 +6,51 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import dev.mvc.cate.CateVO;
+import dev.mvc.contents.ContentsDAOInter;
 
 @Component("dev.mvc.attachfile.AttachfileProc")
 public class AttachfileProc implements AttachfileProcInter {
-  
-  @Autowired
+  @Autowired  // DI, Spring framework이 자동 구현한 DAO가 자동 할당됨.
   private AttachfileDAOInter attachfileDAO;
   
   public AttachfileProc(){
-    System.out.println("--> AttachfileProc created.");
+
   }
 
   @Override
   public int create(AttachfileVO attachfileVO) {
-    int cnt = this.attachfileDAO.create(attachfileVO);
+    int cnt = 0;
+    cnt = this.attachfileDAO.create(attachfileVO);
+    
     return cnt;
   }
 
   @Override
   public List<AttachfileVO> list() {
-    List<AttachfileVO> attachfileVO = null;
-    attachfileVO = this.attachfileDAO.list();
-    return attachfileVO;
-  }
-  
-  @Override
-  public AttachfileVO read(int attachfileno) {
-    AttachfileVO attachfileVO = null;
-    attachfileVO = this.attachfileDAO.read(attachfileno);
-    return attachfileVO;
+    List<AttachfileVO> list = null;
+    list= this.attachfileDAO.list();
+    return list;
   }
 
   @Override
   public int delete(int attachfileno) {
-    int cnt = this.attachfileDAO.delete(attachfileno);
+    int cnt = 0;
+    cnt = this.attachfileDAO.delete(attachfileno);
     return cnt;
+    
+  }
+
+  @Override
+  public AttachfileVO read(int attachfileno) {
+    AttachfileVO attachfileVO =  null;
+    attachfileVO = this.attachfileDAO.read(attachfileno);
+    
+    return attachfileVO;
   }
   
 }
+
+
+
+
+

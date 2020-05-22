@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.porder.PorderDAOInter">
+  <!--  -->
+  <insert id="create" parameterType="PorderVO">
+    INSERT INTO porder(porderno, rdate, total_price, status, memberno)
+    VALUES(porder_seq.nextval, sysdate, #{total_price}, #{status}, #{memberno})
+  </insert>
+  
+  <select id="list" resultType="PorderVO">
+    SELECT porderno, memberno, rdate, total_price, status
+    FROM porder
+    ORDER BY porderno ASC
+  </select>
+
+  <select id="read" resultType="PorderVO" parameterType="int">
+    SELECT porderno, memberno, rdate, total_price, status
+    FROM porder
+    WHERE porderno = #{porderno}
+  </select>  
+  
+  <update id="update" parameterType="PorderVO">
+    UPDATE porder
+    SET memberno=1, total_price=1000, status='C'
+    WHERE porderno = #{porderno}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    DELETE FROM porder
+    WHERE porderno = #{porderno}
+  </delete>
+
+  
+  
+  
+</mapper> 

@@ -75,7 +75,7 @@
   <c:forEach var="categrpVO" items="${list }">  <!-- request 객체에 접근 -->
     <c:set var="categrpno" value="${categrpVO.categrpno}" />
     <TR>
-      <TD class="td_bs">${categrpVO.seqno }[${categrpVO.categrpno }]</TD>
+      <TD class="td_bs">${categrpVO.seqno } [${categrpVO.categrpno}]</TD>
       <TD class="td_bs_left"><A href="../cate/list_join_by_categrpno.do?categrpno=${categrpno }">${categrpVO.name }</A></TD>
       <TD class="td_bs">${categrpVO.rdate.substring(0, 10) }</TD>
       <TD class="td_bs">

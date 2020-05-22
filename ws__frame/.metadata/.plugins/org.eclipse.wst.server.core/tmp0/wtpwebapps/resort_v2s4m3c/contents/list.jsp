@@ -25,13 +25,12 @@
   </DIV>
   
   <ASIDE style='float: left;'>
-    ${categrpVO.name } > ${cateVO.name }
+    ${categrpVO.name } > ${cateVO.name }  
   </ASIDE>
   <ASIDE style='float: right;'>
-    <A href="./create.do?categrpno=${cateVO.categrpno }&cateno=${cateVO.cateno }">등록</A>
-    <span class='top_menu_sep'>&nbsp;</span>
+    <A href="./create.do?cateno=${cateVO.cateno }">등록</A>
+    <span class='top_menu_sep'>&nbsp;</span>    
     <A href="javascript:location.reload();">새로고침</A>
-    <!--  <span class='menu_divide' >│</span> -->
   </ASIDE> 
   <DIV class='menu_line' style='clear: both;'></DIV>
   

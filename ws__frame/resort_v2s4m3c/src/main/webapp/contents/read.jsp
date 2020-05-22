@@ -19,7 +19,6 @@
 
 <body>
 <c:set var="cateno" value="${cateVO.cateno}" />
-<c:set var="cateno" value="${contentsVO.cateno}" />
 <c:set var="contentsno" value="${contentsVO.contentsno }" />
 
 <jsp:include page="/menu/top.jsp" flush='false' />
@@ -31,13 +30,25 @@
     ${categrpVO.name } > ${cateVO.name }
   </ASIDE>
   <ASIDE style='float: right;'>
-    <A href="../attachfile/create.do?cateno=${cateno }&contentsno=${contentsno }">파일 등록</A>
-    <span class='menu_divide' > | </span> 
+    <A href='../attachfile/create.do?contentsno=${contentsno }&cateno=${cateno }'>파일 등록</A>
+    <span class='menu_divide' > | </span>
     <A href="javascript:location.reload();">새로고침</A>
     <span class='menu_divide' > | </span> 
     <A href='./list.do?cateno=${cateno }'>목록</A>
-    <span class='menu_divide' > | </span> 
+    <span class='menu_divide' > | </span>
     <A href='./update.do?cateno=${cateno }&contentsno=${contentsno}'>수정</A>
+    <c:choose>
+      <c:when test="${contentsVO.map.trim().length() > 0 }">
+        <span class='menu_divide' > | </span> 
+        <A href='./map_delete.do?cateno=${cateno }&contentsno=${contentsno}'>지도 삭제</A>     
+      </c:when>
+      <c:otherwise>
+        <span class='menu_divide' > | </span> 
+        <A href='./map_create.do?cateno=${cateno }&contentsno=${contentsno}'>지도 등록</A>     
+      </c:otherwise>
+    
+    </c:choose>
+
     <span class='menu_divide' > | </span> 
     <A href='./delete.do?cateno=${cateno }&contentsno=${contentsno}'>삭제</A>
     
@@ -58,9 +69,15 @@
             <DIV>${contentsVO.content }</DIV>
           </li>
           <li class="li_none">
-            <a href="${contentsVO.web }">${contentsVO.web }</a>
+            ${contentsVO.web }
           </li>
-          
+          <c:if test="${contentsVO.map.trim().length() > 0 }">
+            <li class='li_none' style='clear: both;'>
+              <DIV style='width:640px; height: 380px; margin: 0px auto;'>
+                ${contentsVO.map }
+              </DIV>
+            </li>
+          </c:if>
           <li class="li_none">
             <DIV style='text-decoration: none;'>
               검색어(키워드): ${contentsVO.word } IP: ${contentsVO.ip }

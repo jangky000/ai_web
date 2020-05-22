@@ -1,28 +1,24 @@
 package dev.mvc.cate;
 
 /*
-   SELECT r.categrpno as r_categrpno, r.name as r_name, 
-               c.cateno, c.categrpno, c.name, c.seqno, c.visible, c.rdate, c.cnt
-    FROM categrp r, cate c
+    SELECT r.categrpno as r_categrpno, r.name as r_name,
+               c.cateno, c.categrpno, c.name, c.seqno, c.visible, c.rdate, c.cnt    FROM categrp r, cate c
     WHERE r.categrpno = c.categrpno
-    ORDER BY  c.categrpno ASC, c.seqno ASC
-*/
-
+    ORDER BY r.categrpno ASC, c.seqno ASC
+ */
 public class Categrp_Cate_join {
-  // 부모 칼럼은 이름이 중복되니까 이름을 따로 지정
-  // ------------------------------------------------------------
-  // categrp table
-  // ------------------------------------------------------------
+  // -------------------------------------------------------------------
+  // Categrp table
+  // -------------------------------------------------------------------
   /** 부모 테이블 카테고리 그룹 번호 */
   private int r_categrpno;
   /** 부모 테이블 카테고리 그룹 이름 */
   private String r_name;
-  
-  // 자식 칼럼, 칼럼 이름을 그대로 사용
-  // ------------------------------------------------------------
-  // cate table
-  // ------------------------------------------------------------
   /** 카테고리 번호 */
+  
+  // -------------------------------------------------------------------
+  // Cate table
+  // -------------------------------------------------------------------  
   private int cateno;  
   /** 카테고리 그룹 번호 */
   private int categrpno;
@@ -36,6 +32,7 @@ public class Categrp_Cate_join {
   private String rdate;
   /** 등록된 글 수 */
   private int cnt;
+  
   public int getR_categrpno() {
     return r_categrpno;
   }
@@ -93,3 +90,11 @@ public class Categrp_Cate_join {
   
   
 }
+
+
+
+
+
+
+
+

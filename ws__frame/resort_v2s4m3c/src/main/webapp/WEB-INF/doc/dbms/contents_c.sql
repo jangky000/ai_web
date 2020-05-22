@@ -1,6 +1,7 @@
 /**********************************/
 /* Table Name: 컨텐츠 */
 /**********************************/
+DROP TABLE attachfile;
 DROP TABLE contents;
 CREATE TABLE contents(
 		contentsno                    		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
@@ -71,23 +72,25 @@ VALUES(contents_seq.nextval, 1, 1, '신규확진 1명', '전원 입국검역서 확인', 'http
 INSERT INTO contents(contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate)
 VALUES(contents_seq.nextval, 1, 1, '신규확진 0명', '종식', 'http://www.daum.net',
             '127.0.0.1', '123', '코로나', sysdate);
-            
+
 SELECT contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate
 FROM contents 
 ORDER BY contentsno ASC;    
 
 COMMIT;
 
-2) 전체 목록
+2) 전체목록
 SELECT contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate 
 FROM contents 
 ORDER BY contentsno DESC;
 
-2-1) cateno 별 목록
+2-1) cateno별 목록
 SELECT contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate 
-FROM contents
+FROM contents 
 WHERE cateno = 1
 ORDER BY contentsno DESC;
+
+
 
 3) 1건 조회
 SELECT contentsno, memberno, cateno, title, content, recom, web, ip, passwd, word, rdate 
@@ -95,28 +98,91 @@ FROM contents
 WHERE contentsno = 1;
 
 4) 수정
-UPDATE contents
+UPDATE contents 
 SET title='제목', content='내용', web='http://', word='검색어'
-WHERE contentsno = 1;
-  
-5) 패스워드 검사
-일치하면 1, 일치하지 않으면 0
-SELECT COUNT(*) AS passwd_cnt
-FROM contents
-WHERE contentsno=1 AND passwd=123;
-  
-6) 삭제
-DELETE FROM contents
-WHERE contentsno=1;
+WHERE contentsno = 5;
 
 COMMIT;
 
-7) 모든 레코드 개수
+5) 패스워드 검사
+SELECT COUNT(*) as passwd_cnt
+FROM contents
+WHERE contentsno=5 AND passwd='1234';
+
+SELECT contentsno, passwd
+FROM contents 
+ORDER BY contentsno DESC;    
+
+6) 삭제
+-- 전체 레코드 삭제
+DELETE FROM contents;
+COMMIT;  
+
+DELETE FROM contents
+WHERE contentsno=1;
+
+COMMIT;  
+
+
+7) 모든 레코드 갯수
 SELECT COUNT(*) as cnt
 FROM contents;
  
  COUNT
  -----
-     10
+     5
+     
+8) 특정 회원이 작성한 글만 출력: cate + contents + member
+SELECT c.cateno as c_cateno, c.name as c_name, c.rdate as c_rdate,
+          t.contentsno as t_contentsno, t.title as t_title, t.web as t_web, t.ip as t_ip, t.rdate as t_rdate,
+          m.memberno as m_memberno, m.mname as m_mname          
+FROM cate c, contents t, member m
+WHERE c.cateno = t.cateno AND t.memberno = m.memberno AND m.memberno = 1
+ORDER BY c.cateno ASC, t.contentsno DESC;
 
+-- ANSI
+SELECT c.cateno as c_cateno, c.name as c_name, c.rdate as c_rdate,
+          t.contentsno as t_contentsno, t.title as t_title, t.web as t_web, t.ip as t_ip, t.rdate as t_rdate,
+          m.memberno as m_memberno, m.mname as m_mname          
+FROM cate c
+INNER JOIN contents t
+ON c.cateno = c.cateno
+INNER JOIN member m
+ON t.memberno = m.memberno
+WHERE m.memberno = 1
+ORDER BY c.cateno ASC, t.contentsno DESC;
 
+-- 특정 회원의 글 출력을 위한 cate, contents join
+SELECT c.cateno as c_cateno, c.name as c_name, c.rdate as c_rdate,
+          t.contentsno as t_contentsno, t.title as t_title, t.web as t_web, t.ip as t_ip, t.rdate as t_rdate        
+FROM cate c, contents t, member m
+WHERE c.cateno = t.cateno AND t.memberno = m.memberno AND m.memberno = 1
+ORDER BY c.cateno ASC, t.contentsno DESC;
+
+9) map
+-- map                           		VARCHAR2(1000)		 NULL ,
+UPDATE contents
+SET map='고창 보리밭 축제'
+WHERE contentsno=1; 
+  
+SELECT contentsno, memberno, cateno, web, map
+FROM contents 
+ORDER BY contentsno ASC;    
+  
+  
+  
+select * from sql1;
+        N1 V1 
+---------- ---
+         1 A  
+         2    
+         3 B  
+insert into sql1(n1, v1) values(5, "C");
+오류 발생 명령행: 176 열: 36
+오류 보고 -
+SQL 오류: ORA-00984: column not allowed here
+00984. 00000 -  "column not allowed here"
+*Cause:    
+*Action:
+insert into sql1(n1, v1) values(5, 'C');
+  

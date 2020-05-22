@@ -45,7 +45,7 @@
         <c:if test="${cnt != 1 }">
           <button type='button' onclick="history.back()">다시 시도</button>
         </c:if>
-        <button type='button' onclick="location.href='./list.do'">목록</button>
+        <button type='button' onclick="location.href='./list_all.do'">목록</button>
       </LI>
     </UL>
   </fieldset>

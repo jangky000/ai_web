@@ -25,7 +25,7 @@ public class CateCont {
   @Autowired
   @Qualifier("dev.mvc.cate.CateProc")
   private CateProcInter cateProc;
-  
+
   @Autowired
   @Qualifier("dev.mvc.contents.ContentsProc")
   private ContentsProcInter contentsProc;
@@ -60,7 +60,7 @@ public class CateCont {
     int cnt = this.cateProc.create(cateVO);
     mav.addObject("cnt", cnt); // request에 저장
     
-    CategrpVO categrpVO = this.categrpProc.read( cateVO.getCategrpno() );
+    CategrpVO categrpVO = this.categrpProc.read(cateVO.getCategrpno());
     mav.addObject("categrpVO", categrpVO);
     
     if (cnt == 1) {
@@ -88,8 +88,8 @@ public class CateCont {
     mav.setViewName("/cate/list"); // webapp/cate/list.jsp
     return mav;
   }
- 
-  //http://localhost:9090/resort/cate/list_join.do
+
+  // http://localhost:9090/resort/cate/list_join.do
   /**
    * categrp + cate join 전체 목록
    * @return
@@ -105,17 +105,15 @@ public class CateCont {
     return mav;
   }
   
-//http://localhost:9090/resort/cate/list_join_by_categrpno.do
+  // http://localhost:9090/resort/cate/list_join_by_categrpno.do
   /**
-   * categrpno별 cate 목록: categrp + cate join 전체 목록
+   * categrp + cate join 전체 목록
    * @return
    */
   @RequestMapping(value="/cate/list_join_by_categrpno.do", method=RequestMethod.GET )
   public ModelAndView list_join_by_categrpno(int categrpno) {
     ModelAndView mav = new ModelAndView();
     
-    // 단점: join 결과가 없으면 부모 테이블의 categrpname을 가져올 수 없음
-    // 그래서 다시 read를 호출하면, 컴퓨팅 자원을 낭비
     CategrpVO categrpVO = this.categrpProc.read(categrpno);
     mav.addObject("categrpVO", categrpVO);
     
@@ -126,39 +124,39 @@ public class CateCont {
     return mav;
   }
   
- //http://localhost:9090/resort/cate/list_all.do
- /**
-  * categrp + cate join 전체 목록
-  * @return
-  */
- @RequestMapping(value="/cate/list_all.do", method=RequestMethod.GET )
- public ModelAndView list_all() {
-   ModelAndView mav = new ModelAndView();
-   
-   List<Categrp_Cate_VO> list = this.cateProc.list_all();
-   mav.addObject("list", list); // request.setAttribute("list", list);
+  // http://localhost:9090/resort/cate/list_all.do
+  /**
+   * categrp + cate join 전체 목록
+   * @return
+   */
+  @RequestMapping(value="/cate/list_all.do", method=RequestMethod.GET )
+  public ModelAndView list_all() {
+    ModelAndView mav = new ModelAndView();
+    
+    List<Categrp_Cate_VO> list = this.cateProc.list_all();
+    mav.addObject("list", list); // request.setAttribute("list", list);
 
-   mav.setViewName("/cate/list_all"); // webapp/cate/list_all.jsp
-   return mav;
- }
- 
-//http://localhost:9090/resort/cate/list_by_categrpno.do
-/**
- * categrp + cate join -> categrpno별 목록
- * @return
- */
-@RequestMapping(value="/cate/list_by_categrpno.do", method=RequestMethod.GET )
-public ModelAndView list_by_categrpno(int categrpno) {
-  ModelAndView mav = new ModelAndView();
+    mav.setViewName("/cate/list_all"); // webapp/cate/list_all.jsp
+    return mav;
+  }
+
+  // http://localhost:9090/resort/cate/list_by_categrpno.do
+  /**
+   * categrp + cate join categrpno 별 목록
+   * @return
+   */
+  @RequestMapping(value="/cate/list_by_categrpno.do", method=RequestMethod.GET )
+  public ModelAndView list_by_categrpno(int categrpno) {
+    ModelAndView mav = new ModelAndView();
+    
+    // List<Categrp_Cate_VO_list> 아님
+    Categrp_Cate_VO_list list = this.cateProc.list_by_categrpno(categrpno);
+    mav.addObject("list", list); // request.setAttribute("list", list);
+
+    mav.setViewName("/cate/list_by_categrpno"); // webapp/cate/list_by_categrpno.jsp
+    return mav;
+  }
   
-  // List<Categrp_Cate_VO_list> list 아님
-  Categrp_Cate_VO_list list = this.cateProc.list_by_categrpno(categrpno);
-  mav.addObject("list", list); // request.setAttribute("list", list);
-
-  mav.setViewName("/cate/list_by_categrpno"); // webapp/cate/list_by_categrpno.jsp
-  return mav;
-}
- 
   // http://localhost:9090/resort/cate/read_update.do
   /**
    * 조회 + 수정폼
@@ -295,7 +293,7 @@ public ModelAndView list_by_categrpno(int categrpno) {
     
     int cnt = this.cateProc.update_visible(cateVO);
     
-    if (cnt == 1) {
+    if (cnt == 0) {
       mav.setViewName("redirect:/cate/list_all.do"); // request 객체가 전달이 안됨. 
     } else {
       String name = this.cateProc.read(cateVO.getCateno()).getName();
@@ -322,48 +320,43 @@ public ModelAndView list_by_categrpno(int categrpno) {
    // Categrp: name, Cate: name 결합 목록
    ArrayList<String> name_title_list = new ArrayList<String>();   
    
-   // 스트링 대신 
-   // 스트링 버퍼를 사용함으로 문자열 결합 처리 속도를 개선
    StringBuffer url = new StringBuffer(); // 카테고리 제목 링크 조합
  
-   // 카테고리 그룹 갯수만큼 순환
+   // 카테고리 그룹 갯수 만큼 순환
    for (int index = 0; index < categrp_list.size(); index++) {
      CategrpVO categrpVO = categrp_list.get(index); // 하나의 카테고리 그룹 추출
  
      name_title_list.add("<LI class='categrp_name'>"+ categrpVO.getName() + "</LI>");
- 
-     List<Categrp_Cate_join> cate_list = cateProc.list_join_by_categrpno(categrpVO.getCategrpno()); // 카테고리 Join 목록
+
+     // 카테고리 Join 목록
+     List<Categrp_Cate_join> cate_list = cateProc.list_join_by_categrpno(categrpVO.getCategrpno()); 
      
      // 카테고리 갯수만큼 순환
      for (int j=0; j < cate_list.size(); j++) {
-       Categrp_Cate_join Categrp_Cate_join = cate_list.get(j);
+       Categrp_Cate_join categrp_Cate_join = cate_list.get(j);
        
-       String name = Categrp_Cate_join.getName(); // 카테고리 이름
-       int cnt = Categrp_Cate_join.getCnt();
+       String name = categrp_Cate_join.getName(); // 카테고리 이름
+       int cnt = categrp_Cate_join.getCnt();
        
        url.append("<LI class='cate_name'>");
-       url.append("  <A href='" + request.getContextPath()+ "/contents/list.do?cateno="+Categrp_Cate_join.getCateno()+"'>");
+       url.append("  <A href='" + request.getContextPath()+ "/contents/list.do?cateno="+categrp_Cate_join.getCateno()+"'>");
        url.append(name);
        url.append("  </A>");
        url.append("  <span style='font-size: 0.9em; color: #555555;'>("+cnt+")</span>");
        url.append("</LI>");
        name_title_list.add(url.toString()); // 출력 목록에 하나의 cate 추가 
        
-       // 버퍼 초기화
-       url.delete(0, url.toString().length()); // StringBuffer 문자열 전체 삭제( 0부터 문자열의 길이만큼 삭제)
+       url.delete(0, url.toString().length()); // 새로운 카테고리 목록을 구성하기위해 StringBuffer 문자열 삭제
        
      }
    }
    
    mav.addObject("name_title_list", name_title_list);
-   
-   // 하위 자식 테이블의 레코드 개수를 request 객체에 저장
-   // 특이하게, 자식 proc를 호출 (특이 케이스, 또 다른 예시: 삭제 시 자식 테이블의 내용을 삭제할 때)
-   // (보통은 자식이 부모 proc를 호출)
    mav.addObject("total_count", contentsProc.total_count());
    
    return mav;
  } 
+  
   
 }
 

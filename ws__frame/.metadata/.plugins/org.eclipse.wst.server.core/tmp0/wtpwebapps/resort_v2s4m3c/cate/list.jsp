@@ -61,8 +61,8 @@
   
 <TABLE class='table table-striped'>
   <colgroup>
-    <col style="width: 10%;"/>
     <col style='width: 5%;'/>
+    <col style="width: 10%;"/>
     <col style='width: 30%;'/>
     <col style='width: 20%;'/>
     <col style='width: 10%;'/>
@@ -105,7 +105,7 @@
         <A href="./read_update.do?cateno=${cateno }"><span class="glyphicon glyphicon-pencil"></span></A>
         <A href="./read_delete.do?cateno=${cateno }"><span class="glyphicon glyphicon-trash"></span></A>
         <A href="./update_seqno_up.do?cateno=${cateno }"><span class="glyphicon glyphicon-arrow-up"></span></A>
-        <A href="./update_seqno_down.do?cateno=${cateno }"><span class="glyphicon glyphicon-arrow-down"></span></span></A>         
+        <A href="./update_seqno_down.do?cateno=${cateno }"><span class="glyphicon glyphicon-arrow-down"></span></A>         
       </TD>             
     </TR>
   </c:forEach>

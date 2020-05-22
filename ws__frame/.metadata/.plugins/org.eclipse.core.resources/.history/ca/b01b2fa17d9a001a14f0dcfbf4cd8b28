@@ -1,0 +1,10 @@
+package dev.mvc.porder;
+
+public interface PorderDAOInter {
+  <insert id="create" parameterType="PorderVO">
+  /**
+   * 
+   * @return
+   */
+  public int create();
+}

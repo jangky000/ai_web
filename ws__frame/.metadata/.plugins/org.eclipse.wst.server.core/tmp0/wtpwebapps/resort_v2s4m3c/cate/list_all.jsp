@@ -28,7 +28,7 @@
  
   <DIV class='title_line'>
     <A href="../categrp/list.do">카테고리 그룹</A> > 
-    <A href="./list_all.do">모든 카테고리</A>
+    <A href="./list.do">모든 카테고리</A>
   </DIV>
  
   <DIV id='panel_create' style='padding: 10px 0px 10px 0px; background-color: #F9F9F9; width: 100%; text-align: center;'>
@@ -61,8 +61,8 @@
   
 <TABLE class='table table-striped'>
   <colgroup>
-    <col style="width: 10%;"/>
     <col style='width: 5%;'/>
+    <col style="width: 10%;"/>
     <col style='width: 30%;'/>
     <col style='width: 20%;'/>
     <col style='width: 10%;'/>
@@ -90,7 +90,7 @@
     <c:set var="name" value="${categrp_Cate_VO.cateVO.name}" />
     <c:set var="rdate" value="${categrp_Cate_VO.cateVO.rdate}" />
     <c:set var="visible" value="${categrp_Cate_VO.cateVO.visible}" />
-    <c:set var="cnt" value="${categrp_Cate_VO.cateVO.cnt}" />
+    
     <TR>
       <TD class="td_bs">${categrp_name }</TD>
       <TD class="td_bs">${seqno }</TD>

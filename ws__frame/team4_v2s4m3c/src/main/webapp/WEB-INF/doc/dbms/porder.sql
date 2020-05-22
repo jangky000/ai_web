@@ -84,10 +84,17 @@ CREATE SEQUENCE porder_seq
 -- C: complete
 INSERT INTO porder(porderno, memberno, rdate, total_price, status)
 VALUES(porder_seq.nextval, 1, sysdate, 1000, 'R');
+INSERT INTO porder(porderno, memberno, rdate, total_price, status)
+VALUES(porder_seq.nextval, 1, sysdate, 2000, 'R');
+INSERT INTO porder(porderno, memberno, rdate, total_price, status)
+VALUES(porder_seq.nextval, 1, sysdate, 3000, 'R');
+
+COMMIT;
 
 -- LIST
 SELECT porderno, memberno, rdate, total_price, status
-FROM porder;
+FROM porder
+ORDER BY porderno ASC;
 
 --READ
 SELECT porderno, memberno, rdate, total_price, status
@@ -101,7 +108,7 @@ WHERE porderno = 1;
 
 -- Delete
 DELETE FROM porder
-WHERE porderno=1;
+WHERE porderno=3;
 
 -- ½ÃÄö½º È®ÀÎ
 SELECT *

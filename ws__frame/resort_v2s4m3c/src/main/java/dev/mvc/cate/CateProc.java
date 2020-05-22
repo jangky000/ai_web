@@ -88,26 +88,32 @@ public class CateProc implements CateProcInter {
   @Override
   public List<Categrp_Cate_VO> list_all() {
     List<Categrp_Cate_VO> list_all = this.cateDAO.list_all();
+    
     return list_all;
   }
 
   @Override
   public Categrp_Cate_VO_list list_by_categrpno(int categrpno) {
     Categrp_Cate_VO_list list = this.cateDAO.list_by_categrpno(categrpno);
+    
     return list;
   }
 
   @Override
   public int increaseCnt(int cateno) {
-    int cnt = this.cateDAO.increaseCnt(cateno);
+    int cnt = 0;
+    cnt = this.cateDAO.increaseCnt(cateno);
     return cnt;
   }
 
   @Override
   public int decreaseCnt(int cateno) {
-    int cnt = this.cateDAO.decreaseCnt(cateno);
+    int cnt = 0;
+    cnt = this.cateDAO.decreaseCnt(cateno);
     return cnt;
   }
+
+  
 }
 
 

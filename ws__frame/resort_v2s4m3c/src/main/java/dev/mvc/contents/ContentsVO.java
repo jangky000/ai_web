@@ -37,8 +37,10 @@ public class ContentsVO {
   /** 추천수 */
   private int recom;
   /** 인터넷 주소*/
-  private String web;            // oracle에 null로 저장
-  // private String web = ""; // oracle에 null로 저장
+  // private String web
+  private String web;
+  /** Map, 지도 */
+  private String map;  
   /** IP */
   private String ip;
   /** 패스워드 */
@@ -82,7 +84,7 @@ public class ContentsVO {
     return web;
   }
   public void setWeb(String web) {
-    System.out.println(web+" 저장됨");
+    System.out.println(web + " 저장됨");
     this.web = web;
   }
   public String getIp() {
@@ -116,6 +118,20 @@ public class ContentsVO {
     this.recom = recom;
   }
   
+  public String getMap() {
+    return map;
+  }
+  public void setMap(String map) {
+    this.map = map;
+  }
+
+  @Override
+  public String toString() {
+    return "ContentsVO [contentsno=" + contentsno + ", memberno=" + memberno + ", cateno=" + cateno + ", title=" + title
+        + ", content=" + content + ", recom=" + recom + ", web=" + web + ", ip=" + ip + ", passwd=" + passwd + ", word="
+        + word + ", rdate=" + rdate + "]";
+  }
+
   
 }
 

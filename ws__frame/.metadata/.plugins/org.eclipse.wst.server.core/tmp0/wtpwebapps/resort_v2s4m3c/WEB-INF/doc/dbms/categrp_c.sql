@@ -1,7 +1,6 @@
 /**********************************/
 /* Table Name: 카테고리 그룹 */
 /**********************************/
-
 DROP TABLE attachfile;
 DROP TABLE contents;
 DROP TABLE cate;

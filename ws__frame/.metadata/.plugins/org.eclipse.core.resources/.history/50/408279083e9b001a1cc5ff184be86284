@@ -1,0 +1,59 @@
+package dev.mvc.porder;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+
+@Controller
+public class PorderCont {
+  
+  @Autowired
+  @Qualifier("dev.mvc.porder.PorderProc")
+  private PorderProcInter PorderProc;
+
+  public PorderCont() {
+    System.out.println("--> PorderCont created.");
+  }
+  
+  //http://localhost:9090/team4/porder/create.do
+  /**
+   * 등록 폼
+   * @return
+   */
+  @RequestMapping(value="/porder/create.do", method=RequestMethod.GET )
+  public ModelAndView create() {
+    ModelAndView mav = new ModelAndView();
+    mav.setViewName("/porder/create"); // webapp/porder/create.jsp
+    return mav;
+  }
+  
+//http://localhost:9090/team4/porder/create.do
+ /**
+  * 등록 처리
+  * @param porderVO
+  * @return
+  */
+ @RequestMapping(value="/porder/create.do", method=RequestMethod.POST )
+ public ModelAndView create(PorderVO porderVO) {
+   ModelAndView mav = new ModelAndView();
+   
+   int cnt = this.cateProc.create(cateVO);
+   mav.addObject("cnt", cnt); // request에 저장
+   
+   CategrpVO categrpVO = this.categrpProc.read( cateVO.getCategrpno() );
+   mav.addObject("categrpVO", categrpVO);
+   
+   if (cnt == 1) {
+     mav.setViewName("/cate/create_msg"); // webapp/cate/create_msg.jsp
+     // mav.setViewName("redirect:/cate/list.do"); // spring 재호출
+   } else { 
+     mav.setViewName("/cate/create_msg"); // webapp/cate/create_msg.jsp
+   }
+   
+   return mav;
+ }
+}

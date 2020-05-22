@@ -14,19 +14,17 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
 <script type="text/javascript">
-function delete_file(attachfileno){
-  var sw = confirm("파일을 삭제하시겠습니까?");
-  if(sw == true){
-    // location.href: 주소 바꿔라
-    location.href="./delete.do?attachfileno="+ attachfileno;
-  } else{
-    alert('파일 삭제를 취소합니다.');
+  function delete_file(attachfileno) {
+    var sw = confirm("파일을 삭제 하시겠습니까?");
+    if (sw == true) {
+      location.href="./delete.do?attachfileno=" + attachfileno;
+    } else {
+      alert('파일 삭제를 취소합니다.');
+    }
   }
-}
 </script>
-
+ 
 </head>
  
 <body>
@@ -52,7 +50,7 @@ function delete_file(attachfileno){
         <col style="width: 15%;"></col>
         <col style="width: 15%;"></col>
         <col style="width: 15%;"></col>
-        <col style="width: 15%;"></col>
+        <col style="width: 15%;"></col>        
         <col style="width: 15%;"></col>
         <col style="width: 15%;"></col>
         
@@ -60,7 +58,7 @@ function delete_file(attachfileno){
       <%-- table 컬럼 --%>
       <thead>
         <tr>
-        <th style='text-align: center;'>NO</th>
+          <th style='text-align: center;'>NO</th>
           <th style='text-align: center;'>파일</th>
           <th style='text-align: center;'>원본<br>파일명</th>
           <th style='text-align: center;'>저장<br>파일명</th>
@@ -77,21 +75,21 @@ function delete_file(attachfileno){
           <c:set var="contentsno" value="${attachfileVO.contentsno }" />
           <c:set var="fname" value="${attachfileVO.fname.toLowerCase() }" />
           
-          <tr>
-            <td style='text-align: center; vertical-align: middle;'>${attachfileVO.attachfileno }</td>
-            <td style='text-align: center; vertical-align: middle;'>
+          <tr> 
+            <td style='vertical-align: middle; text-align: center;'>${attachfileVO.attachfileno }</td>
+            <td style='vertical-align: middle; text-align: center;'>
               <c:choose>
                 <c:when test="${fname.endsWith('jpg') || fname.endsWith('png') || fname.endsWith('gif')}">
-                  <IMG src="./storage/${attachfileVO.thumb }">
+                  <IMG src="./storage/${attachfileVO.thumb }"> 
                 </c:when>
-                <c:otherwise><!-- 이미지가 아닌 일반 파일(txt 등) -->
+                <c:otherwise> <!-- 이미지가 아닌 일반 파일 -->
                   ${attachfileVO.fname}
                 </c:otherwise>
               </c:choose>
-            </td>
-            <td style='text-align: center; vertical-align: middle;'>${attachfileVO.fname }</td>
-            <td style='text-align: center; vertical-align: middle;'>${attachfileVO.fupname }</td>
-            <td style='text-align: center; vertical-align: middle;'>${attachfileVO.thumb }</td>
+            </td> 
+            <td style='text-align: center; vertical-align: middle;'>${attachfileVO.fname}</td>
+            <td style='text-align: center; vertical-align: middle;'>${attachfileVO.fupname}</td>
+            <td style='text-align: center; vertical-align: middle;'>${attachfileVO.thumb}</td>
             <td style='text-align: center; vertical-align: middle;'>${attachfileVO.rdate.substring(0, 10)}</td>
             <td style='text-align: center; vertical-align: middle;'>
               <%-- <a href="./delete.do?attachfileno=${attachfileVO.attachfileno}"><img src="./images/delete.png" title="삭제"  border='0' /></a> --%>
@@ -109,3 +107,4 @@ function delete_file(attachfileno){
 </body>
  
 </html>
+  

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.porder.PorderDAOInter">
+  <insert id="create" parameterType="PorderVO">
+    INSERT INTO porder(porderno, rdate, total_price, status, memberno)
+    VALUES(porder_seq.nextval, sysdate, #{total_price}, #{status}, #{memberno})
+  </insert>
+  
+</mapper> 

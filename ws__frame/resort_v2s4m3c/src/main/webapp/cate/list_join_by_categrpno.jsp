@@ -38,7 +38,7 @@
     <!--  <span class='menu_divide' >│</span> -->
   </ASIDE> 
   <DIV class='menu_line' style='clear: both;'></DIV>
- 
+   
   <DIV id='panel_create' style='padding: 10px 0px 10px 0px; background-color: #F9F9F9; width: 100%; text-align: center;'>
     <FORM name='frm_create' id='frm_create' method='POST' 
                 action='./create.do'>
@@ -69,9 +69,9 @@
   
 <TABLE class='table table-striped'>
   <colgroup>
+    <col style='width: 10%;'/>
     <col style="width: 10%;"/>
-    <col style='width: 5%;'/>
-    <col style='width: 30%;'/>
+    <col style='width: 20%;'/>
     <col style='width: 20%;'/>
     <col style='width: 10%;'/>
     <col style='width: 5%;'/>        
@@ -99,6 +99,7 @@
     <c:set var="rdate" value="${categrp_Cate_join.rdate}" />
     <c:set var="visible" value="${categrp_Cate_join.visible}" />
     <c:set var="cnt" value="${categrp_Cate_join.cnt}" />
+    
     <TR>
       <TD class="td_bs">${categrp_name }</TD>
       <TD class="td_bs">${seqno }</TD>

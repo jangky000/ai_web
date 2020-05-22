@@ -28,12 +28,10 @@ public class AttachfileVO {
   /** 등록일 */
   private String rdate;
   
-  // 컬럼에 없는 필드를 필요에 따라 명시
-  // 여러 파일 업로드
   /** Form의 파일을 MultipartFile로 변환하여 List에 저장  */
   private List<MultipartFile> fnamesMF;
   
-  // private MultipartFile fnamesMF;  // 하나의 파일 처리 -> contents에서 함
+  // private MultipartFile fnamesMF;  // 하나의 파일 처리
   /** 파일 단위 출력 */
   private String flabel;   
   
@@ -93,3 +91,4 @@ public class AttachfileVO {
   }  
     
 }
+

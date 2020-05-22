@@ -81,7 +81,6 @@ public class Tool {
    * @param height  생성될 이미지 높이, ImageUtil.RATIO는 자동 비례 비율
    * @return src.jpg 파일을 이용하여 src_t.jpg 파일을 생성하여 파일명 리턴
    */
-  // src: 원본 소스, _src: 어떤 처리가 된 src, _src_: ...
   public static synchronized String preview(String upDir, String _src, int width,
       int height) {
     int RATIO = 0;

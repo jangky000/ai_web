@@ -18,12 +18,11 @@ public class CategrpVO {
   private String visible;
   /** 등록일 */
   private String rdate;
- 
-  // 기본 생성자
+  
   public CategrpVO() {
+
   }
   
-  // 필드가 있는 생성자(source > generate ... with fields)
   public CategrpVO(int categrpno, String name, int seqno, String visible, String rdate) {
     this.categrpno = categrpno;
     this.name = name;
@@ -31,8 +30,6 @@ public class CategrpVO {
     this.visible = visible;
     this.rdate = rdate;
   }
-
-
 
   public String getName() {
     return name;

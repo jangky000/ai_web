@@ -34,7 +34,7 @@
   <div class='menu_line'></div>
   <DIV style='width: 100%;'>
     <FORM name='frm' method='POST' action='./create.do' 
-               enctype="multipart/form-data" class="form-horizontal">
+                enctype="multipart/form-data" class="form-horizontal">
                
       <!-- FK cateno 지정 -->
       <input type='hidden' name='cateno' id='cateno' value='${param.cateno }'>
@@ -62,3 +62,5 @@
 </body>
  
 </html>
+
+
