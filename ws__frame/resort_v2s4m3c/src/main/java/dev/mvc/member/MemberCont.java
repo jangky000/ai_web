@@ -76,6 +76,10 @@ public class MemberCont {
     return mav;
   }
   
+  /**
+   * 리스트
+   * @return
+   */
   @RequestMapping(value="/member/list.do", method=RequestMethod.GET)
   public ModelAndView list(){
     ModelAndView mav = new ModelAndView();
@@ -168,7 +172,7 @@ public class MemberCont {
    * @return
    */
   @RequestMapping(value="/member/msg.do", method=RequestMethod.GET)
-  public ModelAndView delete_msg(String url){
+  public ModelAndView msg(String url){
     ModelAndView mav = new ModelAndView();
     
     // 등록 처리 메시지: create_msg --> /member/create_msg.jsp

@@ -9,12 +9,16 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="passwd" key="selection"/>
+		<item value="list" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="list"/>
+			<item value="mp3"/>
+			<item value="메시지"/>
+			<item value="hidden"/>
 			<item value="passwd"/>
 			<item value="passwe"/>
 			<item value="system"/>
@@ -26,10 +30,6 @@
 			<item value=":"/>
 			<item value="read"/>
 			<item value="top_menu_sep"/>
-			<item value="top_menu_ser"/>
-			<item value="top_menu_seq"/>
-			<item value="top_menu"/>
-			<item value="cateVO"/>
 		</list>
 		<list key="replacehistory">
 			<item value="categrp_Cate_VO"/>

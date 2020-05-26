@@ -10,6 +10,7 @@ import dev.mvc.contents.ContentsDAOInter;
 
 @Component("dev.mvc.attachfile.AttachfileProc")
 public class AttachfileProc implements AttachfileProcInter {
+  
   @Autowired  // DI, Spring framework이 자동 구현한 DAO가 자동 할당됨.
   private AttachfileDAOInter attachfileDAO;
   
@@ -46,6 +47,13 @@ public class AttachfileProc implements AttachfileProcInter {
     attachfileVO = this.attachfileDAO.read(attachfileno);
     
     return attachfileVO;
+  }
+
+  @Override
+  public List<AttachfileVO> list_by_contentsno(int contentsno) {
+    List<AttachfileVO> list = this.attachfileDAO.list_by_contentsno(contentsno);
+    
+    return list;
   }
   
 }

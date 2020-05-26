@@ -88,7 +88,36 @@ public interface ContentsProcInter {
    */
   public int map(HashMap hashMap);
 
+
+  /**
+   * <xmp>
+   * Youtube 등록, 수정, 삭제
+   * <update id="youtube" parameterType="HashMap">
+   * </xmp>
+   * @param hashMap
+   * @return
+   */
+  public int youtube(HashMap hashMap);
   
+  /**
+   * <xmp>
+   * MP3 등록, 수정, 삭제
+   * <update id="mp3" parameterType="HashMap">
+   * </xmp>
+   * @param hashMap
+   * @return
+   */
+  public int mp3(HashMap hashMap);
+  
+  /**
+   * <xmp>
+   * MP4 등록, 수정, 삭제
+   * <update id="mp4" parameterType="HashMap">
+   * </xmp>
+   * @param hashMap
+   * @return
+   */
+  public int mp4(HashMap hashMap);
 }
 
 

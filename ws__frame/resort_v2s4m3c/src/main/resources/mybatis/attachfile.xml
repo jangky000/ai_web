@@ -25,6 +25,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     FROM attachfile
     WHERE attachfileno=#{attachfileno}  
   </select>
+  
+  <select id="list_by_contentsno" resultType="AttachfileVO" parameterType="int">
+    SELECT attachfileno, contentsno, fname, fupname, thumb, fsize, rdate
+    FROM attachfile
+    WHERE contentsno=#{contentsno}  
+  </select>
+  
 </mapper> 
 
 

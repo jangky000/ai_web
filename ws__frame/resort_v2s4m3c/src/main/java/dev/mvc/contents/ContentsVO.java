@@ -1,5 +1,7 @@
 package dev.mvc.contents;
 
+import org.springframework.web.multipart.MultipartFile;
+
 /*
     contentsno                        NUMBER(10)     NOT NULL    PRIMARY KEY,
     memberno                          NUMBER(10)   NOT NULL ,
@@ -41,6 +43,16 @@ public class ContentsVO {
   private String web;
   /** Map, 지도 */
   private String map;  
+  /** Youtube */
+  private String youtube;
+  /** mp3 */
+  private String mp3;
+  /** MP3 Spring*/
+  private MultipartFile mp3MF;
+  /** mp4 */
+  private String mp4;
+  /** MP4 Spring*/
+  private MultipartFile mp4MF;
   /** IP */
   private String ip;
   /** 패스워드 */
@@ -130,6 +142,36 @@ public class ContentsVO {
     return "ContentsVO [contentsno=" + contentsno + ", memberno=" + memberno + ", cateno=" + cateno + ", title=" + title
         + ", content=" + content + ", recom=" + recom + ", web=" + web + ", ip=" + ip + ", passwd=" + passwd + ", word="
         + word + ", rdate=" + rdate + "]";
+  }
+  public String getYoutube() {
+    return youtube;
+  }
+  public void setYoutube(String youtube) {
+    this.youtube = youtube;
+  }
+  public String getMp3() {
+    return mp3;
+  }
+  public void setMp3(String mp3) {
+    this.mp3 = mp3;
+  }
+  public String getMp4() {
+    return mp4;
+  }
+  public void setMp4(String mp4) {
+    this.mp4 = mp4;
+  }
+  public MultipartFile getMp3MF() {
+    return mp3MF;
+  }
+  public void setMp3MF(MultipartFile mp3mf) {
+    mp3MF = mp3mf;
+  }
+  public MultipartFile getMp4MF() {
+    return mp4MF;
+  }
+  public void setMp4MF(MultipartFile mp4mf) {
+    mp4MF = mp4mf;
   }
 
   

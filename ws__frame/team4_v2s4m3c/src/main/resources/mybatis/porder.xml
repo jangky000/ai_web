@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <select id="list" resultType="PorderVO">
     SELECT porderno, memberno, rdate, total_price, status
     FROM porder
-    ORDER BY porderno ASC
+    ORDER BY porderno DESC
   </select>
 
   <!-- 주문 조회 -->

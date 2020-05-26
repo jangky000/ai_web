@@ -79,6 +79,16 @@ ORDER BY contentsno ASC;
 
 COMMIT;
 
+-- 현재 시퀀스의 확인
+SELECT contents_seq.nextval FROM dual;
+   NEXTVAL
+----------
+        47
+SELECT contents_seq.currval FROM dual; -- 앞에 nextval을 한 후에만 확인 가능
+   CURRVAL
+----------
+        47
+
 2) 전체목록
 SELECT contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate 
 FROM contents 
@@ -93,7 +103,7 @@ ORDER BY contentsno DESC;
 
 
 3) 1건 조회
-SELECT contentsno, memberno, cateno, title, content, recom, web, ip, passwd, word, rdate 
+SELECT contentsno, memberno, cateno, title, content, recom, web, map, youtube, ip, passwd, word, rdate 
 FROM contents
 WHERE contentsno = 1;
 
@@ -163,7 +173,7 @@ ORDER BY c.cateno ASC, t.contentsno DESC;
 -- map                           		VARCHAR2(1000)		 NULL ,
 UPDATE contents
 SET map='고창 보리밭 축제'
-WHERE contentsno=1; 
+WHERE contentsno=1 AND passwd='1234'; 
   
 SELECT contentsno, memberno, cateno, web, map
 FROM contents 
@@ -171,7 +181,47 @@ ORDER BY contentsno ASC;
   
   
   
+select * from sql1;
+        N1 V1 
+---------- ---
+         1 A  
+         2    
+         3 B  
+insert into sql1(n1, v1) values(5, "C");
+오류 발생 명령행: 176 열: 36
+오류 보고 -
+SQL 오류: ORA-00984: column not allowed here
+00984. 00000 -  "column not allowed here"
+*Cause:    
+*Action:
+insert into sql1(n1, v1) values(5, 'C');
+
+
+
+
+
+10) Youtube
+
+-- youtube                                   VARCHAR2(1000)         NULL ,
+UPDATE contents
+SET youtube='youtube URL'
+WHERE contentsno=21; 
   
+commit;
   
+SELECT contentsno, memberno, cateno, web, map, youtube
+FROM contents 
+ORDER BY contentsno ASC;    
+
+
+11) mp3
+
+UPDATE contents
+SET mp3='mp3 file name'
+WHERE contentsno=1 AND passwd='123'; 
   
-  
+SELECT contentsno, memberno, cateno, web, map, youtube, mp3
+FROM contents 
+ORDER BY contentsno ASC;
+
+

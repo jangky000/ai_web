@@ -47,10 +47,13 @@
                     class="btn btn-info">파일 계속 업로드</button>
         <button type='button' 
                     onclick="location.href='../contents/read.do?contentsno=${param.contentsno }'"
-                    class="btn btn-info">업로드된 파일 확인</button>                    
+                    class="btn btn-info">업로드된 파일 확인</button>       
+        <button type='button' 
+                    onclick="location.href='../contents/read.do?contentsno=${param.contentsno }'"
+                    class="btn btn-info">글 조회</button>                           
         <button type='button' 
                     onclick="location.href='../contents/list.do?cateno=${param.cateno}'"
-                    class="btn btn-info">목록</button>
+                    class="btn btn-info">글 목록</button>
       </LI>
      </UL>
   </fieldset>

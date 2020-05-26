@@ -30,7 +30,16 @@ public interface AttachfileDAOInter {
    */
   public int delete(int attachfileno);
   
-
+  /**
+   * <xmp>
+   * 컨텐츠에 해당하는 첨부파일 리스트
+   * <select id="list_by_contentsno" resultType="AttachfileVO" parameterType="int">
+   * </xmp>
+   * @param contentsno
+   * @return
+   */
+  public List<AttachfileVO> list_by_contentsno(int contentsno);
+  
 }
 
 

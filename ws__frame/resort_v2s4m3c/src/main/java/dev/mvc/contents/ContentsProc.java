@@ -106,6 +106,27 @@ public class ContentsProc implements ContentsProcInter {
     return cnt;
   }
 
+  @Override
+  public int youtube(HashMap hashMap) {
+    int cnt = 0;
+    cnt = this.contentsDAO.youtube(hashMap);
+    return cnt;
+  }
+
+  @Override
+  public int mp3(HashMap hashMap) {
+    int cnt = 0;
+    cnt = this.contentsDAO.mp3(hashMap);
+    return cnt;
+  }
+
+  @Override
+  public int mp4(HashMap hashMap) {
+    int cnt = 0;
+    cnt = this.contentsDAO.mp4(hashMap);
+    return cnt;
+  }
+
 
 }
 

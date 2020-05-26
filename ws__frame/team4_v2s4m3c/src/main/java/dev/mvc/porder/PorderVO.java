@@ -15,7 +15,7 @@ public class PorderVO {
   /** 회원번호 */
   private int memberno;
   /** 주문날짜 */
-  private int rdate;
+  private String rdate;
   /** 주문총액 */
   private int total_price;
   /** 주문상태 */
@@ -34,10 +34,10 @@ public class PorderVO {
   public void setMemberno(int memberno) {
     this.memberno = memberno;
   }
-  public int getRdate() {
+  public String getRdate() {
     return rdate;
   }
-  public void setRdate(int rdate) {
+  public void setRdate(String rdate) {
     this.rdate = rdate;
   }
   public int getTotal_price() {

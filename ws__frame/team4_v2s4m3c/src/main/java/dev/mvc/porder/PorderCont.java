@@ -1,5 +1,7 @@
 package dev.mvc.porder;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -13,7 +15,7 @@ public class PorderCont {
   
   @Autowired
   @Qualifier("dev.mvc.porder.PorderProc")
-  private PorderProcInter PorderProc;
+  private PorderProcInter porderProc;
 
   public PorderCont() {
     System.out.println("--> PorderCont created.");
@@ -41,7 +43,7 @@ public class PorderCont {
  public ModelAndView create(PorderVO porderVO) {
    ModelAndView mav = new ModelAndView();
    
-   int cnt = this.PorderProc.create(porderVO);
+   int cnt = this.porderProc.create(porderVO);
    
    mav.addObject("cnt", cnt); // redirect parameter 적용
    
@@ -50,6 +52,22 @@ public class PorderCont {
    
    return mav;
  }
+ 
+ /**
+  * 주문 리스트
+  * @return
+  */
+ @RequestMapping(value="/porder/list.do", method=RequestMethod.GET)
+ public ModelAndView list(){
+   ModelAndView mav = new ModelAndView();
+   
+   List<PorderVO> list = this.porderProc.list();    
+   mav.addObject("list", list);
+   mav.setViewName("/porder/list"); // webapp/porder/list.jsp
+   
+   return mav; // forward
+ }
+ 
  
  //http://localhost:9090/team4/porder/msg.do?
  /**

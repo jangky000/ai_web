@@ -249,7 +249,6 @@ public class Tool {
    */
   public static synchronized boolean deleteFile(String folder, String fileName) {
     boolean sw = false;
-    
     try {
       if (folder != null && fileName != null) { // 값이 있는지 확인
         File file = new File(folder + "/" + fileName); 

@@ -12,14 +12,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import dev.mvc.attachfile.AttachfileProcInter;
+import dev.mvc.attachfile.AttachfileVO;
 import dev.mvc.cate.CateProcInter;
 import dev.mvc.cate.CateVO;
 import dev.mvc.categrp.CategrpProcInter;
 import dev.mvc.categrp.CategrpVO;
 import dev.mvc.member.MemberProcInter;
 import dev.mvc.member.MemberVO;
+import dev.mvc.tool.Tool;
+import dev.mvc.tool.Upload;
 
 @Controller
 public class ContentsCont {
@@ -38,6 +43,10 @@ public class ContentsCont {
   @Autowired
   @Qualifier("dev.mvc.member.MemberProc")
   private MemberProcInter memberProc;
+  
+  @Autowired
+  @Qualifier("dev.mvc.attachfile.AttachfileProc")
+  private AttachfileProcInter attachfileProc;
   
   public ContentsCont() {
     System.out.println("--> ContentsCont created.");
@@ -74,20 +83,40 @@ public class ContentsCont {
     ModelAndView mav = new ModelAndView();
     
     contentsVO.setIp(request.getRemoteAddr()); // 접속자 IP
-    int cnt = this.contentsProc.create(contentsVO);
+    
+    /*
+      <insert id="create" parameterType="ContentsVO">
+      <!-- 등록 후 contentsno return -->
+      <selectKey keyProperty="contentsno" resultType="int" order="BEFORE">
+        select contents_seq.nextval from dual
+      </selectKey>
+      INSERT INTO contents(contentsno, memberno, cateno, title, content, web, ip,
+                                       passwd, word, rdate)
+      VALUES(#{contentsno}, #{memberno}, #{cateno}, #{title}, #{content}, #{web}, #{ip},
+                  #{passwd}, #{word}, sysdate)
+      </insert>
+    */
+    
+    // 정상 등록 시 PK가 리턴 됨, 
+    int cnt = this.contentsProc.create(contentsVO); // Call By Reference로 contentsVO에 접근
     mav.addObject("cnt", cnt); // request에 저장
-    // request.setAttribute("cnt", cnt); // request에 저장
+    //-----------------------------------------------------------------------------------------------
+    //return cnt, contentsno
+    //-----------------------------------------------------------------------------------------------
+    // Spring과 MyBatis가contentsVO를  공유하고 있음(중요 개념)
+    // Spring <---> contentsVO <----> MyBatis
+    // MyBatis는 insert 후 PK를 contentsno 필드에 저장해줌
+    int contentsno = contentsVO.getContentsno(); // MyBatis에서 리턴된 PK
+    mav.addObject("contentsno", contentsno); // request에 저장
+    
     
     mav.addObject("cateno", contentsVO.getCateno());
+    mav.addObject("url", "create_msg"); // webapp/contents/create_msg.jsp
     
-    if (cnt == 1) {
-      this.cateProc.increaseCnt(contentsVO.getCateno()); // 글수 증가
-      // mav.setViewName("/contents/create_msg"); // webapp/contents/create_msg.jsp
-      mav.setViewName("redirect:/contents/list.do"); // spring 재호출
-    } else { 
-      mav.setViewName("/contents/create_msg"); // webapp/contents/create_msg.jsp
+    if (cnt == 1) { // 정상적으로 글이 등록된 경우에만 글 수 증가
+      this.cateProc.increaseCnt(contentsVO.getCateno()); // 글 수 증가
     }
-    
+    mav.setViewName("redirect:/contents/msg.do");
     return mav;
   }
   
@@ -131,7 +160,7 @@ public class ContentsCont {
   
   // http://localhost:9090/resort/contents/read.do
   /**
-   * 전체 목록
+   * 조회
    * @return
    */
   @RequestMapping(value="/contents/read.do", method=RequestMethod.GET )
@@ -146,6 +175,10 @@ public class ContentsCont {
 
     CategrpVO categrpVO = this.categrpProc.read(cateVO.getCategrpno());
     mav.addObject("categrpVO", categrpVO); 
+    
+    // 첨부파일 목록
+    List<AttachfileVO> attachfile_list = this.attachfileProc.list_by_contentsno(contentsno);
+    mav.addObject("attachfile_list", attachfile_list); 
     
     mav.setViewName("/contents/read"); // /webapp/contents/read.jsp
     return mav;
@@ -349,10 +382,11 @@ public class ContentsCont {
    * @param cateno 카테고리 번호
    * @param contentsno 글번호
    * @param map 지도 스크립트
+   * @param passwd 패스워드
    * @return
    */
   @RequestMapping(value="/contents/map_create.do", method=RequestMethod.POST )
-  public ModelAndView map_create(int cateno, int contentsno, String map) {
+  public ModelAndView map_create(int cateno, int contentsno, String map, String passwd) {
     ModelAndView mav = new ModelAndView();
 
     // System.out.println("map: " + map);
@@ -361,12 +395,13 @@ public class ContentsCont {
     HashMap<Object, Object> hashMap = new HashMap<Object, Object>();
     hashMap.put("map", map);
     hashMap.put("contentsno", contentsno);
+    hashMap.put("passwd", passwd);
     
     this.contentsProc.map(hashMap); // 지도 등록
     
     mav.addObject("contentsno", contentsno);
     
-    mav.setViewName("redirect:/contents/read.do"); // webapp/contents/list.jsp
+    mav.setViewName("redirect:/contents/read.do"); // resort/contents/read.do
     
     return mav;
   }
@@ -399,11 +434,11 @@ public class ContentsCont {
    * 지도 삭제 처리
    * @param cateno 카테고리 번호
    * @param contentsno 글번호
-   * @param map 지도 스크립트
+   * @param passwd 컨텐츠 패스워드
    * @return
    */
   @RequestMapping(value="/contents/map_delete.do", method=RequestMethod.POST )
-  public ModelAndView map_delete_proc(int cateno, int contentsno) {
+  public ModelAndView map_delete_proc(int cateno, int contentsno, String passwd) {
     ModelAndView mav = new ModelAndView();
 
     // System.out.println("map: " + map);
@@ -412,16 +447,370 @@ public class ContentsCont {
     HashMap<Object, Object> hashMap = new HashMap<Object, Object>();
     hashMap.put("map", ""); // map 삭제
     hashMap.put("contentsno", contentsno);
+    hashMap.put("passwd", passwd);
     
     this.contentsProc.map(hashMap); // 지도 삭제 처리
     
     mav.addObject("contentsno", contentsno);
     
-    mav.setViewName("redirect:/contents/read.do"); // webapp/contents/list.jsp
+    mav.setViewName("redirect:/contents/read.do"); // resort/contents/read.do
     
     return mav;
   }
   
+  
+//http://localhost:9090/resort/contents/youtube_create.do?cateno=25&contentsno=28
+ /**
+  * Youtube 등록 폼
+  * @return
+  */
+ @RequestMapping(value="/contents/youtube_create.do", method=RequestMethod.GET )
+ public ModelAndView youtube_create(int cateno, int contentsno) {
+   ModelAndView mav = new ModelAndView();
+   
+   CateVO cateVO = this.cateProc.read(cateno);
+   mav.addObject("cateVO", cateVO);
+   
+   CategrpVO categrpVO = this.categrpProc.read(cateVO.getCategrpno());
+   mav.addObject("categrpVO", categrpVO);
+   
+   ContentsVO contentsVO = this.contentsProc.read(contentsno);
+   mav.addObject("contentsVO", contentsVO);
+
+   mav.setViewName("/contents/youtube_create"); // webapp/contents/youtube_create.jsp
+   
+   return mav;
+ }
+ 
+  //http://localhost:9090/resort/contents/youtube_create.do?cateno=25&contentsno=28
+  /**
+   * Youtube 등록
+   * @param cateno 카테고리 번호
+   * @param contentsno 글번호
+   * @param youtube 소스
+   * @param passwd 패스워드
+   * @return
+   */
+  @RequestMapping(value="/contents/youtube_create.do", method=RequestMethod.POST )
+  public ModelAndView youtube_create(int cateno, int contentsno, String youtube, String passwd) {
+    ModelAndView mav = new ModelAndView();
+    
+    HashMap<Object, Object> hashMap = new HashMap<Object, Object>();
+    hashMap.put("youtube", youtube);
+    hashMap.put("contentsno", contentsno);
+    hashMap.put("passwd", passwd);
+    
+    this.contentsProc.youtube(hashMap); // youtube 등록
+    
+    mav.addObject("contentsno", contentsno);
+    
+    mav.setViewName("redirect:/contents/read.do"); // resort/contents/read.do
+    
+    return mav;
+  }
+
+
+//http://localhost:9090/resort/contents/youtube_delete.do?cateno=25&contentsno=28
+ /**
+  * Youtube 삭제 처리
+  * @param cateno 카테고리 번호
+  * @param contentsno 글번호
+  * @param passwd 컨텐츠 패스워드
+  * @return
+  */
+ @RequestMapping(value="/contents/youtube_delete.do", method=RequestMethod.POST )
+ public ModelAndView youtube_delete(int cateno, int contentsno, String passwd) {
+   ModelAndView mav = new ModelAndView();
+
+   // System.out.println("youtube: " + youtube);
+   // System.out.println("contentsno: " + contentsno);
+   
+   HashMap<Object, Object> hashMap = new HashMap<Object, Object>();
+   hashMap.put("youtube", ""); // youtube 삭제
+   hashMap.put("contentsno", contentsno);
+   hashMap.put("passwd", passwd);
+   
+   this.contentsProc.youtube(hashMap); // youtube 삭제 처리
+   
+   mav.addObject("contentsno", contentsno);
+   
+   mav.setViewName("redirect:/contents/read.do"); // resort/contents/read.do
+   
+   return mav;
+ }
+ 
+ /**
+  * 메시지
+  * @param url 이동할 주소
+  * @return
+  */
+ @RequestMapping(value="/contents/msg.do", method=RequestMethod.GET)
+ public ModelAndView msg(String url){
+   ModelAndView mav = new ModelAndView();
+   
+   // 등록 처리 메시지: create_msg --> /contents/create_msg.jsp
+   // 수정 처리 메시지: update_msg --> /contents/update_msg.jsp
+   // 삭제 처리 메시지: delete_msg --> /contents/delete_msg.jsp
+   mav.setViewName("/contents/" + url); // forward
+   
+   return mav; // forward
+ }
+ 
+//http://localhost:9090/resort/contents/mp3_create.do?cateno=25&contentsno=28
+/**
+ * MP3 등록 폼
+ * @return
+ */
+@RequestMapping(value="/contents/mp3_create.do", method=RequestMethod.GET )
+public ModelAndView mp3_create(int cateno, int contentsno) {
+  ModelAndView mav = new ModelAndView();
+  
+  CateVO cateVO = this.cateProc.read(cateno);
+  mav.addObject("cateVO", cateVO);
+  
+  CategrpVO categrpVO = this.categrpProc.read(cateVO.getCategrpno());
+  mav.addObject("categrpVO", categrpVO);
+  
+  ContentsVO contentsVO = this.contentsProc.read(contentsno);
+  mav.addObject("contentsVO", contentsVO);
+
+  mav.setViewName("/contents/mp3_create"); // webapp/contents/youtube_create.jsp
+  
+  return mav;
+}
+
+ //http://localhost:9090/resort/contents/mp3_create.do?cateno=25&contentsno=28
+ /**
+  * MP3 등록
+  * @param cateno 카테고리 번호
+  * @param contentsno 글번호
+  * @param mp3 
+  * @param passwd 패스워드
+  * @return
+  */
+ @RequestMapping(value="/contents/mp3_create.do", method=RequestMethod.POST )
+ public ModelAndView mp3_create(HttpServletRequest request, ContentsVO contentsVO) {
+   ModelAndView mav = new ModelAndView();
+   
+   // -----------------------------------------------------
+   // 파일 전송 코드 시작
+   // -----------------------------------------------------
+   String mp3 = ""; // mp3 파일
+   
+   String upDir = Tool.getRealPath(request, "/contents/storage/mp3"); // 절대 경로 // webapp/contents/storage/mp3
+   // 전송 파일이 없어도 mf 객체가 생성됨.
+   MultipartFile mf = contentsVO.getMp3MF();  // 파일 목록
+   long fsize = mf.getSize(); // 전송 파일 크기
+   if (fsize > 0) { // 파일 크기 체크
+     // mp3 = mf.getOriginalFilename(); // 원본 파일명, spring.jpg
+     
+     mp3 = Upload.saveFileSpring(mf, upDir); // 파일 저장 후 업로드된 파일명이 리턴됨, spring.jsp, spring_1.jpg...
+   
+   }    
+   // -----------------------------------------------------
+   // 파일 전송 코드 종료
+   // -----------------------------------------------------
+   
+   HashMap<Object, Object> hashMap = new HashMap<Object, Object>();
+   hashMap.put("mp3", mp3);
+   hashMap.put("contentsno", contentsVO.getContentsno());
+   hashMap.put("passwd", contentsVO.getPasswd());
+   
+   this.contentsProc.mp3(hashMap); // mp3 등록
+   
+   mav.addObject("contentsno", contentsVO.getContentsno());
+   
+   mav.setViewName("redirect:/contents/read.do"); // resort/contents/read.do
+   
+   return mav;
+ }
+ 
+//http://localhost:9090/resort/contents/mp3_delete.do?cateno=25&contentsno=28
+/**
+* MP3 삭제 폼
+* @return
+*/
+@RequestMapping(value="/contents/mp3_delete.do", method=RequestMethod.GET )
+public ModelAndView mp3_delete(int cateno, int contentsno) {
+ ModelAndView mav = new ModelAndView();
+ 
+ CateVO cateVO = this.cateProc.read(cateno);
+ mav.addObject("cateVO", cateVO);
+ 
+ CategrpVO categrpVO = this.categrpProc.read(cateVO.getCategrpno());
+ mav.addObject("categrpVO", categrpVO);
+ 
+ ContentsVO contentsVO = this.contentsProc.read(contentsno);
+ mav.addObject("contentsVO", contentsVO);
+
+ mav.setViewName("/contents/mp3_delete"); // webapp/contents/mp3_delete.jsp
+ 
+ return mav;
+}
+ 
+  //http://localhost:9090/resort/contents/mp3_delete.do?cateno=25&contentsno=28
+  /**
+   * mp3 삭제 처리
+   * @param cateno 카테고리 번호
+   * @param contentsno 글번호
+   * @param passwd 컨텐츠 패스워드
+   * @return
+   */
+  @RequestMapping(value="/contents/mp3_delete.do", method=RequestMethod.POST )
+  public ModelAndView mp3_delete(HttpServletRequest request, int cateno, int contentsno, String passwd) {
+    ModelAndView mav = new ModelAndView();
+    
+    // -----------------------------------------------------
+    // 파일 삭제 시작
+    // -----------------------------------------------------
+    // 삭제할 파일 정보를 읽어옴.
+    ContentsVO contentsVO = contentsProc.read(contentsno);
+    String upDir = Tool.getRealPath(request, "/contents/storage/mp3"); // 절대 경로
+    boolean sw = Tool.deleteFile(upDir, contentsVO.getMp3()); // Folder에서 1건의 파일 삭제
+    // -----------------------------------------------------
+    // 파일 삭제 코드 종료
+    // -----------------------------------------------------
+    
+    HashMap<Object, Object> hashMap = new HashMap<Object, Object>();
+    hashMap.put("mp3", ""); // mp3 삭제
+    hashMap.put("contentsno", contentsno);
+    hashMap.put("passwd", passwd);
+    
+    this.contentsProc.mp3(hashMap); // mp3 삭제 처리
+    
+    mav.addObject("contentsno", contentsno);
+    
+    mav.setViewName("redirect:/contents/read.do"); // resort/contents/read.do
+    
+    return mav;
+  }
+  
+//http://localhost:9090/resort/contents/mp4_create.do?cateno=25&contentsno=28
+/**
+ * MP4 등록 폼
+ * @return
+ */
+@RequestMapping(value="/contents/mp4_create.do", method=RequestMethod.GET )
+public ModelAndView mp4_create(int cateno, int contentsno) {
+  ModelAndView mav = new ModelAndView();
+  
+  CateVO cateVO = this.cateProc.read(cateno);
+  mav.addObject("cateVO", cateVO);
+  
+  CategrpVO categrpVO = this.categrpProc.read(cateVO.getCategrpno());
+  mav.addObject("categrpVO", categrpVO);
+  
+  ContentsVO contentsVO = this.contentsProc.read(contentsno);
+  mav.addObject("contentsVO", contentsVO);
+
+  mav.setViewName("/contents/mp4_create"); // webapp/contents/mp4_create.jsp
+  
+  return mav;
+}
+
+ //http://localhost:9090/resort/contents/mp4_create.do?cateno=25&contentsno=28
+ /**
+  * MP4 등록
+  * @param cateno 카테고리 번호
+  * @param contentsno 글번호
+  * @return
+  */
+ @RequestMapping(value="/contents/mp4_create.do", method=RequestMethod.POST )
+ public ModelAndView mp4_create(HttpServletRequest request, ContentsVO contentsVO) {
+   ModelAndView mav = new ModelAndView();
+   
+   // -----------------------------------------------------
+   // 파일 전송 코드 시작
+   // -----------------------------------------------------
+   String mp4 = ""; // mp4 파일
+   
+   String upDir = Tool.getRealPath(request, "/contents/storage/mp4"); // 절대 경로 // webapp/contents/storage/mp3
+   // 전송 파일이 없어도 mf 객체가 생성됨.
+   MultipartFile mf = contentsVO.getMp4MF();  // 파일 목록
+   long fsize = mf.getSize(); // 전송 파일 크기
+   if (fsize > 0) { // 파일 크기 체크
+     // mp3 = mf.getOriginalFilename(); // 원본 파일명, spring.jpg
+     
+     mp4 = Upload.saveFileSpring(mf, upDir); // 파일 저장 후 업로드된 파일명이 리턴됨, spring.jsp, spring_1.jpg...
+   
+   }    
+   // -----------------------------------------------------
+   // 파일 전송 코드 종료
+   // -----------------------------------------------------
+   
+   HashMap<Object, Object> hashMap = new HashMap<Object, Object>();
+   hashMap.put("mp4", mp4);
+   hashMap.put("contentsno", contentsVO.getContentsno());
+   hashMap.put("passwd", contentsVO.getPasswd());
+   
+   this.contentsProc.mp4(hashMap); // mp4 등록
+   
+   mav.addObject("contentsno", contentsVO.getContentsno());
+   
+   mav.setViewName("redirect:/contents/read.do"); // resort/contents/read.do
+   
+   return mav;
+ }
+ 
+//http://localhost:9090/resort/contents/mp4_delete.do?cateno=25&contentsno=28
+/**
+* MP4 삭제 폼
+* @return
+*/
+@RequestMapping(value="/contents/mp4_delete.do", method=RequestMethod.GET )
+public ModelAndView mp4_delete(int cateno, int contentsno) {
+ ModelAndView mav = new ModelAndView();
+ 
+ CateVO cateVO = this.cateProc.read(cateno);
+ mav.addObject("cateVO", cateVO);
+ 
+ CategrpVO categrpVO = this.categrpProc.read(cateVO.getCategrpno());
+ mav.addObject("categrpVO", categrpVO);
+ 
+ ContentsVO contentsVO = this.contentsProc.read(contentsno);
+ mav.addObject("contentsVO", contentsVO);
+
+ mav.setViewName("/contents/mp4_delete"); // webapp/contents/mp4_delete.jsp
+ 
+ return mav;
+}
+ 
+  //http://localhost:9090/resort/contents/mp4_delete.do?cateno=25&contentsno=28
+  /**
+   * mp4 삭제 처리
+   * @param cateno 카테고리 번호
+   * @param contentsno 글번호
+   * @param passwd 컨텐츠 패스워드
+   * @return
+   */
+  @RequestMapping(value="/contents/mp4_delete.do", method=RequestMethod.POST )
+  public ModelAndView mp4_delete(HttpServletRequest request, int cateno, int contentsno, String passwd) {
+    ModelAndView mav = new ModelAndView();
+    
+    // -----------------------------------------------------
+    // 파일 삭제 시작
+    // -----------------------------------------------------
+    // 삭제할 파일 정보를 읽어옴.
+    ContentsVO contentsVO = contentsProc.read(contentsno);
+    String upDir = Tool.getRealPath(request, "/contents/storage/mp4"); // 절대 경로
+    boolean sw = Tool.deleteFile(upDir, contentsVO.getMp4()); // Folder에서 1건의 파일 삭제
+    // -----------------------------------------------------
+    // 파일 삭제 코드 종료
+    // -----------------------------------------------------
+    
+    HashMap<Object, Object> hashMap = new HashMap<Object, Object>();
+    hashMap.put("mp4", ""); // mp4 삭제
+    hashMap.put("contentsno", contentsno);
+    hashMap.put("passwd", passwd);
+    
+    this.contentsProc.mp4(hashMap); // mp4 삭제 처리
+    
+    mav.addObject("contentsno", contentsno);
+    
+    mav.setViewName("redirect:/contents/read.do"); // resort/contents/read.do
+    
+    return mav;
+  }
 }
 
 

@@ -26,7 +26,7 @@
   <fieldset class='fieldset_basic'>
     <UL>
       <c:choose>
-        <c:when test="${cnt == 1 }">
+        <c:when test="${param.cnt==1 }">
           <LI class='li_none'>
             <span class='span_success'>새로운 컨텐츠를 등록했습니다.</span>
           </LI>
@@ -40,9 +40,25 @@
       <LI class='li_none'>
         <br>
         <c:choose>
-          <c:when test="${cnt == 1 }">
+          <c:when test="${param.cnt==1 }">
             <button type='button' 
-                         onclick="location.href='./create.do?cateo=${param.cateno}'"
+                         onclick="location.href='../attachfile/create.do?cateno=${param.cateno}&contentsno=${param.contentsno }'"
+                         class="btn btn-info">첨부파일 등록</button>
+            <button type='button' 
+                         onclick="location.href='./map_create.do?cateno=${param.cateno}&contentsno=${param.contentsno }'"
+                         class="btn btn-info">Map 등록</button>
+            <button type='button' 
+                         onclick="location.href='./youtube_create.do?cateno=${param.cateno}&contentsno=${param.contentsno }'"
+                         class="btn btn-info">Youtube 등록</button>
+            <button type='button' 
+                         onclick="location.href='./mp3_create.do?cateno=${param.cateno}&contentsno=${param.contentsno }'"
+                         class="btn btn-info">MP3 등록</button>
+           <button type='button' 
+                         onclick="location.href='./mp4_create.do?cateno=${param.cateno}&contentsno=${param.contentsno }'"
+                         class="btn btn-info">MP4 등록</button>
+            <br>
+            <button type='button' 
+                         onclick="location.href='./create.do?cateno=${param.cateno}'"
                          class="btn btn-info">새로운 컨텐츠 등록</button>
           </c:when>
           <c:otherwise>

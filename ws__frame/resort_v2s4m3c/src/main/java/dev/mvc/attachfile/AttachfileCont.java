@@ -32,7 +32,7 @@ public class AttachfileCont {
    * @return
    */
   @RequestMapping(value="/attachfile/create.do", method=RequestMethod.GET )
-  public ModelAndView create() {
+  public ModelAndView create(int cateno, int contentsno) {
     ModelAndView mav = new ModelAndView();
     mav.setViewName("/attachfile/create"); // webapp/attachfile/create.jsp
     
