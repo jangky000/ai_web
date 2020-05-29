@@ -127,6 +127,17 @@ public class ContentsProc implements ContentsProcInter {
     return cnt;
   }
 
+  @Override
+  public List<ContentsVO> list_by_cateno_search(HashMap<String, Object> hashMap) {
+    List<ContentsVO> list = contentsDAO.list_by_cateno_search(hashMap);
+    return list;
+  }
+
+  @Override
+  public int search_count(HashMap<String, Object> hashMap) {
+    int count = contentsDAO.search_count(hashMap);
+    return count;
+  }
 
 }
 

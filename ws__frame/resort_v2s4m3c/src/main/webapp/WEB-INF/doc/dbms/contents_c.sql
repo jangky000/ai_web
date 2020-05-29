@@ -100,6 +100,50 @@ FROM contents
 WHERE cateno = 1
 ORDER BY contentsno DESC;
 
+2-2) ① cateno별 검색 목록
+SELECT contentsno, memberno, cateno, title, content, 
+           recom, cnt, replycnt, rdate, word
+FROM contents
+WHERE cateno=23 AND word LIKE '%스위스%'
+ORDER BY contentsno DESC;
+
+SELECT contentsno, memberno, cateno, title, content, 
+           recom, cnt, replycnt, rdate, word
+FROM contents
+WHERE cateno=2 AND word LIKE '%스의스%'
+ORDER BY contentsno DESC;
+
+SELECT contentsno, memberno, cateno, title, content, 
+           recom, cnt, replycnt, rdate, word
+FROM contents
+WHERE cateno=2 AND word LIKE '%수의스%'
+ORDER BY contentsno DESC;
+
+-- title, content, word 칼럼 검색
+SELECT contentsno, memberno, cateno, title, content, 
+           recom, cnt, replycnt, rdate, word
+FROM contents
+WHERE cateno=23 AND (title LIKE '%유럽%' OR content LIKE '%유럽%' OR word LIKE '%유럽%')
+ORDER BY contentsno DESC;
+
+② 검색 레코드 갯수
+-- 전체 레코드 갯수
+SELECT COUNT(*) as cnt
+FROM contents
+WHERE cateno=23;
+
+-- 검색 레코드 갯수
+SELECT COUNT(*) as cnt
+FROM contents
+WHERE cateno=23 AND word LIKE '%스위스%';
+
+SELECT COUNT(*) as cnt
+FROM contents
+WHERE cateno=23 AND (title LIKE '%유럽%' OR content LIKE '%유럽%' OR word LIKE '%유럽%');
+
+
+
+
 
 
 3) 1건 조회

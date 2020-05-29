@@ -26,13 +26,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     ORDER BY contentsno DESC
   </select>  
 
-  <!-- cateno별 목록 -->
+  <!-- cateno 별 검색된 레코드 목록 -->
   <select id="list" resultType="ContentsVO" parameterType="int">
     SELECT contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate 
-    FROM contents 
+    FROM contents
     WHERE cateno = #{cateno}
     ORDER BY contentsno DESC
   </select>  
+    
+  <!-- 카테고리별 검색 목록 -->
+   <select id="list_by_cateno_search" resultType="ContentsVO" parameterType="HashMap">
+     SELECT contentsno, memberno, cateno, title, content, 
+           recom, cnt, replycnt, rdate, word
+     FROM contents
+     <choose>
+       <when test="word == null or word == ''"> <!-- 검색하지 않는 경우 -->
+         WHERE cateno=#{cateno}
+       </when>
+       <otherwise>
+         WHERE cateno=#{cateno} AND (word LIKE '%' || #{word} || '%' OR title LIKE '%' || #{word} || '%' OR content LIKE '%' || #{word} || '%')
+       </otherwise>
+     </choose>
+     ORDER BY contentsno DESC   
+   </select>
     
   <select id="read" resultType="ContentsVO" parameterType="int">
     SELECT contentsno, memberno, cateno, title, content, recom, web, map, youtube, mp3, mp4, ip, passwd, word, rdate 
@@ -62,6 +78,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     SELECT COUNT(*) as cnt
     FROM contents 
   </select>
+  
+  <!-- 카테고리별 검색 레코드 갯수 -->
+   <select id="search_count" resultType="int" parameterType="HashMap">
+     SELECT COUNT(*) as cnt
+     FROM contents
+     <choose>
+       <when test="word == null or word == ''">
+         WHERE cateno=#{cateno}
+       </when>
+       <otherwise>
+         WHERE cateno=#{cateno} AND word LIKE '%' || #{word} || '%'
+       </otherwise>
+     </choose>
+   </select>       
   
   <resultMap type="Cate_Contents_VO" id="Cate_Contents_VO_Map">
     <result column="c_cateno" property="cateno" />

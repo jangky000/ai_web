@@ -14,9 +14,9 @@
 홈 화면
 <ul>
   <li><a href="${root}/porder/create.do">주문 등록</a></li>
-  <li></li>
-  <li></li>
-  <li></li>
+  <li><a href="${root}/porder/list.do">주문 목록</a></li>
+  <li><a href="${root}/porder/update.do">주문 수정</a></li>
+  <li><a href="${root}/porder/delete.do">주문 삭제</a></li>
 </ul>
 
 </body>

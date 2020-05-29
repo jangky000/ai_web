@@ -339,7 +339,7 @@ public class CateCont {
        int cnt = categrp_Cate_join.getCnt();
        
        url.append("<LI class='cate_name'>");
-       url.append("  <A href='" + request.getContextPath()+ "/contents/list.do?cateno="+categrp_Cate_join.getCateno()+"'>");
+       url.append("  <A href='" + request.getContextPath()+ "/contents/list.do?cateno="+categrp_Cate_join.getCateno()+"&word='>");
        url.append(name);
        url.append("  </A>");
        url.append("  <span style='font-size: 0.9em; color: #555555;'>("+cnt+")</span>");

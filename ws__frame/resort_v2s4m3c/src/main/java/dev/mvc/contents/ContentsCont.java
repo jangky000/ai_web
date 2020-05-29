@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -136,11 +137,9 @@ public class ContentsCont {
     return mav;
   }
   
+/*  
   // http://localhost:9090/resort/contents/list.do
-  /**
-   * 전체 목록
-   * @return
-   */
+  // 전체 목록
   @RequestMapping(value="/contents/list.do", method=RequestMethod.GET )
   public ModelAndView list(int cateno) {
     ModelAndView mav = new ModelAndView();
@@ -157,6 +156,50 @@ public class ContentsCont {
     mav.setViewName("/contents/list"); // /webapp/contents/list.jsp
     return mav;
   }  
+ */ 
+  
+  /**
+   * 목록 + 검색
+   * http://localhost:9090/resort/contents/list.do
+   * http://localhost:9090/resort/contents/list.do?cateno=1&word=스위스
+   * @param cateno
+   * @param word
+   * @return
+   */
+  @RequestMapping(value = "/contents/list.do", method = RequestMethod.GET)
+  public ModelAndView list_by_cateno_search(
+      @RequestParam(value="cateno", defaultValue="1") int cateno,
+      @RequestParam(value="word", defaultValue="") String word
+      ) { 
+    
+    ModelAndView mav = new ModelAndView();
+    
+    // 숫자와 문자열 타입을 저장해야함으로 Obejct 사용
+    HashMap<String, Object> map = new HashMap<String, Object>();
+    map.put("cateno", cateno); // #{cateno}
+    map.put("word", word);     // #{word}
+    
+    // 검색 목록
+    List<ContentsVO> list = contentsProc.list_by_cateno_search(map);
+    mav.addObject("list", list);
+    
+    // 검색된 레코드 갯수
+    int search_count = contentsProc.search_count(map);
+    mav.addObject("search_count", search_count);
+
+    CateVO cateVO = cateProc.read(cateno);
+    mav.addObject("cateVO", cateVO);
+
+    CategrpVO categrpVO = this.categrpProc.read(cateVO.getCategrpno());
+    mav.addObject("categrpVO", categrpVO); 
+    
+    mav.addObject("word", word); 
+    
+    // /contents/list_by_cateno_search.jsp
+    mav.setViewName("/contents/list_by_cateno_search");   
+    
+    return mav;
+  }    
   
   // http://localhost:9090/resort/contents/read.do
   /**

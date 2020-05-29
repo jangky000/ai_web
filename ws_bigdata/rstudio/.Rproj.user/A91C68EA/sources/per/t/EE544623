@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1590396444013.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1167521411",
+    "id" : "EE544623",
+    "lastKnownWriteTime" : 1590479577,
+    "last_content_update" : 1590479577,
+    "path" : "C:/ai6/ws_bigdata/rstudio/basic.R",
+    "project_path" : "basic.R",
+    "properties" : {
+        "cursorPosition" : "170,0",
+        "scrollLine" : "165",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

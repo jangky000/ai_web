@@ -118,6 +118,20 @@ public interface ContentsProcInter {
    * @return
    */
   public int mp4(HashMap hashMap);
+  
+  /**
+   * 카테고리별 검색 목록
+   * @param hashMap
+   * @return
+   */
+  public List<ContentsVO> list_by_cateno_search(HashMap<String, Object> hashMap);
+
+  /**
+   * 카테고리별 검색 레코드 갯수
+   * @param hashMap
+   * @return
+   */
+  public int search_count(HashMap<String, Object> hashMap);
 }
 
 

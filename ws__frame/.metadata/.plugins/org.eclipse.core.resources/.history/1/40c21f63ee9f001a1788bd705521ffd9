@@ -1,0 +1,51 @@
+/**
+ * tool.js
+ */
+
+window.onload = function(){
+    document.getElementById('btn_ex2').onclick=func_ex2; 
+    document.getElementById('btn_ex3').addEventListener('click', func_ex3); 
+}
+
+$(function(){
+  alert('페이지 로딩 완료');
+  $("#btn_check_img").on('click', check_img);
+  $("#search").html('search id 검색 완료');
+  $("#sum_result").html(sum(10, 20));
+});
+
+function func_ex1(){
+  alert('ex1 onclick 이벤트 호출');
+}
+
+function func_ex2(){
+  alert('DOM level1 방식 ex2 이벤트 호출');
+}
+function func_ex3(){
+  alert('DOM level2 방식 ex3 이벤트 호출');
+}
+
+function sum(fnum, rnum){
+  return fnum+rnum;
+}
+
+function check_img(){
+  var frm = $('#frm');
+  var is_img = $('#is_img', frm).val();
+
+  var trimmed_is_img = $.trim(is_img);
+  
+  if (trimmed_is_img.length == 0) {
+    $('img_result').html('FALSE');
+    return;
+  } else{
+    if(trimmed_is_img.endsWith("jpg")||trimmed_is_img.endsWith("png")||trimmed_is_img.endsWith("gif")||trimmed_is_img.endsWith("bmp")){
+      $('#img_result').html('TRUE');
+      return;
+    } else{
+      $('#img_result').html('FALSE');
+      return;
+    }
+  }
+  
+}
