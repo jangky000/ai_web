@@ -1,0 +1,89 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:set var="root" value="${pageContext.request.contextPath}" /> 
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>♥SKINFIT♥</title>
+  
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="${root }/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="${root }/javascript/script.js"></script>
+  
+  <script type="text/javascript">
+    $(function(){
+      $("#input_checkAll").on("click", checkAll);
+      $(".check_product").change(isCheckAll);
+    });
+    
+    // 전체 선택하기
+    function checkAll(){
+      //alert("전체 선택");
+      if($(".check_product").prop("checked"))
+        $(".check_product").prop("checked", false);
+      else
+        $(".check_product").prop("checked", true);
+    }
+    
+    // 체크 박스 전체 선택되었는지 확인
+    function isCheckAll(){
+      if($(".check_product:checked").length == $(".check_product").length)
+        $("#input_checkAll").prop("checked", true);
+      else
+        $("#input_checkAll").prop("checked", false);
+    }
+    
+  </script>
+</head>
+
+<body onload="showImage()">
+  <!-- jsp:include -> jsp가 처리되어 처리 결과가 HTML로 변경되어 메인 페이지에 포함 -->
+  <!-- root를 사용하기 위해 cset을 다시 선언해야 한다. -->
+  <jsp:include page="/menu/top.jsp" flush='false' />
+  
+  <!-- 주문/결제창 시작 -->
+  <div style="width: 80%; margin: 20px auto;">
+    <div>
+      <h2 style="display: inline;">주문/결제</h2>
+      <span style="float: right;">1. 장바구니 ＞ <strong style="background-color: #ffffff;">2. 주문/결제</strong> ＞ 3. 주문 완료</span>
+    </div>
+    *: 필수 입력
+    <div style="margin: 20px auto;">
+      구매자 정보<br>
+      이름, 이메일, 휴대폰 번호
+    </div>
+    
+    <div style="margin: 20px auto;">
+      배송 정보<br>
+      받는 사람, 휴대폰 번호, 우편번호, 주소지, 배송 요청 사항
+    </div>
+    
+    <div style="margin: 20px auto;">
+      주문 상품<br>
+      상품명, 수량
+      <c:forEach var="itemno" items="itemlist">
+        ${itemno }
+      </c:forEach>
+    </div>
+    
+    <div style="margin: 20px auto;">
+      결제 정보<br>
+      총 상품 가격, 할인 쿠폰, 배송비, 총 결제 금액, 결제 방법
+    </div>
+    
+    <div style="margin: 20px auto; text-align: center;">
+     <button type="button">결제하기</button>
+    </div>
+  </div>
+  <!-- 주문/결제창 종료 -->
+   
+   <jsp:include page="/menu/bottom.jsp" flush='false' />
+</body>
+</html>

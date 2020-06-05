@@ -33,6 +33,30 @@ public class PorderCont {
     return mav;
   }
   
+  //http://localhost:9090/team4/porder/payment.do
+  @RequestMapping(value="/porder/payment.do", method=RequestMethod.GET )
+  public ModelAndView payment(String shopping_cartno) {
+    ModelAndView mav = new ModelAndView();
+    
+    mav.setViewName("redirect:/index.jsp"); // team4/index.jsp
+    return mav;
+  }
+  
+  //http://localhost:9090/team4/porder/payment.do
+  /**
+   * 등록 폼, 장바구니 리스트에서 넘어옴
+   * @return
+   */
+  @RequestMapping(value="/porder/payment.do", method=RequestMethod.POST )
+  public ModelAndView payment(String[] shopping_cartno, PorderVO porderVO) {
+    ModelAndView mav = new ModelAndView();
+    // 디비에 접근하긴 해야할 듯, 조인도 필요할 듯, 계산도 다시해야 할 듯
+    mav.addObject("shopping_cartlist", shopping_cartno);
+    mav.addObject("porderVO", porderVO);
+    mav.setViewName("/porder/create"); // webapp/porder/create.jsp
+    return mav;
+  }
+  
  //http://localhost:9090/team4/porder/create.do
  /**
   * 등록 처리
@@ -87,5 +111,21 @@ public class PorderCont {
    
    return mav; // forward
  }
+ 
+//  //http://localhost:9090/team4/porder/test.do
+//  @RequestMapping(value="/porder/test.do", method=RequestMethod.GET)
+//  public ModelAndView test(String[] itemno){
+//    ModelAndView mav = new ModelAndView();
+//
+//    for(int i=0; i<itemno.length; i++) {
+//      System.out.println(itemno[i]);
+//    }
+//    
+//    mav.addObject("itemlist", itemno);
+//    
+//    mav.setViewName("/porder/create"); // webapp/porder/create.jsp
+//    
+//    return mav; // forward
+//  }
  
 }

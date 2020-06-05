@@ -5,7 +5,7 @@
 <html lang="ko"> 
 <head>
 <meta charset="UTF-8">
-<title>쇼핑몰</title>
+<title>SKINFIT</title>
   <script type="text/JavaScript"
             src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   
@@ -60,12 +60,17 @@
     <div style="margin: 20px auto;">
       <table class="table table-striped" style='width: 100%;'>
           <colgroup>
+            <col style="width: 5%;"></col>
+            <col style="width: 5%;"></col>
+            <col style="width: 15%;"></col>
             <col style="width: 10%;"></col>
             <col style="width: 10%;"></col>
-            <col style="width: 30%;"></col>
-            <col style="width: 20%;"></col>
             <col style="width: 10%;"></col>
+            <col style="width: 5%;"></col>
             <col style="width: 10%;"></col>
+            <col style="width: 5%;"></col>
+            <col style="width: 10%;"></col>
+            <col style="width: 5%;"></col>
             <col style="width: 10%;"></col>
           </colgroup>
           <%-- table 컬럼 --%>
@@ -74,8 +79,13 @@
               <th style='text-align: center;'>주문no</th>
               <th style='text-align: center;'>회원번호</th>
               <th style='text-align: center;'>주문날짜</th>
-              <th style='text-align: center;'>주문총액</th>
-              <th style='text-align: center;'>주문상태</th>
+              <th style='text-align: center;'>판매가총액</th>
+              <th style='text-align: center;'>할인총액</th>
+              <th style='text-align: center;'>쿠폰할인</th>
+              <th style='text-align: center;'>배송비</th>
+              <th style='text-align: center;'>최종결제금액</th>
+              <th style='text-align: center;'>승인 상태</th>
+              <th style='text-align: center;'>배송지</th>
               <th style='text-align: center;'>상세보기</th>
               <th style='text-align: center;'>기타</th>
             </tr>
@@ -86,19 +96,29 @@
           <tbody>
             <c:forEach var="porderVO" items="${list }">
               <c:set var="porderno" value="${porderVO.porderno }" />
-              <c:set var="memberno" value="${porderVO.memberno }" />
+              <c:set var="memno" value="${porderVO.memno }" />
               <c:set var="rdate" value="${porderVO.rdate }" />
-              <c:set var="total_price" value="${porderVO.total_price }" />
-              <c:set var="status" value="${porderVO.status }" />
+              <c:set var="item_price_sum" value="${porderVO.item_price_sum }" />
+              <c:set var="item_discount_sum" value="${porderVO.item_discount_sum }" />
+              <c:set var="coupon_discount_sum" value="${porderVO.coupon_discount_sum }" />
+              <c:set var="delivery_fee" value="${porderVO.delivery_fee }" />
+              <c:set var="payment_price" value="${porderVO.payment_price }" />
+              <c:set var="porder_status" value="${porderVO.porder_status }" />
+              <c:set var="porder_address" value="${porderVO.porder_address }" />
               
               <tr> 
                 <td style='text-align: center;'>${porderno}</td>
-                <td style='text-align: center;'>${memberno}</td>
+                <td style='text-align: center;'>${memno}</td>
                 <td style='text-align: center;'>${rdate} </td>
-                <td style='text-align: center;'>${total_price}</td>
-                <td style='text-align: center;'>${status}</td>
+                <td style='text-align: center;'>${item_price_sum} </td>
+                <td style='text-align: center;'>${item_discount_sum} </td>
+                <td style='text-align: center;'>${coupon_discount_sum} </td>
+                <td style='text-align: center;'>${delivery_fee} </td>
+                <td style='text-align: center;'>${payment_price} </td>
+                <td style='text-align: center;'>${porder_status}</td>
+                <td style='text-align: center;'>${porder_address}</td>
                 <td style='text-align: center;'>
-                  <button type="button" onclick="location.href='./update.do?porderno=${porderno}'">상세보기</button>
+                  <button type="button" onclick="location.href='./update.do?porderno=${porderno}'">내역보기</button>
                 </td>
                 <td style='text-align: center;'>
                   <button type="button" onclick="location.href='./update.do?porderno=${porderno}'">수정</button>

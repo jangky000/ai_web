@@ -114,13 +114,3 @@ WHERE porderno=3;
 SELECT *
 FROM user_sequences;
 
-
-
-
-
-select * from sql1;
-select count(*) from sql1 where 1=2;
-
-
-
-select decode('B', 'B', 'A') from dual;

@@ -1,0 +1,28 @@
+package dev.mvc.porder;
+
+/** 주문 */
+public class PorderVO {
+  /*
+    porderno                         NUMBER(10)     NOT NULL    PRIMARY KEY,
+    memno                          NUMBER(10)     NOT NULL,
+    rdate                             DATE     NOT NULL,
+    payment_price                       NUMBER(10)     DEFAULT 0     NOT NULL,
+    status                            CHAR(1)    NOT NULL,
+ */
+  
+  /** 주문no */
+  private int porderno;
+  /** 회원번호 */
+  private int memno;
+  /** 주문날짜 */
+  private String rdate;
+  /** 주문총액 */
+  private int payment_price; // payment_price
+  /** 주문상태 */
+  private String status; // S: success, C: cancelled
+  
+  
+  //getter / setter
+  
+  
+}

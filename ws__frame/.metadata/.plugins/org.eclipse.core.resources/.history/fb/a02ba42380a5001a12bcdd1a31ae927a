@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.porder.Shopping_cartDAOInter">
+  <!-- 장바구니 등록 -->
+  <insert id="create" parameterType="Shopping_cartVO">
+    INSERT INTO shopping_cart(shopping_cartno, memno, itemno, quantity)
+    VALUES(shopping_cart_seq.nextval, #{memno}, #{itemno}, #{quantity})
+  </insert>
+  
+  <!-- 장바구니 목록 -->
+  <select id="list" resultType="Shopping_cartVO">
+    SELECT shopping_cartno, memno, itemno, quantity
+    FROM shopping_cart
+    ORDER BY shopping_cartno DESC
+  </select>
+
+  
+  <!-- 장바구니 수정 -->
+  <update id="quantity_up" parameterType="int">
+    UPDATE shopping_cart
+    SET quantity=quantity + 1
+    WHERE shopping_cartno = 1;
+  </update>
+  
+  <update id="quantity_up" parameterType="int">
+    UPDATE shopping_cart
+    SET quantity=quantity + 1
+    WHERE shopping_cartno = 1;
+  </update>
+  
+  <!-- 장바구니 삭제-->
+  <delete id="delete" parameterType="int">
+    DELETE FROM porder
+    WHERE porderno = #{porderno}
+  </delete>
+  
+</mapper> 

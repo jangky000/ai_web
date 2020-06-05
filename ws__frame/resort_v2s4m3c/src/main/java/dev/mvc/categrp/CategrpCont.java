@@ -179,7 +179,7 @@ public class CategrpCont {
   // http://localhost:9090/resort/categrp/update_seqno_down.do?categrpno=1
   // http://localhost:9090/resort/categrp/update_seqno_down.do?categrpno=1000
   /**
-   * 우선순위 상향 up 10 ▷ 1
+   * 우선순위 하향 up 10 ▷ 1
    * @param categrpno 조회할 카테고리 번호
    * @return
    */

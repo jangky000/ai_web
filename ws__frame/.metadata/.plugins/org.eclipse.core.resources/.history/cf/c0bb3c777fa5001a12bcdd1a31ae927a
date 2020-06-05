@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.porder.Shopping_cartDAOInter">
+  <!-- 장바구니 등록 -->
+  <insert id="create" parameterType="PorderVO">
+    INSERT INTO porder(porderno, memno, rdate, total_price, status)
+    VALUES(porder_seq.nextval, #{memno}, sysdate, #{total_price}, #{status})
+  </insert>
+  
+  <!-- 장바구니 목록 -->
+  <select id="list" resultType="PorderVO">
+    SELECT porderno, memno, rdate, total_price, status
+    FROM porder
+    ORDER BY porderno DESC
+  </select>
+
+  <!-- 장바구니 조회 -->
+  <select id="read" resultType="PorderVO" parameterType="int">
+    SELECT porderno, memno, rdate, total_price, status
+    FROM porder
+    WHERE porderno = #{porderno}
+  </select>
+  
+  <!-- 주문 수정 -->
+  <update id="update" parameterType="PorderVO">
+    UPDATE porder
+    SET total_price=#{total_price}, status=#{status}
+    WHERE porderno = #{porderno}
+  </update>
+  
+  <!-- 주문 삭제-->
+  <delete id="delete" parameterType="int">
+    DELETE FROM porder
+    WHERE porderno = #{porderno}
+  </delete>
+  
+</mapper> 

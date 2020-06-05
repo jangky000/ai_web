@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.porder.PorderDAOInter">
+  <!-- 주문 등록 -->
+  <insert id="create" parameterType="PorderVO">
+    INSERT INTO porder(porderno, memno, rdate, item_price_sum, item_discount_sum, coupon_discount_sum, delivery_fee, payment_price, porder_status, porder_address)
+    VALUES(porder_seq.nextval, #{memno}, sysdate, #{item_price_sum}, #{item_discount_sum}, #{coupon_discount_sum}, #{delivery_fee}, #{payment_price}, #{porder_status}, #{porder_address})
+  </insert>
+  
+  <!-- 주문 목록 -->
+  <select id="list" resultType="PorderVO">
+    SELECT porderno, memno, rdate, payment_price, porder_status
+    FROM porder
+    ORDER BY porderno DESC
+  </select>
+
+  <!-- 주문 조회 -->
+  <select id="read" resultType="PorderVO" parameterType="int">
+    SELECT porderno, memno, rdate, payment_price, status
+    FROM porder
+    WHERE porderno = #{porderno}
+  </select>  
+  
+  <!-- 주문 수정 -->
+  <update id="update" parameterType="PorderVO">
+    UPDATE porder
+    SET payment_price=#{payment_price}, status=#{status}
+    WHERE porderno = #{porderno}
+  </update>
+  
+  <!-- 주문 삭제-->
+  <delete id="delete" parameterType="int">
+    DELETE FROM porder
+    WHERE porderno = #{porderno}
+  </delete>
+  
+</mapper> 

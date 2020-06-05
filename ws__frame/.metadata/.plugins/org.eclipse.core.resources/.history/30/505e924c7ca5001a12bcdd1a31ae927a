@@ -1,0 +1,27 @@
+package dev.mvc.shopping_cart;
+
+/** 주문 */
+public class Shopping_cartVO {
+  /*
+    shopping_cartno             NUMBER(10)          NOT NULL      PRIMARY KEY,
+    memno                         NUMBER(10)    NOT NULL,
+    itemno                          NUMBER(10)        NOT NULL,
+    quantity                         NUMBER(10)       DEFAULT 1    NOT NULL,
+ */
+  
+  /** 주문no */
+  private int shopping_cartno;
+  /** 회원번호 */
+  private int memno;
+  /** 주문날짜 */
+  private int itemno;
+  /** 주문총액 */
+  private int quantity;
+  /** 주문상태 */
+  private String status;
+  
+  
+  //getter / setter
+
+  
+}

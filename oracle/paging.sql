@@ -315,3 +315,49 @@ WHERE r>=4 AND r <=6;
    4 04월   4
    5 05월   5
    6 06월   6
+   
+
+12) 검색 + 페이징
+-- step 1
+SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word
+FROM contents
+WHERE cateno=23 AND word LIKE '%스위스%'
+ORDER BY contentsno DESC;
+
+-- step 2
+SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word, rownum as r
+FROM (
+          SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word
+          FROM contents
+          WHERE cateno=23 AND word LIKE '%스위스%'
+          ORDER BY contentsno DESC
+);
+
+-- step 3, 1 page
+SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word, r
+FROM (
+           SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word, rownum as r
+           FROM (
+                     SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word
+                     FROM contents
+                     WHERE cateno=23 AND word LIKE '%스위스%'
+                     ORDER BY contentsno DESC
+           )          
+)
+WHERE r >= 1 AND r <=10;
+
+-- step 3, 2 page
+-- 정렬 -> rownum부여 -> WHERE로 슬라이싱
+SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word, r
+FROM (
+           SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word, rownum as r
+           FROM (
+                     SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word
+                     FROM contents
+                     WHERE cateno=23 AND word LIKE '%스위스%'
+                     ORDER BY contentsno DESC
+           )          
+)
+WHERE r >= 11 AND r <=20;
+
+

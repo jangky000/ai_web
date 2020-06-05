@@ -5,7 +5,7 @@
 <html lang="ko"> 
 <head>
 <meta charset="UTF-8">
-<title>쇼핑몰</title>
+<title>SKINFIT</title>
   <script type="text/JavaScript"
             src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -124,7 +124,7 @@
     </div>
     <!-- 리스트 테이블 종료 -->
   </div>
-  
+  ** 삭제하기
   수정 방법 확정하기
   주문 상태 변경하기: 결제 대기, 결제 완료, -> 결제를 해야 업데이트 가능 -> 결제 페이지로 이동 -> 결제 완료 시 날짜도 같이 업데이트하기
   

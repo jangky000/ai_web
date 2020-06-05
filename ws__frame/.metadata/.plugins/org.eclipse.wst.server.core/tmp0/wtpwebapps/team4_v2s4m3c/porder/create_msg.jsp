@@ -6,7 +6,7 @@
 <html lang="ko"> 
 <head>
 <meta charset="UTF-8">
-<title>ºÓ«Œ∏Ù</title>
+<title>SKINFIT</title>
 </head>
 <body>
   <c:choose>
