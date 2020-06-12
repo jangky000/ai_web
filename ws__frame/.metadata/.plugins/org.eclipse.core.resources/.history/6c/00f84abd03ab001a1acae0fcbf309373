@@ -1,0 +1,315 @@
+DROP TABLE couponfile CASCADE CONSTRAINTS;
+DROP TABLE sendback CASCADE CONSTRAINTS;
+DROP TABLE refund_policy CASCADE CONSTRAINTS;
+DROP TABLE point CASCADE CONSTRAINTS;
+DROP TABLE coupon_use CASCADE CONSTRAINTS;
+DROP TABLE search_statistics CASCADE CONSTRAINTS;
+DROP TABLE search_inverted_index CASCADE CONSTRAINTS;
+DROP TABLE user_coupon CASCADE CONSTRAINTS;
+DROP TABLE coupon_category CASCADE CONSTRAINTS;
+DROP TABLE coupon CASCADE CONSTRAINTS;
+DROP TABLE delivery CASCADE CONSTRAINTS;
+DROP TABLE delivery_company CASCADE CONSTRAINTS;
+DROP TABLE refund CASCADE CONSTRAINTS;
+DROP TABLE porder_detail CASCADE CONSTRAINTS;
+DROP TABLE porder CASCADE CONSTRAINTS;
+DROP TABLE payment_method CASCADE CONSTRAINTS;
+DROP TABLE shopping_cart CASCADE CONSTRAINTS;
+
+/**********************************/
+/* Table Name: 장바구니 */
+/**********************************/
+CREATE TABLE shopping_cart(
+		shopping_cartno               		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
+		memno                         		NUMBER(10)		 NOT NULL,
+		itemno                        		NUMBER(10)		 NOT NULL,
+		quantity                      		NUMBER(10)		 DEFAULT 1		 NOT NULL
+);
+
+COMMENT ON TABLE shopping_cart is '장바구니';
+COMMENT ON COLUMN shopping_cart.shopping_cartno is '쇼핑카트no';
+COMMENT ON COLUMN shopping_cart.memno is '회원no';
+COMMENT ON COLUMN shopping_cart.itemno is '상품no';
+COMMENT ON COLUMN shopping_cart.quantity is '수량';
+
+
+/**********************************/
+/* Table Name: 결제방법 */
+/**********************************/
+CREATE TABLE payment_method(
+		payment_methodno              		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
+		pname                         		VARCHAR2(100)		 NOT NULL
+);
+
+COMMENT ON TABLE payment_method is '결제방법';
+COMMENT ON COLUMN payment_method.payment_methodno is '결제방법no';
+COMMENT ON COLUMN payment_method.pname is '결제방법 이름';
+
+
+/**********************************/
+/* Table Name: 주문 */
+/**********************************/
+CREATE TABLE porder(
+		porderno                      		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
+		memno                         		NUMBER(10)		 NOT NULL,
+		rdate                         		DATE		 NOT NULL,
+		item_price_sum                		NUMBER(10)		 NOT NULL,
+		item_discount_sum             		NUMBER(10)		 NOT NULL,
+		coupon_discount_sum           		NUMBER(10)		 NOT NULL,
+		delivery_fee                  		NUMBER(10)		 DEFAULT 0		 NOT NULL,
+		payment_price                 		NUMBER(10)		 DEFAULT 0		 NOT NULL,
+		porder_status                 		CHAR(1)		 NOT NULL,
+		porder_zip_code               		NUMBER(10)		 NOT NULL,
+		porder_address                		VARCHAR2(1000)		 NOT NULL,
+		porder_delivery_request       		VARCHAR2(1000)		 NULL 
+);
+
+COMMENT ON TABLE porder is '주문';
+COMMENT ON COLUMN porder.porderno is '주문no';
+COMMENT ON COLUMN porder.memno is '회원no';
+COMMENT ON COLUMN porder.rdate is '주문날짜';
+COMMENT ON COLUMN porder.item_price_sum is '판매가총액';
+COMMENT ON COLUMN porder.item_discount_sum is '할인총액';
+COMMENT ON COLUMN porder.coupon_discount_sum is '쿠폰할인';
+COMMENT ON COLUMN porder.delivery_fee is '배송비';
+COMMENT ON COLUMN porder.payment_price is '최종결제금액';
+COMMENT ON COLUMN porder.porder_status is '승인 상태';
+COMMENT ON COLUMN porder.porder_zip_code is '우편번호';
+COMMENT ON COLUMN porder.porder_address is '배송지';
+COMMENT ON COLUMN porder.porder_delivery_request is '배송요청사항';
+
+
+/**********************************/
+/* Table Name: 주문상세 */
+/**********************************/
+CREATE TABLE porder_detail(
+		porder_detailno               		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
+		porderno                      		NUMBER(10)		 NOT NULL,
+		itemno                        		NUMBER(10)		 NOT NULL,
+		quantity                      		NUMBER(10)		 DEFAULT 1		 NOT NULL,
+		item_price_sum                		NUMBER(10)		 DEFAULT 0		 NOT NULL,
+		item_discount_sum             		NUMBER(10)		 NOT NULL,
+		payment_price                 		NUMBER(10)		 NOT NULL,
+  FOREIGN KEY (porderno) REFERENCES porder (porderno)
+);
+
+COMMENT ON TABLE porder_detail is '주문상세';
+COMMENT ON COLUMN porder_detail.porder_detailno is '주문상세no';
+COMMENT ON COLUMN porder_detail.porderno is '주문no';
+COMMENT ON COLUMN porder_detail.itemno is '상품no';
+COMMENT ON COLUMN porder_detail.quantity is '수량';
+COMMENT ON COLUMN porder_detail.item_price_sum is '판매가총액';
+COMMENT ON COLUMN porder_detail.item_discount_sum is '할인총액';
+COMMENT ON COLUMN porder_detail.payment_price is '최종결제액';
+
+
+/**********************************/
+/* Table Name: 환불 */
+/**********************************/
+CREATE TABLE refund(
+		refundno                      		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
+		rdate                         		DATE		 NOT NULL,
+		total_price                   		NUMBER(10)		 NOT NULL,
+		payment_methodno              		NUMBER(10)		 NULL ,
+		porderno                      		NUMBER(10)		 NULL ,
+  FOREIGN KEY (payment_methodno) REFERENCES payment_method (payment_methodno),
+  FOREIGN KEY (porderno) REFERENCES porder (porderno)
+);
+
+COMMENT ON TABLE refund is '환불';
+COMMENT ON COLUMN refund.refundno is '환불no';
+COMMENT ON COLUMN refund.rdate is '환불날짜';
+COMMENT ON COLUMN refund.total_price is '환불 총금액';
+COMMENT ON COLUMN refund.payment_methodno is '결제방법no';
+COMMENT ON COLUMN refund.porderno is '주문no';
+
+
+/**********************************/
+/* Table Name: 배송업체 */
+/**********************************/
+CREATE TABLE delivery_company(
+		delivery_companyno            		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
+		cname                         		VARCHAR2(100)		 NOT NULL
+);
+
+COMMENT ON TABLE delivery_company is '배송업체';
+COMMENT ON COLUMN delivery_company.delivery_companyno is '배송업체 번호';
+COMMENT ON COLUMN delivery_company.cname is '배송업체 이름';
+
+
+/**********************************/
+/* Table Name: 배송 */
+/**********************************/
+CREATE TABLE delivery(
+		deliveryno                    		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
+		status                        		CHAR(1)		 NOT NULL,
+		delivery_companyno            		NUMBER(10)		 NULL ,
+		paydetail                     		INTEGER(10)		 NULL ,
+		porder_detailno               		NUMBER(10)		 NULL ,
+  FOREIGN KEY (delivery_companyno) REFERENCES delivery_company (delivery_companyno),
+  FOREIGN KEY (porder_detailno) REFERENCES porder_detail (porder_detailno)
+);
+
+COMMENT ON TABLE delivery is '배송';
+COMMENT ON COLUMN delivery.deliveryno is '배송no';
+COMMENT ON COLUMN delivery.status is '배송상태';
+COMMENT ON COLUMN delivery.delivery_companyno is '배송업체 번호';
+COMMENT ON COLUMN delivery.paydetail is '세부결제내역';
+COMMENT ON COLUMN delivery.porder_detailno is '주문상세no';
+
+
+/**********************************/
+/* Table Name: 쿠폰 */
+/**********************************/
+CREATE TABLE coupon(
+		couponno                      		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
+		cname                         		VARCHAR2(200)		 NOT NULL,
+		cnt                           		NUMBER(10)		 DEFAULT 0		 NOT NULL,
+		discount                      		NUMBER(10)		 DEFAULT 0		 NOT NULL
+);
+
+COMMENT ON TABLE coupon is '쿠폰';
+COMMENT ON COLUMN coupon.couponno is '쿠폰no';
+COMMENT ON COLUMN coupon.cname is '쿠폰이름';
+COMMENT ON COLUMN coupon.cnt is '쿠폰 총 수량';
+COMMENT ON COLUMN coupon.discount is '할인액';
+
+
+/**********************************/
+/* Table Name: 쿠폰 사용 가능 카테고리 */
+/**********************************/
+CREATE TABLE coupon_category(
+		coupon_categoryno             		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
+		cateno                        		NUMBER(10)		 NOT NULL,
+		couponno                      		NUMBER(10)		 NULL ,
+  FOREIGN KEY (couponno) REFERENCES coupon (couponno)
+);
+
+COMMENT ON TABLE coupon_category is '쿠폰 사용 가능 카테고리';
+COMMENT ON COLUMN coupon_category.coupon_categoryno is '쿠폰 사용 가능 카테고리no';
+COMMENT ON COLUMN coupon_category.cateno is '상품 카테고리';
+COMMENT ON COLUMN coupon_category.couponno is '쿠폰no';
+
+
+/**********************************/
+/* Table Name: 회원 쿠폰(쿠폰 발급 내역) */
+/**********************************/
+CREATE TABLE user_coupon(
+		user_couponno                 		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
+		user_id                       		VARCHAR2(100)		 NOT NULL,
+		cissue                        		DATE		 NOT NULL,
+		cexpired                      		DATE		 NOT NULL,
+		cnt                           		NUMBER(10)		 NOT NULL,
+		couponno                      		NUMBER(10)		 NULL ,
+  FOREIGN KEY (couponno) REFERENCES coupon (couponno)
+);
+
+COMMENT ON TABLE user_coupon is '회원 쿠폰(쿠폰 발급 내역)';
+COMMENT ON COLUMN user_coupon.user_couponno is '회원 쿠폰no';
+COMMENT ON COLUMN user_coupon.user_id is '회원 id';
+COMMENT ON COLUMN user_coupon.cissue is '쿠폰발급일';
+COMMENT ON COLUMN user_coupon.cexpired is '쿠폰만료일';
+COMMENT ON COLUMN user_coupon.cnt is '쿠폰 수량';
+COMMENT ON COLUMN user_coupon.couponno is '쿠폰no';
+
+
+/**********************************/
+/* Table Name: 검색 역인덱스 */
+/**********************************/
+CREATE TABLE search_inverted_index(
+		search_inverted_indexno       		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
+		sterm                         		VARCHAR2(200)		 NOT NULL,
+		productno                     		NUMBER(10)		 NOT NULL,
+		term_position                 		NUMBER(10)		 NOT NULL
+);
+
+COMMENT ON TABLE search_inverted_index is '검색 역인덱스';
+COMMENT ON COLUMN search_inverted_index.search_inverted_indexno is '검색 역인덱스no';
+COMMENT ON COLUMN search_inverted_index.sterm is '용어';
+COMMENT ON COLUMN search_inverted_index.productno is '상품no';
+COMMENT ON COLUMN search_inverted_index.term_position is '용어 위치';
+
+
+/**********************************/
+/* Table Name: 검색 통계 */
+/**********************************/
+CREATE TABLE search_statistics(
+		search_statisticsno           		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
+		sterm                         		VARCHAR2(200)		 NOT NULL,
+		cnt                           		NUMBER(10)		 DEFAULT 0		 NOT NULL
+);
+
+COMMENT ON TABLE search_statistics is '검색 통계';
+COMMENT ON COLUMN search_statistics.search_statisticsno is '검색 통계no';
+COMMENT ON COLUMN search_statistics.sterm is '용어';
+COMMENT ON COLUMN search_statistics.cnt is '누적';
+
+
+/**********************************/
+/* Table Name: 쿠폰 사용 내역 */
+/**********************************/
+CREATE TABLE coupon_use(
+		coupon_useno                  		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
+		rdate                         		DATE		 NOT NULL,
+		paymentno                     		NUMBER(10)		 NULL ,
+		user_couponno                 		NUMBER(10)		 NULL ,
+		porderno                      		NUMBER(10)		 NULL ,
+  FOREIGN KEY (user_couponno) REFERENCES user_coupon (user_couponno),
+  FOREIGN KEY (porderno) REFERENCES porder (porderno)
+);
+
+COMMENT ON TABLE coupon_use is '쿠폰 사용 내역';
+COMMENT ON COLUMN coupon_use.coupon_useno is '쿠폰 사용no';
+COMMENT ON COLUMN coupon_use.rdate is '쿠폰 사용 날짜';
+COMMENT ON COLUMN coupon_use.paymentno is '결제no';
+COMMENT ON COLUMN coupon_use.user_couponno is '회원 쿠폰no';
+COMMENT ON COLUMN coupon_use.porderno is '주문no';
+
+
+/**********************************/
+/* Table Name: 포인트 */
+/**********************************/
+CREATE TABLE point(
+		pointno                       		NUMBER(10)		 NOT NULL		 PRIMARY KEY
+);
+
+COMMENT ON TABLE point is '포인트';
+COMMENT ON COLUMN point.pointno is '포인트no';
+
+
+/**********************************/
+/* Table Name: 환불 정책 */
+/**********************************/
+CREATE TABLE refund_policy(
+		refund_policyno               		NUMBER(10)		 NOT NULL		 PRIMARY KEY
+);
+
+COMMENT ON TABLE refund_policy is '환불 정책';
+COMMENT ON COLUMN refund_policy.refund_policyno is '환불정책no';
+
+
+/**********************************/
+/* Table Name: 반송 */
+/**********************************/
+CREATE TABLE sendback(
+		sendbackno                    		NUMBER(10)		 NOT NULL		 PRIMARY KEY
+);
+
+COMMENT ON TABLE sendback is '반송';
+COMMENT ON COLUMN sendback.sendbackno is '반송no';
+
+
+/**********************************/
+/* Table Name: 쿠폰 첨부파일 */
+/**********************************/
+CREATE TABLE couponfile(
+		couponfileno                  		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
+		couponno                      		NUMBER(10)		 NULL ,
+  FOREIGN KEY (couponno) REFERENCES coupon (couponno)
+);
+
+COMMENT ON TABLE couponfile is '쿠폰 첨부파일';
+COMMENT ON COLUMN couponfile.couponfileno is '쿠폰첨부파일번호';
+COMMENT ON COLUMN couponfile.couponno is '쿠폰no';
+
+

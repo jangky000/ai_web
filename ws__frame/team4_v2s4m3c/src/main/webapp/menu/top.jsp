@@ -41,7 +41,7 @@
         
         <a href='${root}'><img class="icon" src="${root}/menu/images/icon/menu_navigation_grid2.png "></a><!--home button icon 향후 업데이트예정 (임시)  -->
         <a href="${root}/shopping_cart/list.do"><img class="icon" src="${root}/menu/images/icon/cart-01.svg"></a> <!-- 규영 카트 -->
-        <img class="icon" src="${root}/menu/images/icon/login-01-01.svg"> <!-- 브가 회원 로그인 및 가입여기에 연결하면될 것 같아 -->
+        <a href="${root}/porder/list.do?memno=1"><img class="icon" src="${root}/menu/images/icon/login-01-01.svg"></a> <!-- 브가 회원 로그인 및 가입여기에 연결하면될 것 같아 -->
         <div class="openBtn" onclick="openSearch()"><img class="icon" src="${root}/menu/images/icon/search-01-01.svg"></div>
         <!-- <img class="icon" src="images\icon\search-01-01.svg"> -->
       </div>

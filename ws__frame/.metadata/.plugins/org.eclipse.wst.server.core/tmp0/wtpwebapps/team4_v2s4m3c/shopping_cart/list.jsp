@@ -18,7 +18,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+<!--   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+  
   <script src="${root }/javascript/script.js"></script>
+  
   
   <style type="text/css">
     .table_sty {
@@ -242,7 +248,7 @@
       //var str="";
       var form = document.createElement("form");
       form.action="../porder/payment.do";
-      form.method="post";
+      form.method="get";
       //자식 추가
       $("body").append(form);
       
@@ -253,6 +259,7 @@
         create_hidden("shopping_cartno", $(this).val(), form);
       });
       
+      // 상품 테이블이 없어서 사용함 -> 삭제할 것
       create_hidden("item_price_sum", $("#item_price_sum").html(), form);
       create_hidden("item_discount_sum", $("#item_discount_sum").html(), form);
       create_hidden("coupon_discount_sum", $("#coupon_discount_sum").html(), form);

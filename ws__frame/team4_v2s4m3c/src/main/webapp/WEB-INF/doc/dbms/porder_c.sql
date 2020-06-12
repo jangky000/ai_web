@@ -39,7 +39,9 @@ CREATE TABLE porder(
 		delivery_fee                  		NUMBER(10)		 DEFAULT 0		 NOT NULL,
 		payment_price                 		NUMBER(10)		 DEFAULT 0		 NOT NULL,
 		porder_status                 		CHAR(1)		 NOT NULL,
+        porder_zip_code                  NUMBER(10)		NOT NULL,
 		porder_address                		VARCHAR2(1000)		 NOT NULL,
+        porder_delivery_request            VARCHAR2(1000),
         FOREIGN KEY (memno) REFERENCES mem(memno)
 );
 
@@ -53,7 +55,9 @@ COMMENT ON COLUMN porder.coupon_discount_sum is '쿠폰할인';
 COMMENT ON COLUMN porder.delivery_fee is '배송비';
 COMMENT ON COLUMN porder.payment_price is '최종결제금액';
 COMMENT ON COLUMN porder.porder_status is '승인 상태';
+COMMENT ON COLUMN porder.porder_zip_code is '우편번호';
 COMMENT ON COLUMN porder.porder_address is '배송지';
+COMMENT ON COLUMN porder.porder_delivery_request is '배송요청사항';
 
 DROP SEQUENCE porder_seq;
 CREATE SEQUENCE porder_seq
@@ -66,35 +70,35 @@ CREATE SEQUENCE porder_seq
 -- CREATE
 -- R: ready
 -- C: complete
-INSERT INTO porder(porderno, memno, rdate, item_price_sum, item_discount_sum, coupon_discount_sum, delivery_fee, payment_price, porder_status, porder_address)
-VALUES(porder_seq.nextval, 1, sysdate, 10000, 1000, 1000, 2500, 5500, 'R', '서울특별시 강남구');
-INSERT INTO porder(porderno, memno, rdate, item_price_sum, item_discount_sum, coupon_discount_sum, delivery_fee, payment_price, porder_status, porder_address)
-VALUES(porder_seq.nextval, 2, sysdate, 20000, 1000, 1000, 2500, 15500, 'R', '서울특별시 송파구');
-INSERT INTO porder(porderno, memno, rdate, item_price_sum, item_discount_sum, coupon_discount_sum, delivery_fee, payment_price, porder_status, porder_address)
-VALUES(porder_seq.nextval, 3, sysdate, 30000, 1000, 1000, 2500, 25500, 'R', '경기도 성남시');
+INSERT INTO porder(porderno, memno, rdate, item_price_sum, item_discount_sum, coupon_discount_sum, delivery_fee, payment_price, porder_status, porder_zip_code, porder_address, porder_delivery_request)
+VALUES(porder_seq.nextval, 1, sysdate, 10000, 1000, 1000, 2500, 5500, 'R', 1111, '서울특별시 강남구', '문앞에두고가세요');
+INSERT INTO porder(porderno, memno, rdate, item_price_sum, item_discount_sum, coupon_discount_sum, delivery_fee, payment_price, porder_status, porder_zip_code, porder_address, porder_delivery_request)
+VALUES(porder_seq.nextval, 2, sysdate, 20000, 1000, 1000, 2500, 15500, 'R', 2222, '서울특별시 송파구', '경비실에 맡겨주세요');
+INSERT INTO porder(porderno, memno, rdate, item_price_sum, item_discount_sum, coupon_discount_sum, delivery_fee, payment_price, porder_status, porder_zip_code, porder_address, porder_delivery_request)
+VALUES(porder_seq.nextval, 3, sysdate, 30000, 1000, 1000, 2500, 25500, 'R', 3333, '경기도 성남시', '');
 
 COMMIT;
 
 -- LIST
 -- 관리자
-SELECT porderno, memno, rdate, item_price_sum, item_discount_sum, coupon_discount_sum, delivery_fee, payment_price, porder_status, porder_address
+SELECT porderno, memno, rdate, item_price_sum, item_discount_sum, coupon_discount_sum, delivery_fee, payment_price, porder_status, porder_zip_code, porder_address, porder_delivery_request
 FROM porder
 ORDER BY porderno DESC;
 
 -- 사용자
-SELECT porderno, memno, rdate, item_price_sum, item_discount_sum, coupon_discount_sum, delivery_fee, payment_price, porder_status, porder_address
+SELECT porderno, memno, rdate, item_price_sum, item_discount_sum, coupon_discount_sum, delivery_fee, payment_price, porder_status, porder_zip_code, porder_address, porder_delivery_request
 FROM porder
 WHERE memno=1
 ORDER BY porderno DESC;
 
 -- READ
 -- 관리자
-SELECT porderno, memno, rdate, item_price_sum, item_discount_sum, coupon_discount_sum, delivery_fee, payment_price, porder_status, porder_address
+SELECT porderno, memno, rdate, item_price_sum, item_discount_sum, coupon_discount_sum, delivery_fee, payment_price, porder_status, porder_zip_code, porder_address, porder_delivery_request
 FROM porder
 WHERE porderno = 1 AND memno=1;
 
 -- 사용자
-SELECT porderno, memno, rdate, item_price_sum, item_discount_sum, coupon_discount_sum, delivery_fee, payment_price, porder_status, porder_address
+SELECT porderno, memno, rdate, item_price_sum, item_discount_sum, coupon_discount_sum, delivery_fee, payment_price, porder_status, porder_zip_code, porder_address, porder_delivery_request
 FROM porder
 WHERE porderno = 1 AND memno=1;
 
@@ -111,7 +115,7 @@ WHERE porderno = 1;
 
 -- address
 UPDATE porder
-SET porder_address='경기도 수원시'
+SET porder_zip_code='1111',  porder_address='경기도 수원시'
 WHERE porderno = 1;
 
 

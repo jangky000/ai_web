@@ -53,6 +53,23 @@
     .table_sty2 td{
       padding: 20px;
     }
+    
+    .btn_dflt1{
+      width:200px; height:40px; line-height:40px; 
+      margin:15px auto; 
+      text-align:center; cursor: pointer; color:#333; transition:all 0.9s, color 0.3;
+      border: none;
+    }
+    .btn_dflt1:hover{
+      box-shadow:200px 0 0 0 rgba(0,0,0,0.5) inset;
+      border: none;
+    }
+    
+    .btn_dflt1:active{
+      /*  */
+      box-shadow:200px 0 0 0 rgba(0,0,0,0) inset;
+      background-color: white;
+    }
   </style>
   
 </head>
@@ -68,6 +85,11 @@
       <h2 style="display: inline;">주문/결제</h2>
       <span style="float: right;">1. 장바구니 ＞ <strong style="background-color: #ffffff;">2. 주문/결제</strong> ＞ 3. 주문 완료</span>
     </div>
+    
+    <%
+      int memno = 1;
+      request.setAttribute("memno", memno);
+    %>
     
     <!-- 구매자 정보 시작 -->
     <div style="margin: 20px auto;">
@@ -122,14 +144,14 @@
           <tr>
             <th style='text-align: right;'>배송 주소</th>
             <td style='text-align: left;'>
-              <input type="text" placeholder="우편번호" style="width: 200px;"><br>
-              <input type="text" placeholder="상세주소" style="width: 500px;">
+              <input type="text" id='porder_zip_code' placeholder="우편번호" value="1111" style="width: 200px;" required="required"><br>
+              <input type="text" id='porder_address' placeholder="상세주소" value="서울특별시 강남구" style="width: 500px;" required="required">
             </td>
           </tr>
           <tr>
             <th style='text-align: right;'>배송 요청 사항</th>
             <td style='text-align: left;'>
-              <textarea rows="3" style="width: 500px;">문 앞에 두고 가세요</textarea>
+              <textarea id='porder_delivery_request' rows="3" style="width: 500px;">문 앞에 두고 가세요</textarea>
             </td>
           </tr>
         </tbody>
@@ -150,11 +172,11 @@
           </colgroup>
           <%-- table 내용 --%>
           <tbody>
-            <c:forEach var="shopping_cartno" items="${shopping_cartlist }">
+            <c:forEach var="shopping_cartVO" items="${shopping_cartlist }">
               <tr>
                 <td style='text-align: left;'><img src="./sample.png" style="width: 50px; height: 50px;"></td>
-                <td style='padding:0 20px; text-align: left;'>장바구니 번호 ${shopping_cartno }</td>
-                <td style='padding:0 20px; text-align: center;'>n개</td>
+                <td style='padding:0 20px; text-align: left;'>장바구니 번호 ${shopping_cartVO.shopping_cartno }</td>
+                <td style='padding:0 20px; text-align: center;'>${shopping_cartVO.quantity} 개</td>
                 <td style='padding:0 20px; text-align: center;'>오늘 출고</td>
               </tr>
             </c:forEach>
@@ -194,12 +216,141 @@
     <!-- 결제 정보 종료  -->
     
     <div style="margin: 20px auto; text-align: center;">
-      <button type="button" style="width: 100px; height: 60px; border-radius: 5%;">장바구니 가기</button>
-      <button type="button" style="width: 100px; height: 60px; border-radius: 5%;">결제하기</button>
+      <button type="button" class="btn_dflt1" style="width: 100px; height: 60px; border-radius: 5%;" onclick="history.back();">장바구니 가기</button>
+      <button type="button" id="btn_buy" class="btn_dflt1" style="width: 100px; height: 60px; border-radius: 5%;">결제하기</button>
     </div>
   </div>
   <!-- 주문/결제창 종료 -->
    
    <jsp:include page="/menu/bottom.jsp" flush='false' />
+   
+   <script type="text/javascript">
+    $(function(){
+      $('#btn_buy').on('click', create_pay)
+    });
+    
+    // json, jsonArray 형태로 정보 전송 -> 이대로 결제 처리
+    function create_pay(){
+      // ajax로 처리
+      
+      
+      var porderJSON={
+                              'memno':'1',
+                              'item_price_sum':${porderVO.item_price_sum },
+                              'item_discount_sum':${porderVO.item_discount_sum },
+                              'coupon_discount_sum':${porderVO.coupon_discount_sum },
+                              'delivery_fee':${porderVO.delivery_fee },
+                              'payment_price':${porderVO.payment_price },
+                              //'porder_status':'1',
+                              'porder_zip_code': $('#porder_zip_code').val(),
+                              'porder_address':$('#porder_address').val(),
+                              'porder_delivery_request':$('#porder_delivery_request').html()
+                             };
+      
+      var porder_detailArr = [];
+      
+      // 상품 개수 만큼 순회      
+      <c:forEach var="shopping_cartVO" items="${shopping_cartlist }">
+        porder_detailArr.push({
+          'itemno':'${shopping_cartVO.itemno}',
+          'quantity':'${shopping_cartVO.quantity}',
+          'item_price_sum':'1',
+          'item_discount_sum':'1',
+          'payment_price':'1'
+          //'porder_detail_status':'1'
+        });
+      </c:forEach>
+      
+      
+      // JSON형식의 String 변환은 단 한번 해준다, JSON 내부의 JSON은 모두 String 형태로 직접 변환해줘야 한다.
+      var params = {'porderJSONString':JSON.stringify(porderJSON), 'porder_detailArrString':JSON.stringify(porder_detailArr)};
+      
+      //alert(params);
+      
+      $.ajax({
+        url: './create.do',
+        type: 'post',
+        //traditional: true, // json 배열 전송??
+        cache: false, // 응답 결과 임시 저장 취소
+        async: false,  // false: 동기 통신 -> 주문이 중복으로 들어가는 것을 방지, 절차적으로 처리
+        dataType: 'json', // 응답 형식: json, html, xml...
+        data: params,      // 데이터
+        success: function(rdata) { // 서버로부터 성공적으로 응답이 온경우
+          //var msg = "";
+          //alert(rdata.result);
+          if(rdata.result == "fully success"){
+            alert("결과 페이지 이동");
+            location.href="./complete.do?cnt=1";
+          } else{
+            alert("결제 오류");
+            
+          }
+          /* if (rdata.result) { // 주문 입력, 주문상세 입력 처리 성공
+            // frm.submit();
+          } else {  // 결제 오류
+            
+          } */
+        },
+        // Ajax 통신 에러, 응답 코드가 200이 아닌경우, dataType이 다른경우 
+        error: function(request, status, error) { // callback 함수
+          var msg = 'ERROR<br><br>';
+          msg += '<strong>request.status</strong><br>'+request.status + '<hr>';
+          msg += '<strong>error</strong><br>'+error + '<hr>';
+          console.log(msg);
+        }
+      });
+
+      
+    }
+    
+    function create_porder(){
+      var form = document.createElement("form");
+      form.action="./create.do";
+      form.method="post";
+      $("body").append(form);
+      
+      //alert(${memno});
+      //return;
+      
+      //EL 값을 넣음
+      create_hidden("memno", ${memno}, form); 
+      
+      create_hidden("item_price_sum", ${porderVO.item_price_sum }, form);
+      create_hidden("item_discount_sum", ${porderVO.item_discount_sum }, form);
+      create_hidden("coupon_discount_sum", ${porderVO.coupon_discount_sum }, form);
+      create_hidden("delivery_fee", ${porderVO.delivery_fee }, form);
+      create_hidden("payment_price", ${porderVO.payment_price }, form);
+      
+      create_hidden("porder_status", "R", form);
+      
+      if($('#porder_zip_code').val() == ""){
+        $('#porder_zip_code').focus();
+        alert("우편번호를 입력해주세요.");
+        return;
+      }
+      create_hidden("porder_zip_code", $('#porder_zip_code').val(), form);
+      
+      if($('#porder_address').val() == ""){
+        $('#porder_address').focus();
+        alert("상세주소를 입력해주세요");
+        return;
+      }
+      create_hidden("porder_address", $('#porder_address').val(), form);
+      
+      create_hidden("porder_delivery_request", $('#porder_delivery_request').html(), form);
+      
+      //alert();
+      form.submit();
+    }
+    
+    function create_hidden(name, val, form){
+      input = document.createElement("input");
+      input.type = "hidden";
+      input.name = name;
+      input.value = val;
+      form.append(input);
+    }
+    
+  </script>
 </body>
 </html>

@@ -24,6 +24,15 @@ public interface Shopping_cartDAOInter {
 
   /**
    * <xmp>
+   * 결제 시 선택된 쇼핑카트no 조회
+   * <select id="list_by_selected_shopping_cartno" resultType="Shopping_cartVO">
+   * <xmp>
+   * @return
+   */
+  public List<Shopping_cartVO> list_by_selected_shopping_cartno(int[] shopping_cartInt);
+  
+  /**
+   * <xmp>
    * 장바구니 조회
    * <select id="read" resultType="Shopping_cartVO" parameterType="int">
    * <xmp>

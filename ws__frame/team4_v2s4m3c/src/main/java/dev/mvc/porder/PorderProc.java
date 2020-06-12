@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class PorderProc implements PorderProcInter{
   
   @Autowired
-  private PorderDAOInter PorderDAO;
+  private PorderDAOInter porderDAO;
 
   public PorderProc(){
     System.out.println("--> PorderProc created.");
@@ -17,31 +17,31 @@ public class PorderProc implements PorderProcInter{
 
   @Override
   public int create(PorderVO porderVO) {
-    int cnt = this.PorderDAO.create(porderVO);
+    int cnt = this.porderDAO.create(porderVO);
     return cnt;
   }
 
   @Override
   public List<PorderVO> list() {
-    List<PorderVO> list = this.PorderDAO.list();
+    List<PorderVO> list = this.porderDAO.list();
     return list;
   }
 
   @Override
   public PorderVO read(int porderno) {
-    PorderVO porderVO = this.PorderDAO.read(porderno);
+    PorderVO porderVO = this.porderDAO.read(porderno);
     return porderVO;
   }
 
   @Override
   public int update(PorderVO porderVO) {
-    int cnt = this.PorderDAO.update(porderVO);
+    int cnt = this.porderDAO.update(porderVO);
     return cnt;
   }
 
   @Override
   public int delete(int porderno) {
-    int cnt = this.PorderDAO.delete(porderno);
+    int cnt = this.porderDAO.delete(porderno);
     return cnt;
   }
 

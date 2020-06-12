@@ -28,6 +28,12 @@ public class Shopping_cartProc implements Shopping_cartProcInter{
   }
 
   @Override
+  public List<Shopping_cartVO> list_by_selected_shopping_cartno(int[] shopping_cartInt) {
+    List<Shopping_cartVO> list = this.Shopping_cartDAO.list_by_selected_shopping_cartno(shopping_cartInt);
+    return list;
+  }
+  
+  @Override
   public Shopping_cartVO read(int shopping_cartno) {
     Shopping_cartVO shopping_cartVO = this.Shopping_cartDAO.read(shopping_cartno);
     return shopping_cartVO;
@@ -50,7 +56,6 @@ public class Shopping_cartProc implements Shopping_cartProcInter{
     int cnt = this.Shopping_cartDAO.delete(shopping_cartno);
     return cnt;
   }
-
   
 
 }

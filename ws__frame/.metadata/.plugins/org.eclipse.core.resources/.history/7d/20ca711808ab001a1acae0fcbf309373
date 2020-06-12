@@ -1,0 +1,27 @@
+package dev.mvc.porder_detail;
+
+public class Porder_detailVO {
+
+/*      
+      porder_detailno                   NUMBER(10)     NOT NULL    PRIMARY KEY,
+      porderno                          NUMBER(10)     NOT NULL,
+      itemno                            NUMBER(10)     NOT NULL,
+      quantity                          NUMBER(10)     DEFAULT 1     NOT NULL,
+      item_price_sum                    NUMBER(10)     DEFAULT 0     NOT NULL,
+      item_discount_sum                 NUMBER(10)     NOT NULL,
+      payment_price                     NUMBER(10)     NOT NULL,
+      porder_detail_status                 CHAR(1)     NOT NULL,
+  */
+
+
+  COMMENT ON TABLE porder_detail is '주문상세';
+  COMMENT ON COLUMN porder_detail.porder_detailno is '주문상세no';
+  COMMENT ON COLUMN porder_detail.porderno is '주문no';
+  COMMENT ON COLUMN porder_detail.itemno is '상품no';
+  COMMENT ON COLUMN porder_detail.quantity is '수량';
+  COMMENT ON COLUMN porder_detail.item_price_sum is '판매가총액';
+  COMMENT ON COLUMN porder_detail.item_discount_sum is '할인총액';
+  COMMENT ON COLUMN porder_detail.payment_price is '최종결제액';
+  COMMENT ON COLUMN porder_detail.porder_detail_status is '주문상세승인상태';
+  
+}

@@ -17,6 +17,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     ORDER BY shopping_cartno DESC
   </select>
   
+  <!-- 결제 시 선택된 쇼핑카트no 조회 -->
+  <!-- 동적 SQL -->
+  <!-- https://m.blog.naver.com/yysvip/220178619415 -->
+  <select id="list_by_selected_shopping_cartno" resultType="Shopping_cartVO">
+    SELECT shopping_cartno, memno, itemno, quantity
+    FROM shopping_cart
+    WHERE 
+    <foreach collection="array" item="shopping_cartno" open="" close="" separator=" OR ">
+      shopping_cartno = #{shopping_cartno}
+    </foreach>
+    ORDER BY shopping_cartno DESC
+  </select>
+  
   <!-- 장바구니 목록 페이징 -->
   
   <!-- 장바구니 조회 -->
