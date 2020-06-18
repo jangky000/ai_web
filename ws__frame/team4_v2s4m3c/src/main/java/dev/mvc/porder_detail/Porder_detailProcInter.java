@@ -1,5 +1,6 @@
 package dev.mvc.porder_detail;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface Porder_detailProcInter {
@@ -33,28 +34,10 @@ public interface Porder_detailProcInter {
   
   /**
    * <xmp>
-   * 주문 조회
-   * <select id="read" resultType="PorderVO" parameterType="int">
+   * 주문 상세 수정: 운송장등록
+   * <update id="update_trackingno" parameterType="HashMap ">
    * <xmp>
    * @return
    */
-  public Porder_detailVO read(int porder_detailno);
-
-  /**
-   * <xmp>
-   * 주문 수정
-   * <update id="update" parameterType="PorderVO">
-   * <xmp>
-   * @return
-   */
-  public int update(Porder_detailVO porder_detailVO);
-
-  /**
-   * <xmp>
-   * 주문 삭제
-   * <delete id="delete" parameterType="int">
-   * <xmp>
-   * @return
-   */
-  public int delete(int porder_detailno);
+  public int update_trackingno(HashMap map);
 }

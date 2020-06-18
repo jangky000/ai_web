@@ -1,12 +1,13 @@
 package dev.mvc.porder_detail;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface Porder_detailDAOInter {
   
   /**
    * <xmp>
-   * 주문 내역 등록
+   * 주문 상세 내역 등록
    * <insert id="create" parameterType="Porder_detailVO">
    * <xmp>
    * @return
@@ -15,7 +16,7 @@ public interface Porder_detailDAOInter {
 
   /**
    * <xmp>
-   * 주문 내역 목록
+   * 주문 상세 내역 목록
    * <select id="list" resultType="Porder_detailVO">
    * <xmp>
    * @return
@@ -33,8 +34,8 @@ public interface Porder_detailDAOInter {
   
   /**
    * <xmp>
-   * 주문 조회
-   * <select id="read" resultType="PorderVO" parameterType="int">
+   * 주문 상세 조회
+   * <select id="read" resultType="Porder_detailVO" parameterType="int">
    * <xmp>
    * @return
    */
@@ -42,12 +43,12 @@ public interface Porder_detailDAOInter {
 
   /**
    * <xmp>
-   * 주문 수정
-   * <update id="update" parameterType="PorderVO">
+   * 주문 상세 수정: 운송장등록
+   * <update id="update_trackingno" parameterType="HashMap ">
    * <xmp>
    * @return
    */
-  public int update(Porder_detailVO porder_detailVO);
+  public int update_trackingno(HashMap map);
 
   /**
    * <xmp>

@@ -1,7 +1,0 @@
-package dev.form;
-
-import javax.servlet.http.HttpServlet;
-
-public class FestivalReq extends HttpServlet {
-
-}

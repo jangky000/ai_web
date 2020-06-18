@@ -1,8 +1,0 @@
-package dev.mvc.porder;
-
-import org.springframework.stereotype.Component;
-
-@Component("dev.mvc.porder.PorderProc");
-public class PorderProc implements PorderProcInter{
-
-}

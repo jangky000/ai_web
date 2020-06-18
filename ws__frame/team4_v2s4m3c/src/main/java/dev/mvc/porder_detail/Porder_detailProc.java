@@ -1,5 +1,6 @@
 package dev.mvc.porder_detail;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,25 +35,10 @@ public class Porder_detailProc implements Porder_detailProcInter{
   }
 
   @Override
-  public Porder_detailVO read(int porder_detailno) {
-    // TODO Auto-generated method stub
-    return null;
+  public int update_trackingno(HashMap map) {
+    int cnt = this.porder_detailDAO.update_trackingno(map);
+    return cnt;
   }
 
-  @Override
-  public int update(Porder_detailVO porder_detailVO) {
-    // TODO Auto-generated method stub
-    return 0;
-  }
-
-  @Override
-  public int delete(int porder_detailno) {
-    // TODO Auto-generated method stub
-    return 0;
-  }
-
-
-
-  
 
 }

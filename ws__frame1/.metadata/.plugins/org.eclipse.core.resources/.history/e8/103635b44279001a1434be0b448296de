@@ -1,7 +1,0 @@
-package test;
-
-public class Pizza implements Food {
-  public void menu() {
-    System.out.println();
-  }
-}

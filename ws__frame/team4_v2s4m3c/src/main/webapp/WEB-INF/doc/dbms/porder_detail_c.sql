@@ -39,6 +39,7 @@ CREATE TABLE porder_detail(
 		item_discount_sum             		NUMBER(10)		 NOT NULL,
 		payment_price                 		NUMBER(10)		 NOT NULL,
         porder_detail_status                 CHAR(1)		 NOT NULL,
+        trackingno                    		NUMBER(10)		 NULL	,
   FOREIGN KEY (itemno) REFERENCES item (itemno),
   FOREIGN KEY (porderno) REFERENCES porder (porderno)
 );
@@ -52,6 +53,7 @@ COMMENT ON COLUMN porder_detail.item_price_sum is '판매가총액';
 COMMENT ON COLUMN porder_detail.item_discount_sum is '할인총액';
 COMMENT ON COLUMN porder_detail.payment_price is '최종결제액';
 COMMENT ON COLUMN porder_detail.porder_detail_status is '주문상세승인상태';
+COMMENT ON COLUMN porder_detail.trackingno is '운송장번호';
 
 DROP SEQUENCE porder_detail_seq;
 CREATE SEQUENCE porder_detail_seq
@@ -75,23 +77,28 @@ COMMIT;
 
 -- LIST
 -- 관리자
-SELECT porder_detailno,porderno,itemno,quantity,item_price_sum,item_discount_sum, payment_price, porder_detail_status
+SELECT porder_detailno,porderno,itemno,quantity,item_price_sum,item_discount_sum, payment_price, porder_detail_status, trackingno
 FROM porder_detail
 ORDER BY porder_detailno DESC;
 
 -- 사용자
 -- list_by_porderno
-SELECT porder_detailno,porderno,itemno,quantity,item_price_sum,item_discount_sum, payment_price, porder_detail_status
+SELECT porder_detailno,porderno,itemno,quantity,item_price_sum,item_discount_sum, payment_price, porder_detail_status, trackingno
 FROM porder_detail
 WHERE porderno = 1
 ORDER BY porder_detailno DESC;
 
 -- READ
-SELECT porder_detailno,porderno,itemno,quantity,item_price_sum,item_discount_sum, payment_price, porder_detail_status
+SELECT porder_detailno,porderno,itemno,quantity,item_price_sum,item_discount_sum, payment_price, porder_detail_status, trackingno
 FROM porder_detail
 WHERE porder_detailno = 1;
 
 -- UPDATE
+-- 운송장 등록
+UPDATE porder_detail
+SET trackingno = 1
+WHERE porder_detailno = 1;
+
 -- 승인 상태 변경
 UPDATE porder_detail
 SET porder_detail_status = 'C'

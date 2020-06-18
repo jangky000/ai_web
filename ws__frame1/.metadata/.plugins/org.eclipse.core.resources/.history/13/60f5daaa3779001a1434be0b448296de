@@ -1,8 +1,0 @@
-package test;
-
-public class SeasonInter {
-  public void season() {
-    System.out.println("parent");
-  }
-
-}

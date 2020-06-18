@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename resource &apos;sts_env/src/main/webapp/WEB-INF/views/NewFile.jsp&apos; to &apos;env.jsp&apos;" description="Rename resource &apos;NewFile.jsp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/webapp/WEB-INF/views/NewFile.jsp" name="env.jsp" stamp="1586826345870" updateReferences="true"/>
-</session>

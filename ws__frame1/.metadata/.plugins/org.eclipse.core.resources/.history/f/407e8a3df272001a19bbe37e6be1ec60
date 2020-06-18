@@ -1,6 +1,0 @@
-package beans;
-
-public class SungjukVO {
-  //필드는 private로 선언한다.
-  private String name;
-}

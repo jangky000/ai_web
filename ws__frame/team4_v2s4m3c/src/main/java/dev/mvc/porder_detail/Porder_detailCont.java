@@ -1,13 +1,16 @@
 package dev.mvc.porder_detail;
 
+import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -71,6 +74,63 @@ public class Porder_detailCont {
     
     mav.setViewName("/porder_detail/list"); // webapp/porder_detail/list.jsp
     return mav;
+  }
+  
+  // 운송장 등록
+  // http://localhost:9090/team4/delivery/list_seller.do
+  /**
+   * 운송장 등록 폼
+   * @return
+   */
+  @RequestMapping(value="/delivery/list_seller.do", method=RequestMethod.GET )
+  public ModelAndView list_seller() {
+    ModelAndView mav = new ModelAndView();
+    
+    // 멤버 N
+    // 이름, 연락처
+    
+    // 주문 테이블 N 
+    // 주문번호, 배송지, 결제일
+    
+    // 상품 테이블 N * M
+    // 상품 이름, 상품, 재고
+    
+    // 주문 상세 테이블 N * M
+    // 상품, 수량, 
+    
+    List<Porder_detailVO> list = this.porder_detailProc.list();
+    mav.addObject("list", list);
+    
+    // REST 배송테이블 정보
+    // 배송상태, 최종 처리일
+    
+    mav.setViewName("/delivery/list_seller"); // webapp/porder_detail/list_seller.jsp
+    return mav;
+  }
+  
+  //http://localhost:9090/team4/delivery/update_trackingno.do
+  /**
+   * 업데이트 처리, 운송장 번호 추가
+   * @return
+   */
+  @ResponseBody
+  @RequestMapping(value="/delivery/update_trackingno.do", method=RequestMethod.POST, produces="text/plain;charset=UTF-8" )
+  public String update_trackingno(int porder_detailno, int trackingno){
+    
+    System.out.println(porder_detailno);
+    System.out.println(trackingno);
+    
+    HashMap<Object, Object> map = new HashMap<Object, Object>();
+    map.put("porder_detailno", porder_detailno);
+    map.put("trackingno", trackingno);
+    
+    int cnt = this.porder_detailProc.update_trackingno(map);
+    
+    JSONObject result = new JSONObject();
+    result.put("cnt", cnt);
+    result.put("trackingno", trackingno);
+    
+    return result.toString(); // forward
   }
  
 }

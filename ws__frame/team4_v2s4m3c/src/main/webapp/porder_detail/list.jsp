@@ -94,6 +94,9 @@
                 <td style='text-align: center;'>${payment_price} </td>
                 <td style='text-align: center;'>${porder_detail_status} </td>
                 <td style='text-align: center;'>
+                  <!-- 판매자 -->
+                  <button type="button" onclick="location.href='../porder_detail/list.do?porderno=${porderno}'">배송관리</button>
+                  <!-- 사용자 -->
                   <button type="button" onclick="location.href='../porder_detail/list.do?porderno=${porderno}'">주문취소</button>
                 </td>
               </tr>

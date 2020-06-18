@@ -11,6 +11,7 @@ public class Porder_detailVO {
       item_discount_sum                 NUMBER(10)     NOT NULL,
       payment_price                     NUMBER(10)     NOT NULL,
       porder_detail_status                 CHAR(1)     NOT NULL,
+      trackingno                        NUMBER(10)     NULL
   */
   
   /** 주문상세no */
@@ -29,6 +30,8 @@ public class Porder_detailVO {
   private int payment_price;
   /** 주문상세승인상태 */
   private String porder_detail_status;
+  /** 운송장번호 */
+  private String trackingno; // int를 쓰면 null일 때 el에서 0을 띄우게 된다. 그래서 실제로 number 타입이지만 스프링에서 string으로 가져다 써도 수정에는 문제가 없다.
   
   public Porder_detailVO(){
     
@@ -94,8 +97,12 @@ public class Porder_detailVO {
   public void setPorder_detail_status(String porder_detail_status) {
     this.porder_detail_status = porder_detail_status;
   }
-
-  
+  public String getTrackingno() {
+    return trackingno;
+  }
+  public void setTrackingno(String trackingno) {
+    this.trackingno = trackingno;
+  }
   
   
 }

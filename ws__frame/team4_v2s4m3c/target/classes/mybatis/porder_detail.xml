@@ -13,14 +13,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <!-- 주문 상세 내역 목록 -->
   <!-- 관리자 -->
   <select id="list" resultType="Porder_detailVO">
-    SELECT porder_detailno,porderno,itemno,quantity,item_price_sum,item_discount_sum, payment_price, porder_detail_status
+    SELECT porder_detailno,porderno,itemno,quantity,item_price_sum,item_discount_sum, payment_price, porder_detail_status, trackingno
     FROM porder_detail
     ORDER BY porder_detailno DESC
   </select>
 
   <!-- 주문no별 주문 상세 리스트 -->
   <select id="list_by_porderno" resultType="Porder_detailVO" parameterType="int">
-    SELECT porder_detailno,porderno,itemno,quantity,item_price_sum,item_discount_sum, payment_price, porder_detail_status
+    SELECT porder_detailno,porderno,itemno,quantity,item_price_sum,item_discount_sum, payment_price, porder_detail_status, trackingno
     FROM porder_detail
     WHERE porderno = #{porderno}
     ORDER BY porder_detailno DESC
@@ -28,13 +28,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
   <!-- 주문 상세 내역 조회 -->
   <select id="read" resultType="Porder_detailVO" parameterType="int">
-    SELECT porder_detailno,porderno,itemno,quantity,item_price_sum,item_discount_sum, payment_price, porder_detail_status
+    SELECT porder_detailno,porderno,itemno,quantity,item_price_sum,item_discount_sum, payment_price, porder_detail_status, trackingno
     FROM porder_detail
     WHERE porder_detailno = #{porder_detailno}
   </select>  
   
   <!-- 주문 상세 내역 수정 -->
-    <!-- 환불 -->
+  <!-- 운송장 등록 -->
+  <update id="update_trackingno" parameterType="HashMap">
+    UPDATE porder_detail
+    SET trackingno = #{trackingno}
+    WHERE porder_detailno = #{porder_detailno}
+  </update>
+  
+  <!-- 환불 -->
   <update id="update" parameterType="Porder_detailVO">
     
   </update>

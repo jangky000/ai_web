@@ -1,5 +1,0 @@
-package dev.mvc.attachfile;
-
-public interface AttachfileDAOInter {
-
-}

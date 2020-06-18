@@ -1,8 +1,0 @@
-package test;
-
-public class GreenImpl implements ColorInter{
-  public void color() {
-    System.out.println("child green");
-  }
-
-}

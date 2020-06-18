@@ -1,9 +1,0 @@
-package test;
-
-public class Spring {
-  @override
-  public void print() {
-    System.out.println("spring!");
-  }
-
-}
