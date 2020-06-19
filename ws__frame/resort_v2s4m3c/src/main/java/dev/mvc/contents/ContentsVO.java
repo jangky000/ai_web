@@ -38,6 +38,8 @@ public class ContentsVO {
   private String content;
   /** 추천수 */
   private int recom;
+  /** 조회수 */
+  private int cnt;
   /** 인터넷 주소*/
   // private String web
   private String web;
@@ -61,6 +63,14 @@ public class ContentsVO {
   private String word;
   /** 등록 날짜 */
   private String rdate;
+  /** 이미지 */
+  private String file1;
+  /** preview 이미지 */
+  private String thumb1;
+  /** 저장된 파일 사이즈 */
+  private long size1;
+  /** 이미지MF Spring*/
+  private MultipartFile file1MF;
   
   public int getContentsno() {
     return contentsno;
@@ -96,7 +106,7 @@ public class ContentsVO {
     return web;
   }
   public void setWeb(String web) {
-    System.out.println(web + " 저장됨");
+//    System.out.println(web + " 저장됨");
     this.web = web;
   }
   public String getIp() {
@@ -173,7 +183,38 @@ public class ContentsVO {
   public void setMp4MF(MultipartFile mp4mf) {
     mp4MF = mp4mf;
   }
+  public String getFile1() {
+    return file1;
+  }
+  public void setFile1(String file1) {
+    this.file1 = file1;
+  }
+  public String getThumb1() {
+    return thumb1;
+  }
+  public void setThumb1(String thumb1) {
+    this.thumb1 = thumb1;
+  }
+  public long getSize1() {
+    return size1;
+  }
+  public void setSize1(long size1) {
+    this.size1 = size1;
+  }
+  public MultipartFile getFile1MF() {
+    return file1MF;
+  }
+  public void setFile1MF(MultipartFile file1mf) {
+    file1MF = file1mf;
+  }
+  public int getCnt() {
+    return cnt;
+  }
+  public void setCnt(int cnt) {
+    this.cnt = cnt;
+  }
 
+  
   
 }
 

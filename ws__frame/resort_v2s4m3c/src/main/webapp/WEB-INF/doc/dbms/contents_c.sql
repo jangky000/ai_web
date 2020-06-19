@@ -2,7 +2,7 @@
 /* Table Name: 컨텐츠 */
 /**********************************/
 DROP TABLE attachfile;
-DROP TABLE contents;
+DROP TABLE contents CASCADE CONSTRAINTS;
 CREATE TABLE contents(
 		contentsno                    		NUMBER(10)		 NOT NULL		 PRIMARY KEY,
 		memberno                      		NUMBER(10)	 NOT NULL ,
@@ -25,6 +25,9 @@ CREATE TABLE contents(
 		ansnum                        		NUMBER(3)		 DEFAULT 0		 NOT NULL,
 		word                          		VARCHAR2(300)		 NULL ,
         rdate                                 DATE               NOT NULL,
+        file1                                   VARCHAR(100)          NULL,
+        thumb1                              VARCHAR(100)          NULL,
+        size1                                   NUMBER(10)      DEFAULT 0 NULL,
   FOREIGN KEY (memberno) REFERENCES member (memberno),
   FOREIGN KEY (cateno) REFERENCES cate (cateno)
 );
@@ -51,6 +54,9 @@ COMMENT ON COLUMN contents.indent is '들여쓰기/답변차수';
 COMMENT ON COLUMN contents.ansnum is '답변순서';
 COMMENT ON COLUMN contents.word is '검색어';
 COMMENT ON COLUMN contents.rdate is '등록일';
+COMMENT ON COLUMN contents.file1 is '메인 이미지';
+COMMENT ON COLUMN contents.thumb1 is '메인이미지 Preview';
+COMMENT ON COLUMN contents.size1 is '메인이미지 크기';
 
 DROP SEQUENCE contents_seq;
 CREATE SEQUENCE contents_seq
@@ -61,21 +67,24 @@ CREATE SEQUENCE contents_seq
   NOCYCLE;                     -- 다시 1부터 생성되는 것을 방지
   
 1) 글 등록
-INSERT INTO contents(contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate)
+INSERT INTO contents(contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate,
+                              file1, thumb1, size1)
 VALUES(contents_seq.nextval, 1, 1, '신규확진 2명', '전원 입국검역서 확인', 'http://www.daum.net',
-            '127.0.0.1', '123', '코로나', sysdate);
+            '127.0.0.1', '123', '코로나', sysdate, 'spring.jpg', 'spring_t.jpg', 23657);
 
-INSERT INTO contents(contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate)
-VALUES(contents_seq.nextval, 1, 1, '신규확진 1명', '전원 입국검역서 확인', 'http://www.daum.net',
-            '127.0.0.1', '123', '코로나', sysdate);
+INSERT INTO contents(contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate,
+                              file1, thumb1, size1)
+VALUES(contents_seq.nextval, 1, 1, '신규확진 2명', '전원 입국검역서 확인', 'http://www.daum.net',
+            '127.0.0.1', '123', '코로나', sysdate, 'summer.jpg', 'summer_t.jpg', 23657);
             
-INSERT INTO contents(contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate)
-VALUES(contents_seq.nextval, 1, 1, '신규확진 0명', '종식', 'http://www.daum.net',
-            '127.0.0.1', '123', '코로나', sysdate);
+INSERT INTO contents(contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate,
+                              file1, thumb1, size1)
+VALUES(contents_seq.nextval, 1, 1, '신규확진 2명', '전원 입국검역서 확인', 'http://www.daum.net',
+            '127.0.0.1', '123', '코로나', sysdate, 'winter.jpg', 'winter_t.jpg', 23657);
 
-SELECT contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate
+SELECT contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate, file1, thumb1, size1
 FROM contents 
-ORDER BY contentsno ASC;    
+ORDER BY contentsno DESC;    
 
 COMMIT;
 
@@ -90,38 +99,38 @@ SELECT contents_seq.currval FROM dual; -- 앞에 nextval을 한 후에만 확인 가능
         47
 
 2) 전체목록
-SELECT contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate 
+SELECT contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate, file1, thumb1, size1 
 FROM contents 
 ORDER BY contentsno DESC;
 
 2-1) cateno별 목록
-SELECT contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate 
+SELECT contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate, file1, thumb1, size1 
 FROM contents 
 WHERE cateno = 1
 ORDER BY contentsno DESC;
 
 2-2) ① cateno별 검색 목록
 SELECT contentsno, memberno, cateno, title, content, 
-           recom, cnt, replycnt, rdate, word
+           recom, cnt, replycnt, rdate, word, file1, thumb1, size1
 FROM contents
 WHERE cateno=23 AND word LIKE '%스위스%'
 ORDER BY contentsno DESC;
 
 SELECT contentsno, memberno, cateno, title, content, 
-           recom, cnt, replycnt, rdate, word
+           recom, cnt, replycnt, rdate, word, file1, thumb1, size1
 FROM contents
 WHERE cateno=2 AND word LIKE '%스의스%'
 ORDER BY contentsno DESC;
 
 SELECT contentsno, memberno, cateno, title, content, 
-           recom, cnt, replycnt, rdate, word
+           recom, cnt, replycnt, rdate, word, file1, thumb1, size1
 FROM contents
 WHERE cateno=2 AND word LIKE '%수의스%'
 ORDER BY contentsno DESC;
 
 -- title, content, word 칼럼 검색
 SELECT contentsno, memberno, cateno, title, content, 
-           recom, cnt, replycnt, rdate, word
+           recom, cnt, replycnt, rdate, word, file1, thumb1, size1
 FROM contents
 WHERE cateno=23 AND (title LIKE '%유럽%' OR content LIKE '%유럽%' OR word LIKE '%유럽%')
 ORDER BY contentsno DESC;
@@ -147,7 +156,7 @@ WHERE cateno=23 AND (title LIKE '%유럽%' OR content LIKE '%유럽%' OR word LIKE '
 
 
 3) 1건 조회
-SELECT contentsno, memberno, cateno, title, content, recom, web, map, youtube, ip, passwd, word, rdate 
+SELECT contentsno, memberno, cateno, title, content, recom, web, map, youtube, ip, passwd, word, rdate, file1, thumb1, size1 
 FROM contents
 WHERE contentsno = 1;
 
@@ -268,4 +277,44 @@ SELECT contentsno, memberno, cateno, web, map, youtube, mp3
 FROM contents 
 ORDER BY contentsno ASC;
 
+-- 검색 + 페이징
+-- step 1
+SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word, file1, thumb1, size1
+FROM contents
+WHERE cateno=25 AND word LIKE '%스위스%'
+ORDER BY contentsno DESC;
 
+-- step 2
+SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word, rownum as r
+FROM (
+          SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word, file1, thumb1, size1
+          FROM contents
+          WHERE cateno=25 AND word LIKE '%스위스%'
+          ORDER BY contentsno DESC
+);
+
+-- step 3, 1 page
+SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word, r
+FROM (
+           SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word, rownum as r
+           FROM (
+                     SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word, file1, thumb1, size1
+                     FROM contents
+                     WHERE cateno=25 AND word LIKE '%스위스%'
+                     ORDER BY contentsno DESC
+           )          
+)
+WHERE r >= 1 AND r <= 10;
+
+-- step 3, 2 page
+SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word, r, file1, thumb1, size1, ip
+FROM (
+           SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word, rownum as r, file1, thumb1, size1, ip
+           FROM (
+                     SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word, file1, thumb1, size1, ip
+                     FROM contents
+                     WHERE cateno=25 AND word LIKE '%스위스%'
+                     ORDER BY contentsno DESC
+           )          
+)
+WHERE r >= 11 AND r <= 20;

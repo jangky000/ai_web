@@ -83,6 +83,31 @@ public class ContentsCont {
   public ModelAndView create(HttpServletRequest request, ContentsVO contentsVO) {
     ModelAndView mav = new ModelAndView();
     
+    //file1에서 코드 가져옴
+    // -----------------------------------------------------
+    // 파일 전송 코드 시작
+    // -----------------------------------------------------
+    String file1 = ""; // main image file1 파일
+    String thumb1 = ""; // preview image
+    
+    String upDir = Tool.getRealPath(request, "/contents/storage/main_images"); // 절대 경로 // webapp/contents/storage/main_images
+    // 전송 파일이 없어도 mf 객체가 생성됨.
+    MultipartFile mf = contentsVO.getFile1MF();  // 파일 목록
+    long size1 = mf.getSize(); // 전송 파일 크기
+    if (size1 > 0) { // 파일 크기 체크
+      // mp3 = mf.getOriginalFilename(); // 원본 파일명, spring.jpg
+      
+      file1 = Upload.saveFileSpring(mf, upDir); // 파일 저장 후 업로드된 파일명이 리턴됨, spring.jsp, spring_1.jpg...
+      // attachfile cont 에서 가져옴
+      if (Tool.isImage(file1)) { // 이미지인지 검사
+        // thumb 이미지 생성후 파일명 리턴됨, width: 250, height: 200
+        thumb1 = Tool.preview(upDir, file1, 250, 200); 
+      }
+    }    
+    // -----------------------------------------------------
+    // 파일 전송 코드 종료
+    // -----------------------------------------------------
+    
     contentsVO.setIp(request.getRemoteAddr()); // 접속자 IP
     
     /*
@@ -99,6 +124,9 @@ public class ContentsCont {
     */
     
     // 정상 등록 시 PK가 리턴 됨, 
+    contentsVO.setFile1(file1);
+    contentsVO.setThumb1(thumb1);
+    contentsVO.setSize1(size1);
     int cnt = this.contentsProc.create(contentsVO); // Call By Reference로 contentsVO에 접근
     mav.addObject("cnt", cnt); // request에 저장
     //-----------------------------------------------------------------------------------------------
@@ -913,8 +941,9 @@ public ModelAndView mp4_delete(int cateno, int contentsno) {
   
     mav.addObject("nowPage", nowPage);
     
-    mav.setViewName("/contents/list_by_cateno_search_paging"); // /webapp/contents/list_by_cateno_search_paging.jsp
-    
+    // mav.setViewName("/contents/list_by_cateno_search_paging_img_table1"); // /webapp/contents/list_by_cateno_search_paging.jsp
+    // mav.setViewName("/contents/list_by_cateno_search_paging_img_table2");
+    mav.setViewName("/contents/list_by_cateno_search_paging_img_grid1");
     return mav;
   }
   

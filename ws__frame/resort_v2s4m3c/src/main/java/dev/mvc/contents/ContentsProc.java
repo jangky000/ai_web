@@ -252,6 +252,25 @@ public class ContentsProc implements ContentsProcInter {
    
     List<ContentsVO> list = contentsDAO.list_by_cateno_search_paging(map);
     
+    // --------------------------------------------------------------
+    // 제목, 내용 글자수 조정 14자, 100자
+    // --------------------------------------------------------------
+    String title = "";
+    String content = "";
+    for (ContentsVO contentsVO: list) {
+      title = contentsVO.getTitle();
+      if (title.length() >= 14) {
+        title = Tool.textLength(title, 14);
+        contentsVO.setTitle(title);
+      }
+      content = contentsVO.getContent();
+      if (content.length() >= 100) {
+        content = Tool.textLength(content, 100);
+        contentsVO.setContent(content);
+      }
+    }
+    // --------------------------------------------------------------    
+    
     return list;
   }
   

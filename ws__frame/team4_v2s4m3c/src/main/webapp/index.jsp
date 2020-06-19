@@ -22,6 +22,7 @@
       <img id="introImg" border="0">
       <div style="margin:20px auto; width:80%">
       <!--  ★★★★여기 안에 작업해 주세요★★★★-->
+        <a href="/team4/delivery/list_seller.do">관리자 주문/배송 관리</a>
       </div>
 
  <jsp:include page="/menu/bottom.jsp" flush='false' />

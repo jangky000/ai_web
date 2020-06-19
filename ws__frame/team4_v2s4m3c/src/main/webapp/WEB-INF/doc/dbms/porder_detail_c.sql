@@ -39,7 +39,7 @@ CREATE TABLE porder_detail(
 		item_discount_sum             		NUMBER(10)		 NOT NULL,
 		payment_price                 		NUMBER(10)		 NOT NULL,
         porder_detail_status                 CHAR(1)		 NOT NULL,
-        trackingno                    		NUMBER(10)		 NULL	,
+        trackingno                    		NUMBER(10)		 NULL,
   FOREIGN KEY (itemno) REFERENCES item (itemno),
   FOREIGN KEY (porderno) REFERENCES porder (porderno)
 );
@@ -93,10 +93,17 @@ SELECT porder_detailno,porderno,itemno,quantity,item_price_sum,item_discount_sum
 FROM porder_detail
 WHERE porder_detailno = 1;
 
+COMMIT;
+
 -- UPDATE
 -- 운송장 등록
 UPDATE porder_detail
 SET trackingno = 1
+WHERE porder_detailno = 1;
+
+-- 운송장 삭제
+UPDATE porder_detail
+SET trackingno = null
 WHERE porder_detailno = 1;
 
 -- 승인 상태 변경

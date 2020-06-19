@@ -116,19 +116,29 @@ public class Porder_detailCont {
   @ResponseBody
   @RequestMapping(value="/delivery/update_trackingno.do", method=RequestMethod.POST, produces="text/plain;charset=UTF-8" )
   public String update_trackingno(int porder_detailno, int trackingno){
+    JSONObject result = new JSONObject();
     
-    System.out.println(porder_detailno);
-    System.out.println(trackingno);
+    System.out.println("porder_detailno: " + porder_detailno);
+    System.out.println("trackingno: " + trackingno);
     
     HashMap<Object, Object> map = new HashMap<Object, Object>();
     map.put("porder_detailno", porder_detailno);
+//    if(trackingno == -1) {
+//      map.put("trackingno", ""); // ibatis에서 처리하는 null 값으로 바꿔줌
+//      result.put("trackingno", ""); // JSON에서의 null 값
+//    }
+//    else {
+//      map.put("trackingno", trackingno);
+//      result.put("trackingno", trackingno);
+//    }
+    
     map.put("trackingno", trackingno);
+    result.put("trackingno", trackingno);
     
     int cnt = this.porder_detailProc.update_trackingno(map);
-    
-    JSONObject result = new JSONObject();
+   
     result.put("cnt", cnt);
-    result.put("trackingno", trackingno);
+    
     
     return result.toString(); // forward
   }

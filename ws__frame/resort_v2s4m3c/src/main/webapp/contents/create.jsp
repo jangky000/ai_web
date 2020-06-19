@@ -41,7 +41,7 @@
  
   <div class='menu_line'></div>
   <DIV style='width: 100%;'>
-    <FORM name='frm' method='POST' action='./create.do' class="form-horizontal">
+    <FORM name='frm' method='POST' action='./create.do' enctype="multipart/form-data" class="form-horizontal">
                
       <!-- FK memberno 지정 -->
       <input type='hidden' name='memberno' id='memberno' value='1'>
@@ -57,6 +57,15 @@
       <div class="form-group">   
         <div class="col-md-12">
           <textarea class="form-control" name='content' id='content' rows='6' placeholder="내용"></textarea>
+        </div>
+      </div>
+
+      <div class="form-group">   
+        <div class="col-md-12">
+          <!-- 실제 컬럼명: file1, Spring File 객체 대응: file1MF -->
+          <!-- name, id에 실제 컬럼명 지정하지 않음 -->
+          <input type='file' class="form-control" name='file1MF' id = 'file1MF'  
+                     value='' placeholder="파일 선택" multiple="multiple">
         </div>
       </div>
 

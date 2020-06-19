@@ -163,10 +163,13 @@
                   <span id="trackinginfo-${porder_detailno }">
                     <c:choose>
                       <c:when test="${trackingno==null }">
-                        <input type="text" name='trackingno' value='' placeholder="운송장번호" style="width: 100px;"><button type="button" class='btn_trackingno' name='${porder_detailno }'>등록</button>
+                        <%-- <input type="text" name='trackingno' value='' placeholder="운송장번호" style="width: 100px;"><button type="button" class='btn_trackingno' name='${porder_detailno }'>등록</button> --%>
+                        <div class="trackingno_input" style="display: block;"><input type="text" name='trackingno' value='' placeholder="운송장번호" style="width: 100px;"><button type="button" class='btn_trackingno' name='${porder_detailno }'>등록</button></div>
+                        <div class="trackingno_view" style="display: none;"><span>${trackingno }</span><button type="button" class='btn_change_trackingno' name='${porder_detailno }'>변경</button><button type="button" class='btn_delete_trackingno' name='${porder_detailno }'>삭제</button></div>
                       </c:when>
                       <c:otherwise>
-                        ${trackingno }
+                        <div class="trackingno_input" style="display: none;"><input type="text" name='trackingno' value='' placeholder="운송장번호" style="width: 100px;"><button type="button" class='btn_trackingno' name='${porder_detailno }'>등록</button><button type="button" class='btn_cancel' name='${porder_detailno }'>취소</button></div>
+                        <div class="trackingno_view" style="display: block;"><span>${trackingno }</span><button type="button" class='btn_change_trackingno' name='${porder_detailno }'>변경</button><button type="button" class='btn_delete_trackingno' name='${porder_detailno }'>삭제</button></div>
                       </c:otherwise>
                     </c:choose>
                   </span>
@@ -199,19 +202,32 @@
    <jsp:include page="/menu/bottom.jsp" flush='false' />
    <script>
       $(function(){
-        $('.btn_trackingno').on('click', update_tackingno);
+        $('.btn_trackingno').on('click', {mode:'update'}, update_tackingno);
+        $('.btn_change_trackingno').on('click', change_display);
+        $('.btn_cancel').on('click', change_display);
+        $('.btn_delete_trackingno').on('click', {mode:'delete'}, update_tackingno);
       });
       
-      function update_tackingno(){
+      function update_tackingno(event){
+        // alert(event.data.mode);
         var porder_detailno = $(this).attr('name');
-        var trackingno = $(this).parent().children('input').val();
+        var trackingno = "";
+        if(event.data.mode == 'update'){
+          trackingno = $(this).parent().children('input').val();
+          if(trackingno == ''){
+            alert('운송장 번호가 입력되지 않았습니다.');
+            return;
+          }
+        } else if(event.data.mode == 'delete'){
+          trackingno = -1; // 삭제처리하다가 그만 둠
+        }
         
         // alert('porder_detailno: ' + porder_detailno + '\n'+'trackingno: '+trackingno);
         // return;
         
         var params = {"porder_detailno": porder_detailno, "trackingno": trackingno};
-        // alert(JSON.stringify(params));
-        // return;
+        //alert(JSON.stringify(params));
+        //return;
         
         // ajax 처리
         $.ajax({
@@ -227,17 +243,15 @@
             //alert(rdata.result);
             if(rdata.cnt == 1){
               alert("운송장번호 등록 완료");
-              $('#trackinginfo-'+porder_detailno).empty();
-              $('#trackinginfo-'+porder_detailno).append(rdata.trackingno);
+              $('#trackinginfo-'+porder_detailno).children('div.trackingno_view').children('span').empty();
+              $('#trackinginfo-'+porder_detailno).children('div.trackingno_view').children('span').append(rdata.trackingno);
+              $('#trackinginfo-'+porder_detailno).children('div.trackingno_view').show(); // 펼치기
+              $('#trackinginfo-'+porder_detailno).children('div.trackingno_input').hide(); // 숨기기
+              /* $('#trackinginfo-'+porder_detailno).empty();
+              $('#trackinginfo-'+porder_detailno).append(rdata.trackingno); // display만 바꾸기 */
             } else{
-              alert("운송장번호 등록 실패");
-              
+              alert("운송장번호 등록 실패");         
             }
-            /* if (rdata.result) { // 주문 입력, 주문상세 입력 처리 성공
-              // frm.submit();
-            } else {  // 결제 오류
-              
-            } */
           },
           // Ajax 통신 에러, 응답 코드가 200이 아닌경우, dataType이 다른경우 
           error: function(request, status, error) { // callback 함수
@@ -248,6 +262,18 @@
           }
         });
       }
+      
+      function change_display(){
+        if($(this).parent().parent().children('div.trackingno_input').css('display') == 'none'){
+          $(this).parent().parent().children('div.trackingno_input').show(); // 펼치기
+          $(this).parent().hide(); // 숨기기
+        }else{
+          $(this).parent().parent().children('div.trackingno_view').show(); // 펼치기
+          $(this).parent().hide(); // 숨기기
+        }
+      }
+      
+      
    </script>
 </body>
 </html>

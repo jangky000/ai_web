@@ -15,9 +15,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       select contents_seq.nextval from dual
     </selectKey>
     INSERT INTO contents(contentsno, memberno, cateno, title, content, web, ip,
-                                     passwd, word, rdate)
+                                     passwd, word, rdate, file1, thumb1, size1)
     VALUES(#{contentsno}, #{memberno}, #{cateno}, #{title}, #{content}, #{web}, #{ip},
-                #{passwd}, #{word}, sysdate)
+                #{passwd}, #{word}, sysdate, #{file1}, #{thumb1}, #{size1})
   </insert>
   
   <select id="list_all" resultType="ContentsVO">
@@ -51,39 +51,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      ORDER BY contentsno DESC   
    </select>
    
-   <!-- 카테고리별 검색 목록 + 페이징 -->
+  <!-- 카테고리별 검색 목록 + 페이징 + 메인 이미지 -->
    <select id="list_by_cateno_search_paging" 
               resultType="ContentsVO" parameterType="HashMap">
      SELECT contentsno, memberno, cateno, title, content, 
-                recom, cnt, replycnt, rdate, word, r
+                recom, cnt, replycnt, rdate, word, r, file1, thumb1, size1, ip
      FROM (
                 SELECT contentsno, memberno, cateno, title, content, 
-                           recom, cnt, replycnt, rdate, word, rownum as r
+                           recom, cnt, replycnt, rdate, word, rownum as r, file1, thumb1, size1, ip
                 FROM (
                           SELECT contentsno, memberno, cateno, title, content, 
-                                     recom, cnt, replycnt, rdate, word
+                                     recom, cnt, replycnt, rdate, word, file1, thumb1, size1, ip
                           FROM contents
-                          <!-- 동적 SQL -->
                           <choose>
                             <when test="word == null or word == ''"> <!-- 검색하지 않는 경우 -->
                               WHERE cateno=#{cateno}
                             </when>
                             <otherwise>
-                              WHERE cateno=#{cateno} AND (word LIKE '%' || #{word} || '%' 
-                                                     OR title LIKE '%' || #{word} || '%' 
-                                                     OR content LIKE '%' || #{word} || '%')
+                              WHERE cateno=#{cateno} AND (title LIKE '%' || #{word} || '%' 
+                                                        OR content LIKE '%' || #{word} || '%' 
+                                                        OR word LIKE '%' || #{word} || '%')
                             </otherwise>
                           </choose>
                           ORDER BY contentsno DESC
                 )
      )
-     WHERE  <![CDATA[   r >= #{startNum} AND r <= #{endNum}   ]]> 
+     WHERE <![CDATA[ r >= #{startNum} AND r <= #{endNum} ]]>
      <!-- 
      1 page: WHERE r >= 1 AND r <= 10; 
      2 page: WHERE r >= 11 AND r <= 20;
      3 page: WHERE r >= 21 AND r <= 30;
      -->                          
-   </select>
+   </select>   
    
   <select id="read" resultType="ContentsVO" parameterType="int">
     SELECT contentsno, memberno, cateno, title, content, recom, web, map, youtube, mp3, mp4, ip, passwd, word, rdate 
