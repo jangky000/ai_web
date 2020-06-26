@@ -39,10 +39,10 @@ CREATE TABLE porder(
 		delivery_fee                  		NUMBER(10)		 DEFAULT 0		 NOT NULL,
 		payment_price                 		NUMBER(10)		 DEFAULT 0		 NOT NULL,
 		porder_status                 		CHAR(1)		 NOT NULL,
-        porder_zip_code                  NUMBER(10)		NOT NULL,
+    porder_zip_code                  NUMBER(10)		NOT NULL,
 		porder_address                		VARCHAR2(1000)		 NOT NULL,
-        porder_delivery_request            VARCHAR2(1000),
-        FOREIGN KEY (memno) REFERENCES mem(memno)
+    porder_delivery_request            VARCHAR2(1000),
+    FOREIGN KEY (memno) REFERENCES mem(memno)
 );
 
 COMMENT ON TABLE porder is '¡÷πÆ';

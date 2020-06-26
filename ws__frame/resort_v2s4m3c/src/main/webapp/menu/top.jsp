@@ -14,14 +14,30 @@
     <NAV class='top_menu'>
       <span style='padding-left: 0.5%;'></span>
       <A class='menu_link'  href='${root}' >힐링 리조트</A><span class='top_menu_sep'>&nbsp;</span>
-      <A class='menu_link'  href='${root}/categrp/list.do'>카테고리 그룹</A><span class='top_menu_sep'>&nbsp;</span>    
-      <A class='menu_link'  href='${root}/cate/list_join.do'>모든 카테고리</A><span class='top_menu_sep'>&nbsp;</span>
-      <A class='menu_link'  href='${root}/contents/list_all.do'>전체글</A><span class='top_menu_sep'>&nbsp;</span>    
-      <A class='menu_link'  href='${root}/attachfile/list.do'>전체 이미지</A><span class='top_menu_sep'>&nbsp;</span>
-      <A class='menu_link'  href='${root}/member/list.do'>회원목록</A><span class='top_menu_sep'>&nbsp;</span>  
-      <A class='menu_link'  href='${root}/member/create.do'>회원가입</A><span class='top_menu_sep'>&nbsp;</span>
-      <A class='menu_link'  href='${root}/contents/list_by_memberno.do?memberno=1'>내가 쓴 글</A><span class='top_menu_sep'>&nbsp;</span>      
-          
+      
+      <c:choose>
+        <c:when test="${sessionScope.id == null}">
+          <A class='menu_link'  href='${root}/member/login.do' >Login</A> <span class='top_menu1'> | </span>
+        </c:when>
+        <c:otherwise>
+          ${sessionScope.id } <A class='menu_link'  href='${root}/member/logout.do' >Logout</A> <span class='top_menu1'> | </span>
+        </c:otherwise>
+      </c:choose>
+      
+      <c:choose>
+        <c:when test="${sessionScope.id != null}">
+          <A class='menu_link'  href='${root}/categrp/list.do'>카테고리 그룹</A><span class='top_menu_sep'>&nbsp;</span>    
+          <A class='menu_link'  href='${root}/cate/list_join.do'>모든 카테고리</A><span class='top_menu_sep'>&nbsp;</span>
+          <A class='menu_link'  href='${root}/contents/list_all.do'>전체글</A><span class='top_menu_sep'>&nbsp;</span>    
+          <A class='menu_link'  href='${root}/attachfile/list.do'>전체 이미지</A><span class='top_menu_sep'>&nbsp;</span>
+          <A class='menu_link'  href='${root}/member/list.do'>회원목록</A><span class='top_menu_sep'>&nbsp;</span>  
+          <A class='menu_link'  href='${root}/member/create.do'>회원가입</A><span class='top_menu_sep'>&nbsp;</span>
+          <A class='menu_link'  href='${root}/contents/list_by_memberno.do?memberno=1'>내가 쓴 글</A><span class='top_menu_sep'>&nbsp;</span>      
+        </c:when>
+        <c:otherwise>
+          영화와 여행이 있는 리조트에 오신 것을 환영합니다.
+        </c:otherwise>
+      </c:choose> 
     </NAV>
   </DIV>
   

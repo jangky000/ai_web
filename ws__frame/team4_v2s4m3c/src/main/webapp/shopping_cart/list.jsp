@@ -33,14 +33,14 @@
       border-bottom: 1px solid gray;
     }
     .table_sty tr{
-      border-top: 1px solid gray;
+      /* border-top: 1px solid gray; */
       border-bottom: 1px solid gray;
     }
     .table_sty th{
-      border: 1px solid gray;
+      /* border: 1px solid gray; */
     }
     .table_sty td{
-      border: 1px solid gray;
+      /* border: 1px solid gray; */
     }
   </style>
 </head>
@@ -219,10 +219,10 @@
     // 전체 선택하기
     function checkAll(){
       //alert("전체 선택");
-      if($(".check_item").prop("checked"))
-        $(".check_item").prop("checked", false);
-      else
+      if($("#input_checkAll").prop("checked"))
         $(".check_item").prop("checked", true);
+      else
+        $(".check_item").prop("checked", false);
       
       price_summary();
     }

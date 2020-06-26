@@ -2,6 +2,9 @@ package dev.mvc.member;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 public interface MemberProcInter {
   /**
@@ -59,6 +62,33 @@ public interface MemberProcInter {
    */
   public int passwd_update(HashMap<Object, Object> map);
   
+  /**
+   * <xmp>
+   * 로그인 처리
+   * Map은 HashMap을 가지고 있다.
+   * <select id="login" resultType="int" parameterType="Map">
+   * </xmp>
+   * @param map
+   * @return
+   */
+  public int login(Map<Object, Object> map);
+  
+  /**
+   * <xmp>
+   * id를 이용한 회원 정보 조회
+   * <select id="readById" resultType="MemberVO" parameterType="String">
+   * </xmp>
+   * @param map
+   * @return
+   */
+  public MemberVO readById(String id);
+  
+  /**
+   * 로그인된 회원 계정인지 검사합니다.
+   * @param session
+   * @return true: 관리자
+   */
+  public boolean isMember(HttpSession session);   
 }
 
 

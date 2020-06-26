@@ -26,6 +26,9 @@
   <context:component-scan base-package="dev.mvc.porder" /> <!-- ky -->
   <context:component-scan base-package="dev.mvc.porder_detail" /> <!-- ky -->
   <context:component-scan base-package="dev.mvc.shopping_cart" /> <!-- ky -->
+  <context:component-scan base-package="dev.mvc.coupon" /> <!-- ky -->
+  <context:component-scan base-package="dev.mvc.coupon_issue" /> <!-- ky -->
+  <context:component-scan base-package="dev.mvc.coupon_use" /> <!-- ky -->
 	
 	<!-- FORM의 FILE 태그를 읽어 MultipartFile 객체로 변환 -->
   <beans:bean id="multipartResolver"

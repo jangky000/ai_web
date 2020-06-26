@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/JavaScript"
+          src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- jqPlot 기본 설정 파일 -->
+<link rel="stylesheet" type="text/css" href="./jquery.jqplot.min.css" />
+<script type="text/javascript" src="./jquery.jqplot.min.js"></script>
+ 
+<!-- 막대그래프 추가 설정 파일 -->
+<script type="text/javascript" src="./plugins/jqplot.barRenderer.js"></script>
+<script type="text/javascript" src="./plugins/jqplot.categoryAxisRenderer.js"></script>
+ 
+<!-- 원형 그래프 추가 설정 파일 -->
+<script type="text/javascript" src="./plugins/jqplot.pieRenderer.js"></script>
+
+<!-- Meter gauge -->
+<script type="text/javascript" src="./plugins/jqplot.meterGaugeRenderer.js"></script>
+
+<script type="text/javascript">
+// $() -> 시작시 자동 호출
+$(function(){
+  
+});
+
+//꺽은선 그래프, Y: 데이터, X: 자료의 갯수
+function chart1() {
+  // 데이터의 크기에따라 좌표값이 자동으로 출력됨. 
+  $.jqplot ('graph1_1', [[10,20,30,40,50,300,200]]); // 그래프 출력 태그의 id, 데이터, 배열 구조
+  $.jqplot ('graph1_2', [[10,20,30,40,50,300,200],
+                                 [25,32,45,53,65,270,150]]); // 그래프 출력 태그의 id, 데이터
+}
+
+//꺽은선 그래프, Y: 데이터, X: 자료의 갯수, axes 옵션 추가
+function chart2() {
+  $.jqplot ('graph2', [[10,20,30,40,50,300,200]],{
+    title : '그래프 제목옵션',
+    axes: {
+            xaxis: {
+                       label: "X 좌표제목"
+                     },
+            yaxis: {
+                       label: "Y 좌표제목"
+                    }
+            }
+ 
+  });
+}
+</script>
+</head>
+<body>
+
+<DIV>
+ <button type="button"  onclick="chart1()">라인 그래프</button>
+ <div id="graph1_1" style='margin: 10px auto; width: 60%;'></div>
+ <div id="graph1_2" style='margin: 10px auto; width: 60%;'></div> 
+  
+ <button type="button"  onclick="chart2()">옵션이 추가된 라인 그래프</button>
+ <div id="graph2" style='margin: 10px auto; width: 60%;'></div>
+</DIV>
+
+</body>
+</html>

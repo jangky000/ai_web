@@ -39,7 +39,9 @@
       </c:choose>    
     </ASIDE>
     <ASIDE style='float: right;'>
-      <A href="./create.do?cateno=${cateVO.cateno }">등록</A>
+      <c:if test="${sessionScope.id != null}">
+        <A href="./create.do?cateno=${cateVO.cateno }">등록</A>
+      </c:if>
       <span class='top_menu_sep'> </span>    
       <A href="javascript:location.reload();">새로고침</A>
       

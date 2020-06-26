@@ -111,14 +111,7 @@ WHERE memberno = 1;
  --- -------- ------ ------ ------------- ------- -------- -------- ---------------------
    1 qnaadmin 1234   QNA관리자 000-0000-0000 12345   서울시 종로구  관철동      2019-05-24 14:51:43.0
  
-SELECT memberno, id, passwd, mname, tel, zipcode, address1, address2, mdate
-FROM member
-WHERE id = 'user1';
- 
- MEMBERNO ID    PASSWD MNAME TEL           ZIPCODE ADDRESS1 ADDRESS2 MDATE
- --- ----- ------ ----- ------------- ------- -------- -------- ---------------------
-   3 user1 1234   왕눈이   000-0000-0000 12345   서울시 종로구  관철동      2019-05-24 14:51:48.0
- 
+
     
 4. 수정
 UPDATE member 
@@ -154,14 +147,23 @@ WHERE memberno=1;
 COMMIT;
  
  
-7. 로그인
+7. 로그인 -- id는 유니크 속성으로 결과 레코드는 반드시 하나만 나올 수 있다.
 SELECT COUNT(memberno) as cnt
 FROM member
 WHERE id='user1' AND passwd='1234';
- cnt
- ---
-   0
+       CNT
+----------
+         1
    
+ 8. id를 이용한 회원 정보 조회
+ -- 유니크한 속성을 이용함
+SELECT memberno, id, passwd, mname, tel, zipcode, address1, address2, mdate
+FROM member
+WHERE id = 'user1'; 
+
+ MEMBERNO ID    PASSWD MNAME TEL           ZIPCODE ADDRESS1 ADDRESS2 MDATE
+ --- ----- ------ ----- ------------- ------- -------- -------- ---------------------
+   3 user1 1234   왕눈이   000-0000-0000 12345   서울시 종로구  관철동      2019-05-24 14:51:48.0
  
 
  

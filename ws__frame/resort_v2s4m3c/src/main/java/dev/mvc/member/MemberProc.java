@@ -2,6 +2,9 @@ package dev.mvc.member;
  
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -70,9 +73,29 @@ public class MemberProc implements MemberProcInter {
     cnt = this.memberDAO.passwd_update(map);
     return cnt;
   }
+
+  @Override
+  public int login(Map<Object, Object> map) {
+    int cnt = this.memberDAO.login(map);
+    return cnt;
+  }
+
+  @Override
+  public MemberVO readById(String id) {
+    MemberVO memberVO = this.memberDAO.readById(id);
+    return memberVO;
+  }
   
-  
-  
+  public boolean isMember(HttpSession session){
+    boolean sw = false; // 로그인 하지 않은 것으로 초기화
+    
+    String id = (String)session.getAttribute("id");
+    
+    if (id != null){
+      sw = true;
+    }
+    return sw;
+  }
 }
 
 

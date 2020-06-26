@@ -153,55 +153,57 @@
     <A href="javascript:location.reload();">새로고침</A>
     <span class='menu_divide' > | </span> 
     <A href='./list.do?cateno=${cateno }'>목록</A>
-    <span class='menu_divide' > | </span>
-    <A href='./update.do?cateno=${cateno }&contentsno=${contentsno}'>수정</A>
-    <c:choose>
-      <c:when test="${contentsVO.map.trim().length() > 0 }">
-        <span class='menu_divide' > | </span> 
-        <A href='./map_delete.do?cateno=${cateno }&contentsno=${contentsno}'>지도 삭제</A>     
-      </c:when>
-      <c:otherwise>
-        <span class='menu_divide' > | </span> 
-        <A href='./map_create.do?cateno=${cateno }&contentsno=${contentsno}'>지도 등록</A>     
-      </c:otherwise>
-    </c:choose>
     
-    <c:choose>
-      <c:when test="${contentsVO.youtube.trim().length() > 0 }">
+    <c:if test="${sessionScope.id != null}">
+        <span class='menu_divide' > | </span>
+        <A href='./update.do?cateno=${cateno }&contentsno=${contentsno}'>수정</A>
+        <c:choose>
+          <c:when test="${contentsVO.map.trim().length() > 0 }">
+            <span class='menu_divide' > | </span> 
+            <A href='./map_delete.do?cateno=${cateno }&contentsno=${contentsno}'>지도 삭제</A>     
+          </c:when>
+          <c:otherwise>
+            <span class='menu_divide' > | </span> 
+            <A href='./map_create.do?cateno=${cateno }&contentsno=${contentsno}'>지도 등록</A>     
+          </c:otherwise>
+        </c:choose>
+        
+        <c:choose>
+          <c:when test="${contentsVO.youtube.trim().length() > 0 }">
+            <span class='menu_divide' > | </span> 
+            <A href='javascript:youtube_delete_modal();'>Youtube 삭제</A>     
+          </c:when>
+          <c:otherwise>
+            <span class='menu_divide' > | </span> 
+            <A href='./youtube_create.do?cateno=${cateno }&contentsno=${contentsno}'>Youtube 등록</A>
+          </c:otherwise>
+        </c:choose>
+        
+        <c:choose>
+          <c:when test="${contentsVO.mp3.trim().length() > 0 }">
+            <span class='menu_divide' > | </span> 
+            <A href='./mp3_delete.do?cateno=${cateno }&contentsno=${contentsno}'>MP3 삭제</A>     
+          </c:when>
+          <c:otherwise>
+            <span class='menu_divide' > | </span> 
+            <A href='./mp3_create.do?cateno=${cateno }&contentsno=${contentsno}'>MP3 등록</A>
+          </c:otherwise>
+        </c:choose>
+        
+        <c:choose>
+          <c:when test="${contentsVO.mp4.trim().length() > 0 }">
+            <span class='menu_divide' > | </span> 
+            <A href='./mp4_delete.do?cateno=${cateno }&contentsno=${contentsno}'>MP4 삭제</A>     
+          </c:when>
+          <c:otherwise>
+            <span class='menu_divide' > | </span> 
+            <A href='./mp4_create.do?cateno=${cateno }&contentsno=${contentsno}'>MP4 등록</A>
+          </c:otherwise>
+        </c:choose>
+        
         <span class='menu_divide' > | </span> 
-        <A href='javascript:youtube_delete_modal();'>Youtube 삭제</A>     
-      </c:when>
-      <c:otherwise>
-        <span class='menu_divide' > | </span> 
-        <A href='./youtube_create.do?cateno=${cateno }&contentsno=${contentsno}'>Youtube 등록</A>
-      </c:otherwise>
-    </c:choose>
-    
-    <c:choose>
-      <c:when test="${contentsVO.mp3.trim().length() > 0 }">
-        <span class='menu_divide' > | </span> 
-        <A href='./mp3_delete.do?cateno=${cateno }&contentsno=${contentsno}'>MP3 삭제</A>     
-      </c:when>
-      <c:otherwise>
-        <span class='menu_divide' > | </span> 
-        <A href='./mp3_create.do?cateno=${cateno }&contentsno=${contentsno}'>MP3 등록</A>
-      </c:otherwise>
-    </c:choose>
-    
-    <c:choose>
-      <c:when test="${contentsVO.mp4.trim().length() > 0 }">
-        <span class='menu_divide' > | </span> 
-        <A href='./mp4_delete.do?cateno=${cateno }&contentsno=${contentsno}'>MP4 삭제</A>     
-      </c:when>
-      <c:otherwise>
-        <span class='menu_divide' > | </span> 
-        <A href='./mp4_create.do?cateno=${cateno }&contentsno=${contentsno}'>MP4 등록</A>
-      </c:otherwise>
-    </c:choose>
-    
-    <span class='menu_divide' > | </span> 
-    <A href='./delete.do?cateno=${cateno }&contentsno=${contentsno}'>삭제</A>
-    
+        <A href='./delete.do?cateno=${cateno }&contentsno=${contentsno}'>삭제</A>
+    </c:if>
   </ASIDE> 
   
   <div class='menu_line'></div>

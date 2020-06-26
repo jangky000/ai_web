@@ -2,6 +2,7 @@ package dev.mvc.member;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface MemberDAOInter {
   
@@ -60,6 +61,26 @@ public interface MemberDAOInter {
    */
   public int passwd_update(HashMap<Object, Object> map);
   
+  /**
+   * <xmp>
+   * 로그인 처리
+   * Map은 HashMap을 가지고 있다.
+   * <select id="login" resultType="int" parameterType="Map">
+   * </xmp>
+   * @param map
+   * @return
+   */
+  public int login(Map<Object, Object> map);
+  
+  /**
+   * <xmp>
+   * id를 이용한 회원 정보 조회
+   * <select id="readById" resultType="MemberVO" parameterType="String">
+   * </xmp>
+   * @param map
+   * @return
+   */
+  public MemberVO readById(String id);
 }
 
 

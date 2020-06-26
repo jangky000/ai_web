@@ -22,7 +22,10 @@
       <img id="introImg" border="0">
       <div style="margin:20px auto; width:80%">
       <!--  ★★★★여기 안에 작업해 주세요★★★★-->
-        <a href="/team4/delivery/list_seller.do">관리자 주문/배송 관리</a>
+        <a href="/team4/delivery/list_seller.do">관리자 ▷ 주문/배송 관리</a><br>
+        <a href="/team4/coupon/list.do">관리자 ▷ 이벤트 쿠폰</a><br>
+        <a href="/team4/coupon_issue/list.do">관리자 ▷ 쿠폰 발급 내역</a><br>
+        <a href="/team4/coupon_use/list.do">관리자 ▷ 쿠폰 사용 내역</a><br>
       </div>
 
  <jsp:include page="/menu/bottom.jsp" flush='false' />

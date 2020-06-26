@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "dev.mvc.coupon.CouponDAOInter">
+  <!-- 쿠폰 등록 -->
+  <insert id="create" parameterType="CouponVO">
+    INSERT INTO coupon(couponno, cpimg, cpname, cpdiscount, cpstock, cpcate)
+    VALUES(coupon_seq.nextval, ${cpimg}, ${cpname}, ${cpdiscount}, ${cpstock}, ${cpcate})
+  </insert>
+  
+  <!-- 쿠폰 목록 -->
+  <select id="list" resultType="CouponVO">
+    SELECT couponno, cpimg, cpname, cpdiscount, cpstock, cpcate
+    FROM coupon
+    ORDER BY couponno DESC
+  </select>
+  
+  <!-- 쿠폰 페이징 -->
+  
+  <!-- 쿠폰 조회 -->
+  <select id="read" resultType="CouponVO" parameterType="int">
+    SELECT couponno, cpimg, cpname, cpdiscount, cpstock, cpcate
+    FROM coupon
+    WHERE couponno = #{couponno}
+  </select>  
+  
+  <!-- 쿠폰 삭제: 삭제 안함 -> 재고가 0이면 발급 불가 -->
+  <delete id="delete" parameterType="int">
+    DELETE FROM coupon
+    WHERE couponno = #{couponno}
+  </delete>
+  
+</mapper> 

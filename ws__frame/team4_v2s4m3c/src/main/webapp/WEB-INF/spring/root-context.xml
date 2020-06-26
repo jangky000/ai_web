@@ -32,7 +32,11 @@
     <property name="typeAliasesPackage" 
                    value="dev.mvc.porder, 
                               dev.mvc.shopping_cart,
-                              dev.mvc.porder_detail"/>
+                              dev.mvc.porder_detail,
+                              dev.mvc.coupon,
+                              dev.mvc.coupon_issue,
+                              dev.mvc.coupon_use
+                              "/>
     <property name="mapperLocations" value="classpath:mybatis/*.xml" />
   </bean>
   

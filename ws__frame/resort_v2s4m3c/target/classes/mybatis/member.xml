@@ -51,7 +51,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     SET passwd=#{passwd}
     WHERE memberno=#{memberno}
   </update>
-    
+  
+  <!-- Map, HashMap 모두 동일하게 작동 -->
+  <select id="login" resultType="int" parameterType="Map">
+    SELECT COUNT(memberno) as cnt
+    FROM member
+    WHERE id=#{id} AND passwd=#{passwd}
+  </select>
+  
+  <!--  id를 이용한 회원 정보 조회 -->
+  <select id="readById" resultType="MemberVO" parameterType="String">
+    SELECT memberno, id, passwd, mname, tel, zipcode, address1, address2, mdate
+    FROM member
+    WHERE id = #{id}
+  </select>
+  
 </mapper> 
 
 
