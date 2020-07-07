@@ -28,10 +28,18 @@
   <context:component-scan base-package="dev.mvc.contents" /> <!-- 투투 -->  
   <context:component-scan base-package="dev.mvc.attachfile" /> <!-- 아로미 -->
   <context:component-scan base-package="dev.mvc.member" /> <!-- 아로미 -->
+  <context:component-scan base-package="dev.mvc.admin" /> <!-- 아로미 -->
+  <context:component-scan base-package="dev.mvc.vis" /> <!-- 아로미 -->
  
   <!-- FORM의 FILE 태그를 읽어 MultipartFile 객체로 변환 -->
   <beans:bean id="multipartResolver"
     class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+  </beans:bean>
+  
+  <!-- 관리자 목록 -->
+  <beans:bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
+    <beans:property name="location" value="/WEB-INF/config/admin.properties"/> 
+    <beans:property name="fileEncoding" value="UTF-8" /> 
   </beans:bean>
   
 </beans:beans>

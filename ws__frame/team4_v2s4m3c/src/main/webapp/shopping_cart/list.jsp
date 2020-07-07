@@ -52,7 +52,7 @@
 
   <!--컨텐츠 들어가는 부분: 여기에 각자 작업해서 업로드 하면 될듯-->
   <!-- 리스트 페이지 시작 -->
-  <div style="margin: 20px auto; width: 70%;">
+  <div style="margin: 20px auto; width: 80%;">
     로그인 시에만 접근 허용**
     
     <div>
@@ -61,22 +61,22 @@
     </div>
     
     <!-- 정렬 -->
-    <div style="margin: 20px auto;">
+<!--     <div style="margin: 20px auto;">
       <a href="#">최신순</a> | 
       <a href="#">오래된 순</a>
-    </div>
+    </div> -->
     <!-- 정렬 종료 -->
     
     <!-- 리스트 테이블 시작 -->
-    <div style="margin: 20px auto;">
+    <div style="margin-top: 10px;">
       <!-- <form action="../porder/create.jsp" method="get"> -->
         <table class='table_sty' style='width: 100%; outline: 1px solid gray;'>
             <colgroup>
               <col style="width: 5%;"></col>
               <col style="width: 10%;"></col>
-              <col style="width: 35%;"></col>
+              <col style="width: 30%;"></col>
               <col style="width: 10%;"></col>
-              <col style="width: 10%;"></col>
+              <col style="width: 15%;"></col>
               <col style="width: 10%;"></col>
               <col style="width: 10%;"></col>
               <col style="width: 10%;"></col>
@@ -101,37 +101,49 @@
             <tbody>
               <%
                 // 상품 이름
-                String[] item_name={"화려한 조명이 나를 감싸네 썬블록",
+                /* String[] item_name={"화려한 조명이 나를 감싸네 썬블록",
                                                    "시간이 멈추길 기도해 썬크림",
                                                    "불 꺼진 무대 위 홀로 남아서 자외선 차단제",
                                                    "떠나간 그대의 목소릴 떠올리네 썬블록",
                                                    "나 쓰러질 때까지 널 위해 춤을 줘 썬크림"
                                                   };
-                request.setAttribute("item_name", item_name);
+                request.setAttribute("item_name", item_name); */
                 
                 // 상품 정가
-                int[] item_price={100, 200, 300, 400, 500};
-                request.setAttribute("item_price", item_price);
+               /*  int[] item_price={100, 200, 300, 400, 500};
+                request.setAttribute("item_price", item_price); */
                 
                 // 상품 할인률
-                int[] discount_rate={10, 20, 30, 40, 50};
-                request.setAttribute("discount_rate", discount_rate);
+                /* int[] discount_rate={10, 20, 30, 40, 50};
+                request.setAttribute("discount_rate", discount_rate); */
               %>
-            
-              <c:forEach var="shopping_cartVO" items="${list }" varStatus="sample">
-                <c:set var="shopping_cartno" value="${shopping_cartVO.shopping_cartno }" />
-                <c:set var="memno" value="${shopping_cartVO.memno }" />
-                <c:set var="itemno" value="${shopping_cartVO.itemno }" />
-                <c:set var="quantity" value="${shopping_cartVO.quantity }" />
+              <c:if test="${list=='[]'}">
+                <tr><td colspan=8 style="text-align: center;">장바구니에 담은 상품이 없습니다.</td></tr>
+              </c:if> 
+              <c:forEach var="Shop_item_grpVO" items="${list }" varStatus="sample">
+                <c:set var="name" value="${Shop_item_grpVO.name }" />
+                <c:set var="item_name" value="${Shop_item_grpVO.item_name }" />
+                <c:set var="item_price" value="${Shop_item_grpVO.item_price }" />
+                <c:set var="discount_rate" value="${Shop_item_grpVO.discount_rate }" />
+                <c:set var="item_type" value="${Shop_item_grpVO.item_type }" />
+                <c:set var="item_origin" value="${Shop_item_grpVO.item_origin }" />
+                <c:set var="thumb" value="${Shop_item_grpVO.thumb }" />
                 
-                <tr data-discount="<fmt:formatNumber value="${item_price[sample.index]*(discount_rate[sample.index])/100 }" type="number"/>" data-delivery="2500">
+                <c:set var="shopping_cartno" value="${Shop_item_grpVO.shopping_cartno }" />
+                <c:set var="memno" value="${Shop_item_grpVO.memno }" />
+                <c:set var="itemno" value="${Shop_item_grpVO.itemno }" />
+                <c:set var="quantity" value="${Shop_item_grpVO.quantity }" />
+                
+                <tr data-discount="<fmt:formatNumber value="${item_price*(discount_rate)/100 }" type="number"/>" data-delivery="2500">
                   <td class="select_check" style='text-align: center; vertical-align: middle;'><input type="checkbox" class="check_item" name="shopping_cartno" value="${shopping_cartno }"></td>
-                  <td style='text-align: center;'><img src='./sample.png' style="width: 100px; height: 100px;" alt='상품 이미지'></td>
-                  <td style='text-align: center; vertical-align: middle;'><a href="#">${item_name[sample.index] }</a></td>
+                  <td style='text-align: center;'>
+                    <img src='./${thumb}' style="width: 100px; height: 100px;" alt='상품 이미지'>
+                  </td>
+                  <td style='text-align: center; vertical-align: middle;'><a href="#">[${name }, ${item_type }] ${item_name}(#${itemno})</a></td>
                   <td style='text-align: center; vertical-align: middle;'>
-                    <s><span id="itp-${shopping_cartno }">${item_price[sample.index] }</span>원</s>
+                    <s><span id="itp-${shopping_cartno }"><fmt:formatNumber value="${item_price }" type="number"/></span>원</s>
                     (
-                    <fmt:formatNumber value="${item_price[sample.index]*(100-discount_rate[sample.index])/100 }" type="number"/>원
+                    <fmt:formatNumber value="${item_price*(100-discount_rate)/100 }" type="number"/>원
                     )
                   </td>
                   <td style='text-align: center; vertical-align: middle;'>
@@ -144,6 +156,13 @@
                   <td style='text-align: center; vertical-align: middle;'>
                     <form action="../porder/payment.do" method="post">
                       <input type="hidden" name="shopping_cartno" value="${shopping_cartno }">
+                      <input type="hidden" name="item_price_sum" value="${item_price*quantity }">
+                      <fmt:parseNumber var= "ids" integerOnly= "true" value= "${item_price*(discount_rate)/100*quantity }"/>
+                      <input type="hidden" name="item_discount_sum" value="${ids }">
+                      <input type="hidden" name="coupon_discount_sum" value="-2500">
+                      <input type="hidden" name="delivery_fee" value="2500">
+                      <fmt:parseNumber var= "pp" integerOnly= "true" value= "${item_price*(100-discount_rate)/100*quantity }"/>
+                      <input type="hidden" name="payment_price" value='${pp}'>
                       <button type="submit" style="width: 80px;">바로 구매</button>
                     </form>
                     <button type="button" style="width: 80px;" onclick="location.href='./delete.do?shopping_cartno=${shopping_cartno}'">삭제</button>
@@ -157,13 +176,14 @@
     </div>
     <!-- 리스트 테이블 종료 -->
     
-    <div>
-      <label><input type="checkbox" id="input_checkAll">전체 선택</label> &nbsp;&nbsp;&nbsp;
-      <button type="button" onclick="location.href=''">삭제</button>
+    <div style="margin: 0 0 20px 10px;">
+      <label><input type="checkbox" id="input_checkAll">전체 선택</label>
+      <button type="button" onclick="delete_selected();">삭제</button>
     </div>
     
     <!-- 금액 합계 시작 -->
-    <div style="outline: 1px solid grey; margin: 20px auto;">
+    <h3 style="margin: 10px 0;"><u>결제 예상 금액</u></h3>
+    <div style="outline: 1px solid grey; margin: 10px auto;">
       <table class='table_sty' style="width: 100%;">
         <colgroup>
           <col style="width: 20%;"></col>
@@ -177,7 +197,6 @@
             <th style='text-align: center;'>판매가총액(<span id="type_sum"></span>종/<span id="ea_sum"></span>개)</th>
             <th style='text-align: center;'>할인총액</th>
             <th style='text-align: center;'>배송비</th>
-            <th style='text-align: center;'>쿠폰 사용</th>
             <th style='text-align: center;'>결제 예정금액</th>
           </tr>
         </thead>
@@ -185,8 +204,7 @@
           <tr>
             <td style='text-align: center;'><span id="item_price_sum"></span>원</td>
             <td style='text-align: center;'>-<span id="item_discount_sum"></span>원</td>
-            <td style='text-align: center;'>-<span id="coupon_discount_sum">2500</span>원</td>
-            <td style='text-align: center;'><span id="delivery_fee">2500</span>원</td>
+            <td style='text-align: center;'><span id="delivery_fee">2,500</span>원</td>
             <td style='text-align: center;'><span id="payment_price"></span>원</td>
           </tr>
         </tbody>
@@ -260,11 +278,11 @@
       });
       
       // 상품 테이블이 없어서 사용함 -> 삭제할 것
-      create_hidden("item_price_sum", $("#item_price_sum").html(), form);
+/*       create_hidden("item_price_sum", $("#item_price_sum").html(), form);
       create_hidden("item_discount_sum", $("#item_discount_sum").html(), form);
       create_hidden("coupon_discount_sum", $("#coupon_discount_sum").html(), form);
       create_hidden("delivery_fee", $("#delivery_fee").html(), form);
-      create_hidden("payment_price", $("#payment_price").html(), form);
+      create_hidden("payment_price", $("#payment_price").html(), form); */
 
       form.submit();
     }
@@ -273,7 +291,7 @@
       input = document.createElement("input");
       input.type = "hidden";
       input.name = name;
-      input.value = val;
+      input.value = parseInt(val.replace(/,/, ''));
       form.append(input);
     }
     
@@ -374,16 +392,40 @@
         type_sum += 1;
         var ea = parseInt( $('#qt-'+$(this).val()).val() )
         ea_sum += ea;
-        item_price_sum += parseInt( $('#itp-'+$(this).val()).html() ) * ea;
+        item_price_sum += parseInt( $('#itp-'+$(this).val()).html().replace(/,/g, '') ) * ea;
         var tr = $(this).parent().parent(); // tr
-        item_discount_sum += parseInt(tr.data("discount"))*ea;
+        item_discount_sum += parseInt(tr.data("discount").replace(/,/g, ''))*ea;
       });
       // alert(sum);
       $("#type_sum").html(type_sum);
       $("#ea_sum").html(ea_sum);
-      $("#item_price_sum").html(item_price_sum);
-      $("#item_discount_sum").html(item_discount_sum);
-      $("#payment_price").html(item_price_sum-item_discount_sum);
+      $("#item_price_sum").html(String(item_price_sum).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      $("#item_discount_sum").html(String(item_discount_sum).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      $("#payment_price").html(String(item_price_sum-item_discount_sum).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    }
+    
+    function delete_selected(){
+      if($("input:checkbox[name=shopping_cartno]:checked").length == 0){
+        //https://sweetalert.js.org/
+        alert("상품을 1개 이상 선택해주세요.");
+        return
+      }
+      
+      //var str="";
+      var form = document.createElement("form");
+      form.action="./delete.do";
+      form.method="get";
+      //자식 추가
+      $("body").append(form);
+      
+      var input;
+      // 해당 조건에 맞는 태그를 각각 function 수행, for문을 사용x
+      $("input:checkbox[name=shopping_cartno]:checked").each(function(){
+        //str += $(this).val() + "\n"; // value 가져오기
+        create_hidden("shopping_cartno", $(this).val(), form);
+      });
+
+      form.submit();
     }
     
 /*     function select_check(){

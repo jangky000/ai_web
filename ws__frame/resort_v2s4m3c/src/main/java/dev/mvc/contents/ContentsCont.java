@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -320,22 +321,48 @@ public class ContentsCont {
     return mav;
   }
   
+  // 문제가 있는 패턴
   // http://localhost:9090/resort/contents/delete.do
   /**
    * 삭제 폼
    * @return
    */
-  @RequestMapping(value="/contents/delete.do", method=RequestMethod.GET )
-  public ModelAndView delete(int contentsno) {
+/*  @RequestMapping(value="/contents/delete.do", method=RequestMethod.GET )
+  public ModelAndView delete(HttpSession session, int contentsno) {
     ModelAndView mav = new ModelAndView();
     
-    ContentsVO contentsVO = this.contentsProc.update(contentsno);
-    mav.addObject("contentsVO", contentsVO); // request.setAttribute("contentsVO", contentsVO);
-    
-    mav.setViewName("/contents/delete"); // webapp/contents/delete.jsp
+    if(session.getAttribute("memberno") != null) {
+      ContentsVO contentsVO = this.contentsProc.update(contentsno);
+      mav.addObject("contentsVO", contentsVO); // request.setAttribute("contentsVO", contentsVO);
+      mav.setViewName("/contents/delete"); // webapp/contents/delete.jsp
+    }
+    else {
+      mav.setViewName("redirect:/member/login_need.jsp");
+    }
     
     return mav;
-  }
+  }*/
+  
+  // http://localhost:9090/resort/contents/delete.do
+ /**
+  * 컨텐츠 삭제 폼, 글쓴이가 일치하는지 확인
+  * @return
+  */
+ @RequestMapping(value="/contents/delete.do", method=RequestMethod.GET )
+ public ModelAndView delete(HttpSession session, int contentsno) {
+   ModelAndView mav = new ModelAndView();
+   
+   int memberno =(Integer)session.getAttribute("memberno");
+   if(memberno == this.contentsProc.read(contentsno).getMemberno()) {
+     ContentsVO contentsVO = this.contentsProc.update(contentsno);
+     mav.addObject("contentsVO", contentsVO); // request.setAttribute("contentsVO", contentsVO);
+     mav.setViewName("/contents/delete"); // webapp/contents/delete.jsp
+   }
+   else {
+     mav.setViewName("redirect:/member/mconfirm_fail_msg.jsp");
+   }
+   return mav;
+ }
   
   // http://localhost:9090/resort/contents/delete.do
   /**
@@ -947,6 +974,26 @@ public ModelAndView mp4_delete(int cateno, int contentsno) {
     return mav;
   }
   
+  // http://localhost:9090/resort/contents/reply.do?cateno=1&contentsno=1
+  /**
+   * 답변 폼
+   * @return
+   */
+  @RequestMapping(value="/contents/reply.do", method=RequestMethod.GET )
+  public ModelAndView create(int cateno, int contentsno) {
+    ModelAndView mav = new ModelAndView();
+    System.out.println("답변 대상: " + contentsno);
+    
+    CateVO cateVO = this.cateProc.read(cateno);
+    mav.addObject("cateVO", cateVO);
+    
+    CategrpVO categrpVO = this.categrpProc.read(cateVO.getCategrpno());
+    mav.addObject("categrpVO", categrpVO);
+
+    mav.setViewName("/contents/reply"); // webapp/contents/reply.jsp
+    
+    return mav;
+  }
   
 }
 

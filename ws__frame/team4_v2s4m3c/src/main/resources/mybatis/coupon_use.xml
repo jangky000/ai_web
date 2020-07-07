@@ -17,7 +17,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     ORDER BY coupon_useno DESC
   </select>
   
+  <!-- 쿠폰 사용 목록 총 수 -->
+  <select id="search_count" resultType="int" >
+     SELECT COUNT(*) as cnt
+     FROM coupon_use
+  </select>
+  
   <!-- 쿠폰 사용 페이징 -->
+  <select id="list_by_coupon_useno_paging" resultType="Coupon_useVO">
+    SELECT coupon_useno, porderno, coupon_issueno, rdate, cpstatus, r
+    FROM (
+               SELECT coupon_useno, porderno, coupon_issueno, rdate, cpstatus, rownum as r
+               FROM (
+                         SELECT coupon_useno, porderno, coupon_issueno, rdate, cpstatus
+                         FROM coupon_use
+                         ORDER BY coupon_useno DESC
+               )          
+    )
+    WHERE <![CDATA[ r >= #{startNum} AND r <= #{endNum} ]]>
+  </select>
   
   <!-- 쿠폰 사용 조회 -->
   <select id="read" resultType="Coupon_useVO" parameterType="int">

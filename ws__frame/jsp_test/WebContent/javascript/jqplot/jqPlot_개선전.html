@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/JavaScript"
+          src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- jqPlot 기본 설정 파일 -->
+<link rel="stylesheet" type="text/css" href="./jquery.jqplot.min.css" />
+<script type="text/javascript" src="./jquery.jqplot.min.js"></script>
+ 
+<!-- 막대그래프 추가 설정 파일 -->
+<script type="text/javascript" src="./plugins/jqplot.barRenderer.js"></script>
+<script type="text/javascript" src="./plugins/jqplot.categoryAxisRenderer.js"></script>
+ 
+<!-- 원형 그래프 추가 설정 파일 -->
+<script type="text/javascript" src="./plugins/jqplot.pieRenderer.js"></script>
+
+<!-- Meter gauge -->
+<script type="text/javascript" src="./plugins/jqplot.meterGaugeRenderer.js"></script>
+
+<!-- 막대 그래프 값 출력 -->
+<script type="text/javascript" src="./plugins/jqplot.pointLabels.js"></script>
+
+<script type="text/javascript">
+// $() -> 시작시 자동 호출
+$(function(){
+  
+});
+
+// 라인 그래프
+//꺽은선 그래프, Y: 데이터, X: 자료의 갯수
+function chart1() {
+  // 데이터의 크기에따라 좌표값이 자동으로 출력됨. 
+  $.jqplot ('graph1_1', [[10,20,30,40,50,300,200]]); // 그래프 출력 태그의 id, 데이터, 2차원 배열 구조
+  $.jqplot ('graph1_2', [[10,20,30,40,50,300,200],
+                                 [25,32,45,53,65,270,150]]); // 그래프 출력 태그의 id, 데이터
+}
+
+// 옵션이 추가된 라인 그래프
+//꺽은선 그래프, Y: 데이터, X: 자료의 갯수, axes 옵션 추가
+function chart2() {
+  $.jqplot ('graph2', [[10,20,30,40,50,300,200], [25,32,45,53,65,270,150]],{
+    animate: true, // 그래프가 닦아내듯 나타남
+    title : '그래프 제목옵션',
+    axes: {
+            xaxis: {
+                       label: "X 좌표제목"
+            },
+            yaxis: {
+                       label: "Y 좌표제목"
+            }
+    },
+    legend: {show: true}, // 범례, 보통 오른쪽에 붙는 것이 default
+    series: [{label:'영업 1팀'},{label:'영업 2팀'}] // 범례에 보이게 될 라벨을 설정
+  });
+}
+
+// 수직 막대 그래프1
+function chart3() {
+  // [xTick(=항목이름), 값]
+  $.jqplot('graph3_1', [[['1월', 300], ['2월', 52], ['3월', 38], ['4월', 30], ['5월', 0]]], { // bar renderer를 그릴 때 독립된 3차원 데이터 사용
+    title: '막대형그래프',
+    series:[{renderer:$.jqplot.BarRenderer}], // 그래프 형식 지정
+    axes: {
+      xaxis: {
+        renderer: $.jqplot.CategoryAxisRenderer,
+        label: "월별"
+      },
+      yaxis: {
+        label: "매출액"
+      }
+    },
+    legend:{ show: true },
+    series:[
+      {label : '월별 매출액'}
+    ],     
+  });
+  
+  $(document).ready(function(){
+    var line1 = [['Ford', 4],['Volvo', 6],['Porsche', 2],['Audi', 5],['Buggati', 6]];
+ 
+    $('#graph3_2').jqplot([line1], {
+        title:'Bar Chart with Varying Colors',
+        seriesDefaults:{
+            renderer:$.jqplot.BarRenderer,
+            rendererOptions: {
+                varyBarColor: true
+            }
+        },
+        axes:{
+            xaxis:{
+                renderer: $.jqplot.CategoryAxisRenderer
+            }
+        }
+    });
+});
+
+}
+
+// 수직 막대 그래프2, 
+function chart3_1() {
+  var member = [9, 8, 6, 8, 7, 6, 4];  // 막대 그래프 데이터
+  var album = [2, 3, 4, 10, 8, 5, 1];   // 꺽은 선 그래프
+ 
+  jQuery("#graph3_3").jqplot([member, album], {
+        animate: true,
+        title : "막대 그래프"
+      , series : [
+          // 첫번째 블록에서 member 배열에 대해 데이터를 처리한다.
+          {
+              // member 배열을 막대 그래프 차트로 나타낸다. 
+              renderer : jQuery.jqplot.BarRenderer,
+              label : '상반기'
+          },
+          {
+            // member 배열을 막대 그래프 차트로 나타낸다. 
+            renderer : jQuery.jqplot.BarRenderer,
+            label : '하반기'
+        }            
+      ]
+      , axes: {
+          xaxis : {
+             label: "X 좌표제목",
+             renderer : jQuery.jqplot.CategoryAxisRenderer,
+             ticks : ['왕눈이', '아로미', '투투', '홍길동', '홍길순', '가길동', '나길순']
+          },
+          yaxis: {
+            label: "Y 좌표제목"
+          }
+      },
+      legend: {
+        show: true,
+        location: 'e',
+        placement: 'outside'
+      }
+  });
+}
+
+//원형 그래프
+function chart4() {
+  $.jqplot ('graph4', [[['1/4 분기', 50], ['2/4 분기', 22], ['3/4 분기', 38], ['4/4 분기', 30]]],
+      {    
+        title: '2017년 매출액',
+        seriesDefaults: {
+          //원형으로 렌더링
+          renderer: $.jqplot.PieRenderer,
+          //원형상단에 값보여주기(알아서 %형으로 변환)
+          rendererOptions: {
+            showDataLabels: true
+          }
+        },
+        //우측 색상별 타이틀 출력, 
+        legend: { show:true, location: 'e' } // e:east, w:west, n:north, nw:북서쪽
+      }
+  );
+}
+
+//막대 그래프와 꺽은선 그래프의 결합
+function chart5() {
+  var member = [9, 8, 6, 8, 7, 6, 4];  // 막대 그래프 데이터
+  var album = [2, 3, 4, 10, 8, 5, 1];   // 꺽은 선 그래프
+ 
+  jQuery("#graph5").jqplot([member, album], {
+        title : "막대 그래프"
+      , series : [
+          // 첫번째 블록에서 member 배열에 대핸 데이터를 처리한다.
+          {
+              // member 배열을 막대 그래프 차트로 나타낸다. 
+              renderer : jQuery.jqplot.BarRenderer
+          }
+      ]
+      , axes: {
+          xaxis : {
+             label: "X 좌표제목",
+             renderer : jQuery.jqplot.CategoryAxisRenderer,
+             ticks : ['왕눈이', '아로미', '투투', '홍길동', '홍길순', '가길동', '나길순']
+          },
+          yaxis: {
+            label: "Y 좌표제목"
+          }
+      },
+      legend: {
+        show: true,
+        location: 'e',
+        placement: 'outside'
+      },
+      series:[
+        {renderer : jQuery.jqplot.BarRenderer, label : '영업 1팀'}, {label : '영업 2팀'}
+      ]
+  });
+}
+
+// 막대 그래프와 값 출력
+function chart5_1(){
+  $.jqplot.config.enablePlugins = true;
+  var s1 = [2, 6, 7, 10];
+  var ticks = ['a', 'b', 'c', 'd'];
+  
+  // 함수명과 같으면 안됨
+  plot1 = $.jqplot('graph5_1', [s1], {
+      // Only animate if we're not using excanvas (not in IE 7 or IE 8)..
+      animate: !$.jqplot.use_excanvas,
+      seriesDefaults:{
+          renderer:$.jqplot.BarRenderer,
+          pointLabels: { show: true }
+      },
+      axes: {
+          xaxis: {
+              renderer: $.jqplot.CategoryAxisRenderer,
+              ticks: ticks
+          }
+      },
+      highlighter: { show: false }
+  });
+
+  $('#chart5_1').bind('jqplotDataClick', 
+      function (ev, seriesIndex, pointIndex, data) {
+          $('#graph5_1').html('series: '+seriesIndex+', point: '+pointIndex+', data: '+data);
+      });
+}
+
+// Meter gauge
+// ajax로 실시간으로 변하는 그래프를 만들 수 있다.
+function chart6() {
+  $(document).ready(function(){
+    s1 = [322];
+  
+    plot3 = $.jqplot('graph6',[s1],{
+        seriesDefaults: {
+            renderer: $.jqplot.MeterGaugeRenderer,
+            rendererOptions: {
+                min: 100,
+                max: 500,
+                intervals:[200, 300, 400, 500],
+                intervalColors:['#66cc66', '#93b75f', '#E7E658', '#cc6666']
+            }
+        }
+    });
+ });
+}
+
+</script>
+</head>
+<body>
+
+<DIV>
+ <button type="button"  onclick="chart1()">라인 그래프</button>
+ <div id="graph1_1" style='margin: 10px auto; width: 60%;'></div>
+ <div id="graph1_2" style='margin: 10px auto; width: 60%;'></div> 
+  
+ <button type="button"  onclick="chart2()">옵션이 추가된 라인 그래프</button>
+ <div id="graph2" style='margin: 10px auto; width: 60%;'></div>
+ 
+ <button type="button" onclick="chart3()">막대 그래프1</button>
+ <div id="graph3_1" style='margin: 10px auto; width: 60%;'></div> 
+ <div id="graph3_2" style='margin: 10px auto; width: 60%;'></div>
+ 
+ <button type="button" onclick="chart3_1()">막대 그래프2</button>
+ <div id="graph3_3" style='margin: 10px auto; width: 60%;'></div> 
+ 
+ <button type="button" onclick="chart4()">원형 그래프</button>
+ <div id="graph4" style='margin: 10px auto; width: 60%;'></div>
+ 
+ <button type="button" onclick="chart5()">막대 그래프와 꺽은선 그래프 결합</button>
+ <div id="graph5" style='margin: 10px auto; width: 60%;'></div>
+ 
+  <button type="button" onclick="chart5_1()">막대 그래프와 값 출력</button>
+ <div id="graph5_1" style='margin: 10px auto; width: 60%;'></div>
+ 
+ <button type="button" onclick="chart6()">Meter Gauge</button>
+ <div id="graph6" style='margin: 10px auto; width: 60%;'></div>
+</DIV>
+
+</body>
+</html>

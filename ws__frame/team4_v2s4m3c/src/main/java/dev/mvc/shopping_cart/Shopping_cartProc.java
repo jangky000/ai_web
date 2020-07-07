@@ -1,5 +1,6 @@
 package dev.mvc.shopping_cart;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,23 @@ public class Shopping_cartProc implements Shopping_cartProcInter{
   }
 
   @Override
-  public List<Shopping_cartVO> list_by_selected_shopping_cartno(int[] shopping_cartInt) {
-    List<Shopping_cartVO> list = this.Shopping_cartDAO.list_by_selected_shopping_cartno(shopping_cartInt);
+  public List<Shop_item_grpVO> list_join(int memno) {
+    List<Shop_item_grpVO> list = this.Shopping_cartDAO.list_join(memno);
+    return list;
+  }
+  
+//  @Override
+//  public List<Shopping_cartVO> list_by_selected_shopping_cartno(int[] shopping_cartInt) {
+//    List<Shopping_cartVO> list = this.Shopping_cartDAO.list_by_selected_shopping_cartno(shopping_cartInt);
+//    return list;
+//  }
+  
+  @Override
+  public List<Shop_item_grpVO> list_join_by_selected_shopping_cartno(int[] shopping_cartInt, int memno) {
+    HashMap<Object, Object> map = new HashMap<Object, Object>();
+    map.put("shopping_cartInt", shopping_cartInt);
+    map.put("memno", memno);
+    List<Shop_item_grpVO> list = this.Shopping_cartDAO.list_join_by_selected_shopping_cartno(map);
     return list;
   }
   
@@ -40,8 +56,20 @@ public class Shopping_cartProc implements Shopping_cartProcInter{
   }
 
   @Override
+  public String shopping_cart_check(HashMap<Object, Object> map) {
+    String shopping_cartno = this.Shopping_cartDAO.shopping_cart_check(map);
+    return shopping_cartno;
+  }
+  
+  @Override
   public int quantity_up(int shopping_cartno) {
     int cnt = this.Shopping_cartDAO.quantity_up(shopping_cartno);
+    return cnt;
+  }
+  
+  @Override
+  public int quantity_up_num(HashMap map) {
+    int cnt = this.Shopping_cartDAO.quantity_up_num(map);
     return cnt;
   }
 
@@ -56,6 +84,14 @@ public class Shopping_cartProc implements Shopping_cartProcInter{
     int cnt = this.Shopping_cartDAO.delete(shopping_cartno);
     return cnt;
   }
-  
+
+  @Override
+  public int delete_list(int[] shopping_cartInt) {
+    int cnt = this.Shopping_cartDAO.delete_list(shopping_cartInt);
+    return cnt;
+  }
+
+
+
 
 }

@@ -1,6 +1,9 @@
 package dev.mvc.coupon_use;
 
+import java.util.HashMap;
 import java.util.List;
+
+import dev.mvc.coupon.CouponVO;
 
 public interface Coupon_useDAOInter {
   
@@ -44,4 +47,18 @@ public interface Coupon_useDAOInter {
    */
   public int delete(int coupon_useno);
 
+  /**
+   * 쿠폰 사용 목록 수
+   * @param hashMap
+   * @return
+   */
+  public int search_count();
+  
+  /**
+   * 쿠폰 사용 페이징 목록
+   * @param map
+   * @return
+   */
+  public List<CouponVO> list_by_coupon_useno_paging(HashMap<String, Object> map);
+  
 }

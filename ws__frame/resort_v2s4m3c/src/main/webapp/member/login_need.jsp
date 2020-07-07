@@ -31,8 +31,8 @@
   <DIV class='message'>
     <H3>로그인이 필요한 페이지입니다.</H3>
     <BR><BR>
-    [<A href='${pageContext.request.contextPath}/member/login.do'>로그인</A>]
-    [<A href='${pageContext.request.contextPath}/member/create.do'>회원 가입</A>]
+    <button type='button' onclick="location.href = '${pageContext.request.contextPath}/member/login.do'" class='btn btn-info'>로그인</button>
+    <button type='button' onclick="location.href = '${pageContext.request.contextPath}/member/create.do'" class='btn btn-info'>회원 가입</button>
   </DIV>
  
 <jsp:include page="/menu/bottom.jsp" flush='false' />

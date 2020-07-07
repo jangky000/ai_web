@@ -154,6 +154,25 @@ public interface ContentsProcInter {
    * @return
    */
   public List<ContentsVO> list_by_cateno_search_paging(HashMap<String, Object> map);
+  
+  /**
+   * 답변 순서 증가
+   * <update id="increaseAnsnum" parameterType="HashMap"> 
+   * @param map
+   * @return
+   */
+  public int increaseAnsnum(HashMap<String, Object> map);
+   
+  /**
+   * <xmp>
+   * 답변
+   * <insert id="reply" parameterType="ContentsVO">
+   * </xmp>
+   * @param contentsVO
+   * @return
+   */
+  public int reply(ContentsVO contentsVO);
+ 
 }
 
 

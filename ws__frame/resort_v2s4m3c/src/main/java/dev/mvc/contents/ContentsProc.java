@@ -274,6 +274,18 @@ public class ContentsProc implements ContentsProcInter {
     return list;
   }
   
+  @Override
+  public int increaseAnsnum(HashMap<String, Object> map) {
+    int count = contentsDAO.increaseAnsnum(map);
+    return count;
+  }
+  
+  @Override
+  public int reply(ContentsVO contentsVO) {
+    int count = contentsDAO.reply(contentsVO);
+    return count;
+  }
+  
 }
 
 

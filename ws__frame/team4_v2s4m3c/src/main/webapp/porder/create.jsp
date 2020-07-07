@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="root" value="${pageContext.request.contextPath}" /> 
 
 <!DOCTYPE html>
@@ -16,10 +17,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   
-  <script src="${root }/javascript/script.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-  
+  <script src="${root }/javascript/script.js"></script>
   
   <style type="text/css">
     .table_sty {
@@ -155,7 +155,7 @@
           <tr>
             <th style='text-align: right;'>배송 요청 사항</th>
             <td style='text-align: left;'>
-              <textarea id='porder_delivery_request' rows="3" style="width: 500px;">문 앞에 두고 가세요</textarea>
+              <textarea id='porder_delivery_request' rows="3" style="width: 500px;">문 앞에 놔주세요</textarea>
             </td>
           </tr>
         </tbody>
@@ -176,11 +176,24 @@
           </colgroup>
           <%-- table 내용 --%>
           <tbody>
-            <c:forEach var="shopping_cartVO" items="${shopping_cartlist }">
+            <c:forEach var="Shop_item_grpVO" items="${shopping_cartlist }">
+                <c:set var="name" value="${Shop_item_grpVO.name }" />
+                <c:set var="item_name" value="${Shop_item_grpVO.item_name }" />
+                <c:set var="item_price" value="${Shop_item_grpVO.item_price }" />
+                <c:set var="discount_rate" value="${Shop_item_grpVO.discount_rate }" />
+                <c:set var="item_type" value="${Shop_item_grpVO.item_type }" />
+                <c:set var="item_origin" value="${Shop_item_grpVO.item_origin }" />
+                <c:set var="thumb" value="${Shop_item_grpVO.thumb }" />
+                
+                <c:set var="shopping_cartno" value="${Shop_item_grpVO.shopping_cartno }" />
+                <c:set var="memno" value="${Shop_item_grpVO.memno }" />
+                <c:set var="itemno" value="${Shop_item_grpVO.itemno }" />
+                <c:set var="quantity" value="${Shop_item_grpVO.quantity }" />
+                
               <tr>
-                <td style='text-align: left;'><img src="./sample.png" style="width: 50px; height: 50px;"></td>
-                <td style='padding:0 20px; text-align: left;'>장바구니 번호 ${shopping_cartVO.shopping_cartno }</td>
-                <td style='padding:0 20px; text-align: center;'>${shopping_cartVO.quantity} 개</td>
+                <td style='text-align: left;'><img src="../shopping_cart/${thumb }" style="width: 50px; height: 50px;"></td>
+                <td style='padding:0 20px; text-align: left;'><a href="#">[${name }, ${item_type }] ${item_name}(#${itemno})</a></td>
+                <td style='padding:0 20px; text-align: center;'>${quantity} 개</td>
                 <td style='padding:0 20px; text-align: center;'>오늘 출고</td>
               </tr>
             </c:forEach>
@@ -205,7 +218,7 @@
       </div>
       <div style="padding: 10px 20px; border-bottom: 1px solid gray;">
         <div style="font-weight: bold; margin: 5px;">결제 방법</div>
-        <label><input type="radio" name='method' value='kakaopay'>카카오페이</label>
+        <label><input type="radio" name='method' value='kakaopay' checked="checked">카카오페이</label>
         <label><input type="radio" name='method' value='naverpay'>네이버페이</label>
         <label><input type="radio" name='method' value='insis'>이니시스</label>
       </div>
@@ -268,7 +281,7 @@
           참고하세요.
           나중에 포스팅 해볼게요.
           */
-          name: '주문명:결제테스트',
+          name: '스킨핏: 결제테스트',
           //결제창에서 보여질 이름
           amount: ${porderVO.payment_price },
           //가격
@@ -320,10 +333,11 @@
                               //'porder_status':'1',
                               'porder_zip_code': $('#porder_zip_code').val(),
                               'porder_address':$('#porder_address').val(),
-                              'porder_delivery_request':$('#porder_delivery_request').html()
+                              'porder_delivery_request':$('#porder_delivery_request').val() // .html()로 값을 가져오면 변경되지 않은 초기값만 들어간다.
                              };
       
       var porder_detailArr = [];
+      var shopping_cartno = [];
       
       // 상품 개수 만큼 순회      
       <c:forEach var="shopping_cartVO" items="${shopping_cartlist }">
@@ -335,11 +349,13 @@
           'payment_price':'1'
           //'porder_detail_status':'1'
         });
+        shopping_cartno.push('${shopping_cartVO.shopping_cartno}');
       </c:forEach>
       
-      
+      alert(JSON.stringify(shopping_cartno));
       // JSON형식의 String 변환은 단 한번 해준다, JSON 내부의 JSON은 모두 String 형태로 직접 변환해줘야 한다.
-      var params = {'porderJSONString':JSON.stringify(porderJSON), 'porder_detailArrString':JSON.stringify(porder_detailArr)};
+      // 배열도 배열 하나 전달할 거 아니면 JSON 변환해줘야하나보다.. 
+      var params = {'porderJSONString':JSON.stringify(porderJSON), 'porder_detailArrString':JSON.stringify(porder_detailArr), 'shopping_cartArr':JSON.stringify(shopping_cartno)};
       
       //alert(params);
       
@@ -354,9 +370,9 @@
         success: function(rdata) { // 서버로부터 성공적으로 응답이 온경우
           //var msg = "";
           //alert(rdata.result);
-          if(rdata.result == "fully success"){
+          if(rdata.result != -1){
             alert("결제완료");
-            location.href="./complete.do?cnt=1";
+            location.href="./complete.do?porderno="+rdata.result;
           } else{
             alert("결제 오류");
             

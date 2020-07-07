@@ -10,6 +10,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     VALUES(porder_detail_seq.nextval, #{porderno}, #{itemno}, #{quantity}, #{item_price_sum}, #{item_discount_sum}, #{payment_price}, #{porder_detail_status})
   </insert>
   
+  <!-- https://ming9mon.tistory.com/91 -->
+  <!-- 주문 상세 내역 리스트 등록 -->
+  <insert id="create_list" parameterType="Porder_detailVO">
+    <foreach item="item" index="index" collection="array" separator=" " open="INSERT ALL " close="SELECT * FROM DUAL">
+      INSERT INTO porder_detail(porder_detailno,porderno,itemno,quantity,item_price_sum,item_discount_sum, payment_price, porder_detail_status)
+      VALUES(porder_detail_seq.nextval, #{porderno}, #{itemno}, #{quantity}, #{item_price_sum}, #{item_discount_sum}, #{payment_price}, #{porder_detail_status})
+    </foreach>
+  </insert>
+  
   <!-- 주문 상세 내역 목록 -->
   <!-- 관리자 -->
   <select id="list" resultType="Porder_detailVO">

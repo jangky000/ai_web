@@ -25,7 +25,7 @@
       </c:choose>
       
       <c:choose>
-        <c:when test="${sessionScope.id != null}">
+        <c:when test="${sessionScope.id != null || sessionScope.id_admin != null}">
           <A class='menu_link'  href='${root}/categrp/list.do'>카테고리 그룹</A><span class='top_menu_sep'>&nbsp;</span>    
           <A class='menu_link'  href='${root}/cate/list_join.do'>모든 카테고리</A><span class='top_menu_sep'>&nbsp;</span>
           <A class='menu_link'  href='${root}/contents/list_all.do'>전체글</A><span class='top_menu_sep'>&nbsp;</span>    
@@ -37,7 +37,19 @@
         <c:otherwise>
           영화와 여행이 있는 리조트에 오신 것을 환영합니다.
         </c:otherwise>
-      </c:choose> 
+      </c:choose>
+      
+      [
+      <c:choose>
+        <c:when test="${sessionScope.id_admin == null}">
+          <A class='menu_link'  href='${root}/admin/login.do' >관리자 Login</A>
+        </c:when>
+        <c:otherwise>
+          ${sessionScope.id_admin } <A class='menu_link'  href='${root}/admin/logout.do' >관리자 Logout</A> 
+        </c:otherwise>
+      </c:choose>
+      ]  
+      
     </NAV>
   </DIV>
   

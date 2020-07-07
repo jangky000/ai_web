@@ -1,5 +1,6 @@
 package dev.mvc.coupon;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface CouponProcInter {
@@ -43,5 +44,30 @@ public interface CouponProcInter {
    * @return
    */
   public int delete(int couponno);
+  
+  /**
+   * 쿠폰 전체 레코드 개수
+   * @param hashMap
+   * @return
+   */
+  public int search_count();
+  
+  /** 
+   * SPAN태그를 이용한 박스 모델의 지원, 1 페이지부터 시작 
+   * 현재 페이지: 11 / 22   [이전] 11 12 13 14 15 16 17 18 19 20 [다음] 
+   *
+   * @param listFile 목록 파일명 
+   * @param search_count 검색(전체) 레코드수 
+   * @param nowPage     현재 페이지
+   * @return 페이징 생성 문자열
+   */ 
+  public String pagingBox(String listFile, int search_count, int nowPage);
+  
+  /**
+   * 쿠폰 번호별 페이징
+   * @param map
+   * @return
+   */
+  public List<CouponVO> list_by_couponno_paging(HashMap<String, Object> map);
   
 }

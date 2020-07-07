@@ -87,15 +87,43 @@ VALUES(shopping_cart_seq.nextval, 1, 2, 2);
 INSERT INTO shopping_cart(shopping_cartno, memno, itemno, quantity)
 VALUES(shopping_cart_seq.nextval, 1, 3, 3);
 
+COMMIT;
+
 -- LIST
 SELECT shopping_cartno, memno, itemno, quantity
 FROM shopping_cart
 ORDER BY shopping_cartno DESC;
 
+-- 조인 리스트
+-- 순서 -> 장바구니에 있는 것만 조인하면 되므로, 장바구니와 아이템을 가장 먼저 합침
+-- 장바구니 + 아이템 + 그룹 -> 근데 그룹에 너무 정보가 없다 굳이 합쳐야 할까..
+-- 장바구니 + 아이템
+SELECT *
+FROM shopping_cart sc, item it
+WHERE sc.itemno = it.itemno
+ORDER BY shopping_cartno DESC
+
+-- 장바구니 + 아이템 + 그룹
+SELECT ig.grpno, ig.name as grpname, 
+            si.itemno, si.item_name, si.item_price, si.discount_rate, si.item_type, si.item_origin, si.upfile, si.thumb,
+             si.shopping_cartno, si.memno, si.quantity
+FROM itemgrp ig, (SELECT it.itemno, it.grpno, it.item_name, it.item_price, it.discount_rate, it.item_type, it.item_origin, it.upfile, it.thumb,
+                            sc.shopping_cartno, sc.memno, sc.quantity
+                            FROM shopping_cart sc, item it
+                            WHERE sc.itemno = it.itemno AND sc.memno = 1
+                            ORDER BY shopping_cartno DESC) si
+WHERE ig.grpno = si.grpno
+
 -- READ
 SELECT shopping_cartno, memno, itemno, quantity
 FROM shopping_cart
 WHERE shopping_cartno=1;
+
+-- 장바구니 중복 검사
+--shopping_cart_check
+SELECT shopping_cartno
+FROM shopping_cart
+WHERE memno=2 AND itemno=1;
 
 -- UPDATE
 -- quantity_up
@@ -113,3 +141,7 @@ DELETE FROM shopping_cart
 WHERE shopping_cartno=3;
 
 COMMIT;
+
+
+
+

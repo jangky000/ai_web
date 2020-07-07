@@ -24,17 +24,32 @@
     table div{
      
     }
-    table tr{
-     border: 1px solid gray;
+    table thead tr{
+     border: none;
+    }
+    table tbody tr{
+     border: 1px solid white;
+    }
+    table tbody tr:nth-child(3n+1){
+     border-left: 1px solid gray;
+     border-right: 1px solid gray;
+    }
+    table tbody tr:nth-child(3n+2){
+     border-left: 1px solid gray;
+     border-right: 1px solid gray;
+    }
+    table tbody tr:nth-child(3n){
+     border-left: 1px solid gray;
+     border-right: 1px solid gray;
+     border-bottom: 1px solid gray;
     }
     table th{
       font-size: 14px;
-      border-bottom: 3px solid gray;
+      border-bottom: 2px solid gray;
       background-color: #ffffff;
     }
     table td{
       font-size: 16px;
-      border-right: 1px solid gray;
     }
     table td.td-th{
       font-weight: bold;
@@ -55,7 +70,7 @@
   <div style="width: 90%; margin: 20px auto;">
     <div>
       <h2 style="display: inline;">주문/배송관리</h2>
-      <span style="float: right;">관리자 ＞ <strong style="background-color: #ffffff;">주문/배송관리</strong></span>
+      <span style="float: right;">판매자 ＞ <strong style="background-color: #ffffff;">주문/배송관리</strong></span>
     </div>
     
     <%
@@ -74,6 +89,14 @@
             <li style="height: 40px;">출고지연</li>
             <li style="height: 40px;">배송지연</li>
             <li style="height: 40px;">장기미배송</li>
+          </ul>
+        </div>
+        <div style="float: right;">
+          <ul style="list-style: none; margin: 0; padding: 5px 10px 0 0;">
+            <li style="height: 40px;">0건</li>
+            <li style="height: 40px;">0건</li>
+            <li style="height: 40px;">0건</li>
+            <li style="height: 40px;">0건</li>
           </ul>
         </div>
       </div>
@@ -162,13 +185,13 @@
                 <td>
                   <span id="trackinginfo-${porder_detailno }">
                     <c:choose>
-                      <c:when test="${trackingno==null }">
+                      <c:when test="${trackingno==null or trackingno==-1 }">
                         <%-- <input type="text" name='trackingno' value='' placeholder="운송장번호" style="width: 100px;"><button type="button" class='btn_trackingno' name='${porder_detailno }'>등록</button> --%>
-                        <div class="trackingno_input" style="display: block;"><input type="text" name='trackingno' value='' placeholder="운송장번호" style="width: 100px;"><button type="button" class='btn_trackingno' name='${porder_detailno }'>등록</button></div>
+                        <div class="trackingno_input" style="display: block;"><input type="text" name='trackingno'  placeholder="운송장번호" style="width: 100px;"><button type="button" class='btn_trackingno' name='${porder_detailno }'>등록</button></div>
                         <div class="trackingno_view" style="display: none;"><span>${trackingno }</span><button type="button" class='btn_change_trackingno' name='${porder_detailno }'>변경</button><button type="button" class='btn_delete_trackingno' name='${porder_detailno }'>삭제</button></div>
                       </c:when>
                       <c:otherwise>
-                        <div class="trackingno_input" style="display: none;"><input type="text" name='trackingno' value='' placeholder="운송장번호" style="width: 100px;"><button type="button" class='btn_trackingno' name='${porder_detailno }'>등록</button><button type="button" class='btn_cancel' name='${porder_detailno }'>취소</button></div>
+                        <div class="trackingno_input" style="display: none;"><input type="text" name='trackingno' placeholder="운송장번호" style="width: 100px;"><button type="button" class='btn_trackingno' name='${porder_detailno }'>등록</button><button type="button" class='btn_cancel' name='${porder_detailno }'>취소</button></div>
                         <div class="trackingno_view" style="display: block;"><span>${trackingno }</span><button type="button" class='btn_change_trackingno' name='${porder_detailno }'>변경</button><button type="button" class='btn_delete_trackingno' name='${porder_detailno }'>삭제</button></div>
                       </c:otherwise>
                     </c:choose>
@@ -242,13 +265,23 @@
             //var msg = "";
             //alert(rdata.result);
             if(rdata.cnt == 1){
-              alert("운송장번호 등록 완료");
-              $('#trackinginfo-'+porder_detailno).children('div.trackingno_view').children('span').empty();
-              $('#trackinginfo-'+porder_detailno).children('div.trackingno_view').children('span').append(rdata.trackingno);
-              $('#trackinginfo-'+porder_detailno).children('div.trackingno_view').show(); // 펼치기
-              $('#trackinginfo-'+porder_detailno).children('div.trackingno_input').hide(); // 숨기기
-              /* $('#trackinginfo-'+porder_detailno).empty();
-              $('#trackinginfo-'+porder_detailno).append(rdata.trackingno); // display만 바꾸기 */
+              
+              if(rdata.trackingno == -1){
+                // 삭제 완료 시
+                alert("운송장번호 삭제 완료");
+                $('#trackinginfo-'+porder_detailno).children('div.trackingno_view').children('span').empty();
+                $('#trackinginfo-'+porder_detailno).children('div.trackingno_input').children('input').val('');
+                $('#trackinginfo-'+porder_detailno).children('div.trackingno_input').show(); // 펼치기
+                $('#trackinginfo-'+porder_detailno).children('div.trackingno_view').hide(); // 숨기기
+              } else{
+                // 업데이트 완료시
+                alert("운송장번호 등록 완료");
+                $('#trackinginfo-'+porder_detailno).children('div.trackingno_view').children('span').empty();
+                $('#trackinginfo-'+porder_detailno).children('div.trackingno_view').children('span').append(rdata.trackingno);
+                $('#trackinginfo-'+porder_detailno).children('div.trackingno_view').show(); // 펼치기
+                $('#trackinginfo-'+porder_detailno).children('div.trackingno_input').hide(); // 숨기기
+              }
+              
             } else{
               alert("운송장번호 등록 실패");         
             }

@@ -19,10 +19,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import dev.mvc.admin.AdminProcInter;
 import dev.mvc.contents.ContentsVO;
  
 @Controller
 public class MemberCont {
+  //관리자는 대체로 위에 선언함, 자동으로 빈 할당, dependency injection
+  @Autowired
+  @Qualifier("dev.mvc.admin.AdminProc")
+  private AdminProcInter adminProc;
+  
   @Autowired
   @Qualifier("dev.mvc.member.MemberProc")
   private MemberProcInter memberProc = null;
@@ -101,11 +107,33 @@ public class MemberCont {
    * @param session
    * @return
    */
-  @RequestMapping(value="/member/list.do", method=RequestMethod.GET)
+  /*@RequestMapping(value="/member/list.do", method=RequestMethod.GET)
   public ModelAndView list(HttpSession session) {
     ModelAndView mav = new ModelAndView();
     
     if (memberProc.isMember(session)) {
+      List<MemberVO> list = memberProc.list();
+      
+      mav.addObject("list", list);
+      mav.setViewName("/member/list"); // /webapp/member/list.jsp
+
+    } else {
+      mav.setViewName("redirect:/member/login_need.jsp"); // /webapp/member/login_need.jsp
+    }
+    
+    return mav;
+  }*/
+  
+  /**
+   * 관리자만 회원 목록 출력
+   * @param session
+   * @return
+   */
+  @RequestMapping(value="/member/list.do", method=RequestMethod.GET)
+  public ModelAndView list(HttpSession session) {
+    ModelAndView mav = new ModelAndView();
+    
+    if (this.adminProc.isAdmin(session)) {
       List<MemberVO> list = memberProc.list();
       
       mav.addObject("list", list);

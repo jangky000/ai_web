@@ -1,6 +1,10 @@
 package dev.mvc.shopping_cart;
 
+import java.util.HashMap;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +45,32 @@ public class Shopping_cartCont {
   * @return
   */
  @RequestMapping(value="/shopping_cart/create.do", method=RequestMethod.POST )
- public ModelAndView create(Shopping_cartVO shopping_cartVO) {
+ public ModelAndView create(HttpSession session, Shopping_cartVO shopping_cartVO) {
    ModelAndView mav = new ModelAndView();
    
+   int memno = 1;
+   
+   // 쇼핑 카트에 동일한 아이템이 있으면 특정 수량만큼 증가 -> memno + itemno로 검색
+   // read
+   HashMap map = new HashMap<Object, Object>();
+   map.put("memno", memno);
+   map.put("itemno", shopping_cartVO.getItemno());
+   String shopping_cartno = this.shopping_cartProc.shopping_cart_check(map);
+   // redirect 가 아니라 -> ajax 응답 형태로 바꿔야 할 듯
+   
+   if(shopping_cartno != null) {
+     map.clear();
+     map.put("shopping_cartno", shopping_cartno);
+     map.put("quantity_up_num", shopping_cartVO.getQuantity());
+     int quantity_cnt = this.shopping_cartProc.quantity_up_num(map);
+     /*if(quantity_cnt == 1) {
+       System.out.println("중복 상품 " +shopping_cartVO.getQuantity()  + "개 증가");
+     }*/
+     mav.setViewName("redirect:/shopping_cart/list.do");
+     return mav;
+   }
+   
+   shopping_cartVO.setMemno(memno);
    int cnt = this.shopping_cartProc.create(shopping_cartVO);
    
    mav.addObject("cnt", cnt); // redirect parameter 적용
@@ -56,14 +83,25 @@ public class Shopping_cartCont {
  
 //http://localhost:9090/team4/shopping_cart/list.do
  /**
-  * 주문 리스트
+  * 장바구니 리스트
   * @return
   */
  @RequestMapping(value="/shopping_cart/list.do", method=RequestMethod.GET)
- public ModelAndView list(){
+ public ModelAndView list(HttpSession session){
    ModelAndView mav = new ModelAndView();
    
-   List<Shopping_cartVO> list = this.shopping_cartProc.list();    
+   // 세션 아이디 값이 없으면 -> 로그인 페이지로 이동 
+   
+   // 세션이 적용되면 세션 값을 받아와서 사용하기
+   // int memno = (Integer)session.getAttribute("memno");
+   int memno = 1;
+   
+   // 아이템 정보가 나와야함, 어떤 정보? 
+   // 썸네일 이미지, 이름, 가격, 할인율, 
+   
+   // List<Shopping_cartVO> list = this.shopping_cartProc.list();
+   List<Shop_item_grpVO> list = this.shopping_cartProc.list_join(memno);
+   
    mav.addObject("list", list);
    mav.setViewName("/shopping_cart/list"); // webapp/shopping_cart/list.jsp
    
@@ -121,10 +159,12 @@ public class Shopping_cartCont {
   * @return
   */
  @RequestMapping(value="/shopping_cart/delete.do", method=RequestMethod.GET)
- public ModelAndView delete(int shopping_cartno){
+ public ModelAndView delete(int[] shopping_cartno){
    ModelAndView mav = new ModelAndView();
-   
-   int cnt= this.shopping_cartProc.delete(shopping_cartno);
+   int cnt = 0;
+   for(int i=0; i<shopping_cartno.length; i++) {
+     cnt= this.shopping_cartProc.delete(shopping_cartno[i]);
+   }
    mav.addObject("cnt", cnt);
    mav.setViewName("redirect:/shopping_cart/list.do");
    

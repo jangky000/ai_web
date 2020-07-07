@@ -1,5 +1,6 @@
 package dev.mvc.coupon;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface CouponDAOInter {
@@ -44,4 +45,17 @@ public interface CouponDAOInter {
    */
   public int delete(int couponno);
 
+  /**
+   * ÄíÆù ÃÑ °³¼ö
+   * @param hashMap
+   * @return
+   */
+  public int search_count();
+  
+  /**
+   * ÄíÆù ÆäÀÌÂ¡ ¸ñ·Ï
+   * @param map
+   * @return
+   */
+  public List<CouponVO> list_by_couponno_paging(HashMap<String, Object> map);
 }

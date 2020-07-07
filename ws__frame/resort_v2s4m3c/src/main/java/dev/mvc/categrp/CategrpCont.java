@@ -2,6 +2,8 @@ package dev.mvc.categrp;
  
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -9,8 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import dev.mvc.admin.AdminProcInter;
+
 @Controller
 public class CategrpCont {
+  // 관리자는 대체로 위에 선언함, 자동으로 빈 할당, dependency injection
+  @Autowired
+  @Qualifier("dev.mvc.admin.AdminProc")
+  private AdminProcInter adminProc;
+  
   @Autowired
   @Qualifier("dev.mvc.categrp.CategrpProc")
   private CategrpProcInter categrpProc;
@@ -55,18 +64,23 @@ public class CategrpCont {
   
   // http://localhost:9090/resort/categrp/list.do
   /**
-   * 전체 목록
+   * 관리자만 조회 가능한 전체 목록
    * @return
    */
   @RequestMapping(value="/categrp/list.do", method=RequestMethod.GET )
-  public ModelAndView list() {
+  public ModelAndView list(HttpSession session) {
     ModelAndView mav = new ModelAndView();
     
-    // List<CategrpVO> list = this.categrpProc.list_categrpno_asc();
-    List<CategrpVO> list = this.categrpProc.list_seqno_asc();
-    mav.addObject("list", list); // request.setAttribute("list", list);
+    if(this.adminProc.isAdmin(session)) {
+      // List<CategrpVO> list = this.categrpProc.list_categrpno_asc();
+      List<CategrpVO> list = this.categrpProc.list_seqno_asc();
+      mav.addObject("list", list); // request.setAttribute("list", list);
 
-    mav.setViewName("/categrp/list"); // webapp/categrp/list.jsp
+      mav.setViewName("/categrp/list"); // webapp/categrp/list.jsp
+    } else {
+      mav.setViewName("/admin/login_need"); // webapp/admin/login_need.jsp
+    }
+
     return mav;
   }
 

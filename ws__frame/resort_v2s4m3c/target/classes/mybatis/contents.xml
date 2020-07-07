@@ -73,7 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                                                         OR word LIKE '%' || #{word} || '%')
                             </otherwise>
                           </choose>
-                          ORDER BY contentsno DESC
+                          ORDER BY grpno DESC, ansum ASC
                 )
      )
      WHERE <![CDATA[ r >= #{startNum} AND r <= #{endNum} ]]>
@@ -173,6 +173,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     SET mp4=#{mp4}
     WHERE contentsno=#{contentsno} AND passwd=#{passwd}
   </update>
+  
+  <!-- 답변 글 순서 변경 -->
+  <update id="increaseAnsnum" parameterType="HashMap">
+    UPDATE contents
+    SET ansnum = ansnum + 1
+    WHERE grpno = #{grpno} AND ansnum > #{ansnum}  
+  </update>
+
+  <!-- 답변 -->
+  <insert id="reply" parameterType="ContentsVO">
+    <selectKey keyProperty="contentsno" resultType="int" order="BEFORE">
+      select contents_seq.nextval from dual
+    </selectKey>
+    INSERT INTO contents(contentsno,
+                      cateno, memberno, title, content, thumb1,
+                      file1, size1, cnt, rdate, word, grpno, indent, ansnum)  
+    VALUES(#{contentsno},
+                #{cateno}, #{memberno}, #{title}, #{content}, #{thumb1}, 
+                #{file1}, #{size1}, #{cnt}, sysdate, #{word}, #{grpno}, #{indent}, #{ansnum})
+  </insert>
   
 </mapper>
 

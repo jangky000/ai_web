@@ -118,8 +118,11 @@
         
     <!-- 쿠폰 발급 정보 시작 -->
     <div style="margin: 60px auto; width:100%; border: 1px solid black;">
-      <div style="margin: 20px auto; width: 95%; border-bottom: 1px solid gray"><h3>쿠폰 발행 목록</h3></div>
+      <div style="margin: 20px auto; width: 95%; border-bottom: 1px solid gray">
+        <h3>쿠폰 발행 목록</h3>
+      </div>
       <div style="margin: 20px auto; width: 95%;">
+        <div style="text-align: right;">@쿠폰 상태: I: issued 발급완료, U:used 사용완료, C:calceled 발급취소</div>
         <table class="bordered" style='width: 100%;'>
           <!-- table 이름 -->
           <thead>
@@ -161,7 +164,13 @@
             </c:forEach>
           </tbody>
         </table>
-      </div>  
+      </div>
+      
+      <!-- 페이징 시작-->
+      <DIV class='bottom_menu'>${paging }</DIV>
+      <br><br>
+      <!-- 페이징 종료 -->
+      
     </div>
     <!-- 쿠폰 발급 정보 종료 -->
     

@@ -25,7 +25,7 @@ public class Coupon_issueVO {
   /** 쿠폰만료일 */
   private String cpexpired;
   /** 쿠폰상태 */
-  private String cpstatus; // I: issue 발급, U: used 사용완료
+  private String cpstatus; // I: issue 발급, U: used 사용완료, C:calceled 발급취소
   
   // getter setter
   public int getCoupon_issueno() {

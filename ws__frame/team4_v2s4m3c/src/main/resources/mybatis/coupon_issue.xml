@@ -17,7 +17,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     ORDER BY coupon_issueno DESC
   </select>
   
-  <!-- 쿠폰 페이징 -->
+  <!-- 쿠폰 발행 목록 총 수 -->
+  <select id="search_count" resultType="int" >
+     SELECT COUNT(*) as cnt
+     FROM coupon_issue
+  </select>
+  
+  <!-- 쿠폰 발행 페이징 -->
+  <select id="list_by_coupon_issueno_paging" resultType="Coupon_issueVO">
+    SELECT coupon_issueno, memno, couponno, cpcnt, cpissue, cpexpired, cpstatus, r
+    FROM (
+               SELECT coupon_issueno, memno, couponno, cpcnt, cpissue, cpexpired, cpstatus, rownum as r
+               FROM (
+                         SELECT coupon_issueno, memno, couponno, cpcnt, cpissue, cpexpired, cpstatus
+                         FROM coupon_issue
+                         ORDER BY coupon_issueno DESC
+               )          
+    )
+    WHERE <![CDATA[ r >= #{startNum} AND r <= #{endNum} ]]>
+  </select>
   
   <!-- 쿠폰 발급 조회 -->
   <select id="read" resultType="Coupon_issueVO" parameterType="int">

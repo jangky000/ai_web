@@ -35,7 +35,8 @@
                               dev.mvc.porder_detail,
                               dev.mvc.coupon,
                               dev.mvc.coupon_issue,
-                              dev.mvc.coupon_use
+                              dev.mvc.coupon_use,
+                              dev.mvc.tool
                               "/>
     <property name="mapperLocations" value="classpath:mybatis/*.xml" />
   </bean>

@@ -1,31 +1,5 @@
 DROP TABLE porder_detail CASCADE CONSTRAINTS;
 DROP TABLE porder CASCADE CONSTRAINTS;
-DROP TABLE item CASCADE CONSTRAINTS;
-
-
-/**********************************/
-/* Table Name: 상품 */
-/**********************************/
-
-CREATE TABLE item(
-    itemno                          NUMBER(10)     NOT NULL    PRIMARY KEY
-);
-
-COMMENT ON TABLE item is '상품';
-COMMENT ON COLUMN item.itemno is '상품no';
-
-DROP SEQUENCE item_seq;
-CREATE SEQUENCE item_seq
-  START WITH 1              -- 시작 번호
-  INCREMENT BY 1          -- 증가값
-  MAXVALUE 9999999999 -- 최대값: 9999999 --> NUMBER(7) 대응
-  CACHE 2                       -- 2번은 메모리에서만 계산
-  NOCYCLE;                     -- 다시 1부터 생성되는 것을 방지
-
-INSERT INTO item(itemno) VALUES (item_seq.nextval);
-INSERT INTO item(itemno) VALUES (item_seq.nextval);
-INSERT INTO item(itemno) VALUES (item_seq.nextval);
-
 
 /**********************************/
 /* Table Name: 주문상세 */
@@ -87,6 +61,14 @@ SELECT porder_detailno,porderno,itemno,quantity,item_price_sum,item_discount_sum
 FROM porder_detail
 WHERE porderno = 1
 ORDER BY porder_detailno DESC;
+
+-- list_by_porderno_join_item
+SELECT it.itemno, it.grpno, it.item_name, it.item_price, it.item_cost, it.discount_rate, it.item_content, it.item_type, it.item_effect, it.item_origin, it.item_visible, it.item_visibleno, it.item_recom, it.item_view, it.item_rdate, it.upfile, it.thumb, it.fsize
+FROM item it, (SELECT porder_detailno,porderno,itemno,quantity,item_price_sum,item_discount_sum, payment_price, porder_detail_status, trackingno
+                    FROM porder_detail
+                    WHERE porderno = 1
+                    ORDER BY porder_detailno DESC) pd
+WHERE it.itemno = pd.itemno;
 
 -- READ
 SELECT porder_detailno,porderno,itemno,quantity,item_price_sum,item_discount_sum, payment_price, porder_detail_status, trackingno

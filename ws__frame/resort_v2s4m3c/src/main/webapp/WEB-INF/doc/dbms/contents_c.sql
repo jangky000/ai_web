@@ -58,6 +58,7 @@ COMMENT ON COLUMN contents.file1 is '메인 이미지';
 COMMENT ON COLUMN contents.thumb1 is '메인이미지 Preview';
 COMMENT ON COLUMN contents.size1 is '메인이미지 크기';
 
+
 DROP SEQUENCE contents_seq;
 CREATE SEQUENCE contents_seq
   START WITH 1              -- 시작 번호
@@ -68,19 +69,19 @@ CREATE SEQUENCE contents_seq
   
 1) 글 등록
 INSERT INTO contents(contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate,
-                              file1, thumb1, size1)
+                              file1, thumb1, size1, ansnum)
 VALUES(contents_seq.nextval, 1, 1, '신규확진 2명', '전원 입국검역서 확인', 'http://www.daum.net',
-            '127.0.0.1', '123', '코로나', sysdate, 'spring.jpg', 'spring_t.jpg', 23657);
+            '127.0.0.1', '123', '코로나', sysdate, 'spring.jpg', 'spring_t.jpg', 23657, 1);
 
 INSERT INTO contents(contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate,
-                              file1, thumb1, size1)
+                              file1, thumb1, size1, ansnum)
 VALUES(contents_seq.nextval, 1, 1, '신규확진 2명', '전원 입국검역서 확인', 'http://www.daum.net',
-            '127.0.0.1', '123', '코로나', sysdate, 'summer.jpg', 'summer_t.jpg', 23657);
+            '127.0.0.1', '123', '코로나', sysdate, 'summer.jpg', 'summer_t.jpg', 23657, 2);
             
 INSERT INTO contents(contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate,
-                              file1, thumb1, size1)
+                              file1, thumb1, size1, ansnum)
 VALUES(contents_seq.nextval, 1, 1, '신규확진 2명', '전원 입국검역서 확인', 'http://www.daum.net',
-            '127.0.0.1', '123', '코로나', sysdate, 'winter.jpg', 'winter_t.jpg', 23657);
+            '127.0.0.1', '123', '코로나', sysdate, 'winter.jpg', 'winter_t.jpg', 23657, 3);
 
 SELECT contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate, file1, thumb1, size1
 FROM contents 
@@ -318,3 +319,67 @@ FROM (
            )          
 )
 WHERE r >= 11 AND r <= 20;
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+게시글 답변관련 시작
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+[답변 쓰기]
+-- 1번글 기준 답변 등록 예: grpno: 1, indent: 1, ansnum: 1
+SELECT * FROM member;
+SELECT * FROM categrp;
+SELECT * FROM cateno;
+ 
+① 새로운 답변을 최신으로 등록하기 위해 기존 답변을 뒤로 미룹니다.
+-- 모든 글의 우선 순위가 1씩 증가됨, 1등 -> 2등
+UPDATE contents
+SET ansnum = ansnum + 1
+WHERE cateno=1 AND grpno = 1 AND ansnum > 0;
+ 
+-- 2등부터 우선 순위가 1씩 증가됨, 2등 -> 3등
+UPDATE contents
+SET ansnum = ansnum + 1
+WHERE cateno=1 AND grpno = 1 AND ansnum > 1;
+ 
+-- 3등부터 우선 순위가 1씩 증가됨, 3등 -> 4등
+UPDATE contents
+SET ansnum = ansnum + 1
+WHERE cateno=1 AND grpno = 1 AND ansnum > 2;
+ 
+-- 6등부터 우선 순위가 1씩 증가됨, 6등 -> 7등
+UPDATE contents
+SET ansnum = ansnum + 1
+WHERE cateno=1 AND grpno = 1 AND ansnum > 5;
+ 
+ 
+② 답변 등록
+- catenono: FK, mno: FK
+ 
+INSERT INTO contents(contentsno,
+                          cateno, mno, title, content, good, thumbs, files, sizes, cnt, replycnt, rdate, 
+                          grpno, indent, ansnum, word)  
+VALUES((SELECT NVL(MAX(contentsno), 0) + 1 as contentsno FROM contents),
+            1, 1, '제목', '내용',0, 'summer_m.jpg', 'summer.jpg', 0, 0, 0, sysdate,
+            1, 1, 1,'');
+ 
+ 
+③ 답변에 따른 정렬 순서 변경    
+SELECT contentsno, cateno, title, content, cnt, thumb1, size1, file1,
+          replycnt, rdate, word, grpno, indent, ansnum, r
+FROM(
+         SELECT contentsno, cateno, title, content, cnt, thumb1, size1, file1,
+                   replycnt, rdate, word, grpno, indent, ansnum, rownum as r
+         FROM(
+                  SELECT contentsno, cateno, title, content, cnt, thumb1, size1, file1,
+                            replycnt, rdate, word, grpno, indent, ansnum
+                  FROM contents
+                  WHERE cateno=6 AND word LIKE '%swiss%'
+                  ORDER BY grpno DESC, ansnum ASC -- 공식과도 같다.
+         )
+)
+WHERE r >=1 AND r <= 3;
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+답변관련 종료
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------

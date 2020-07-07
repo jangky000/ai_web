@@ -22,7 +22,7 @@ COMMENT ON COLUMN coupon_issue.couponno is '쿠폰no';
 COMMENT ON COLUMN coupon_issue.cpcnt is '쿠폰발급수량';
 COMMENT ON COLUMN coupon_issue.cpissue is '쿠폰발급일';
 COMMENT ON COLUMN coupon_issue.cpexpired is '쿠폰만료일';
-COMMENT ON COLUMN coupon_issue.cpstatus is '쿠폰상태'; -- I: issue 발급, U: used 사용완료
+COMMENT ON COLUMN coupon_issue.cpstatus is '쿠폰상태'; -- I: issue 발급, U: used 사용완료, C:calceled 발급취소
 
 DROP SEQUENCE coupon_issue_seq;
 CREATE SEQUENCE coupon_issue_seq

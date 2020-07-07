@@ -6,22 +6,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace = "dev.mvc.coupon.CouponDAOInter">
   <!-- 쿠폰 등록 -->
   <insert id="create" parameterType="CouponVO">
-    INSERT INTO coupon(couponno, cpimg, cpname, cpdiscount, cpstock, cpcate)
-    VALUES(coupon_seq.nextval, ${cpimg}, ${cpname}, ${cpdiscount}, ${cpstock}, ${cpcate})
+    INSERT INTO coupon(couponno, cpimg, cpupimg, cpthumb, cpname, cpdiscount, cpstock, cpcate)
+    VALUES ( coupon_seq.nextval, #{cpimg}, #{cpupimg}, #{cpthumb}, #{cpname}, #{cpdiscount}, #{cpstock}, #{cpcate} )
   </insert>
   
   <!-- 쿠폰 목록 -->
   <select id="list" resultType="CouponVO">
-    SELECT couponno, cpimg, cpname, cpdiscount, cpstock, cpcate
+    SELECT couponno, cpimg, cpupimg, cpthumb, cpname, cpdiscount, cpstock, cpcate
     FROM coupon
     ORDER BY couponno DESC
   </select>
   
+  <!-- 쿠폰 총 개수 -->
+  <select id="search_count" resultType="int" >
+     SELECT COUNT(*) as cnt
+     FROM coupon
+  </select>
+  
   <!-- 쿠폰 페이징 -->
+  <select id="list_by_couponno_paging" resultType="CouponVO">
+    SELECT couponno, cpimg, cpupimg, cpthumb, cpname, cpdiscount, cpstock, cpcate, r
+    FROM (
+               SELECT couponno, cpimg, cpupimg, cpthumb, cpname, cpdiscount, cpstock, cpcate, rownum as r
+               FROM (
+                         SELECT couponno, cpimg, cpupimg, cpthumb, cpname, cpdiscount, cpstock, cpcate
+                         FROM coupon
+                         ORDER BY couponno DESC
+               )          
+    )
+    WHERE <![CDATA[ r >= #{startNum} AND r <= #{endNum} ]]>
+  </select>
   
   <!-- 쿠폰 조회 -->
   <select id="read" resultType="CouponVO" parameterType="int">
-    SELECT couponno, cpimg, cpname, cpdiscount, cpstock, cpcate
+    SELECT couponno, cpimg, cpupimg, cpthumb, cpname, cpdiscount, cpstock, cpcate
     FROM coupon
     WHERE couponno = #{couponno}
   </select>  
@@ -32,4 +50,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     WHERE couponno = #{couponno}
   </delete>
   
-</mapper> 
+</mapper>
