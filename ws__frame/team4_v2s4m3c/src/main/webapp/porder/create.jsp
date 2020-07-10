@@ -207,14 +207,14 @@
     <div style="margin: 20px auto; border: 1px solid gray;">
       <h3 style="margin: 20px 20px;">결제 정보</h3>
       <ul style="list-style: none; margin: 20px 30px 0 30px; padding:0 0 10px 0; border-bottom: 2px solid gray;">
-        <li style="text-align: right;"><span style="float: left;">판매가총액</span><span >${porderVO.item_price_sum }원</span></li>
-        <li style="text-align: right;"><span style="float: left;">할인총액</span><span >-${porderVO.item_discount_sum }원</span></li>
-        <li style="text-align: right;"><span style="float: left;">쿠폰할인</span><span>-${porderVO.coupon_discount_sum }원</span></li>
-        <li style="text-align: right;"><span style="float: left;">배송비</span><span>${porderVO.delivery_fee }원</span></li>
+        <li style="text-align: right;"><span style="float: left;">판매가총액</span><span ><fmt:formatNumber value="${porderVO.item_price_sum }" type="number"/>원</span></li>
+        <li style="text-align: right;"><span style="float: left;">할인총액</span><span >-<fmt:formatNumber value="${porderVO.item_discount_sum }" type="number"/>원</span></li>
+        <li style="text-align: right;"><span style="float: left;">쿠폰할인</span><span>-<fmt:formatNumber value="${porderVO.coupon_discount_sum }" type="number"/>원</span></li>
+        <li style="text-align: right;"><span style="float: left;">배송비</span><span><fmt:formatNumber value="${porderVO.delivery_fee }" type="number"/>원</span></li>
       </ul>
       <div style="padding: 5px 30px; text-align: right; border-bottom: 1px solid gray;">
         <span  style="float: left; margin-top: 10px;"><strong>최종 결제 금액</strong></span>
-        <span  style="font-weight: bold; color: red; font-size: 26px;">${porderVO.payment_price }원</span>
+        <span  style="font-weight: bold; color: red; font-size: 26px;"><fmt:formatNumber value="${porderVO.payment_price }" type="number"/>원</span>
       </div>
       <div style="padding: 10px 20px; border-bottom: 1px solid gray;">
         <div style="font-weight: bold; margin: 5px;">결제 방법</div>

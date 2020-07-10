@@ -39,7 +39,7 @@
       </c:choose>    
     </ASIDE>
     <ASIDE style='float: right;'>
-      <c:if test="${sessionScope.id != null}">
+      <c:if test="${sessionScope.id != null or sessionScope.id_admin != null}">
         <A href="./create.do?cateno=${cateVO.cateno }">등록</A>
       </c:if>
       <span class='top_menu_sep'> </span>    

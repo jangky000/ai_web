@@ -19,7 +19,7 @@
   
   <style type="text/css">
     table {
-      
+      border-collapse: collapse;
     }
     table tr{
      
@@ -29,6 +29,7 @@
     }
     table td{
       font-size: 16px;
+      border: 1px solid white;
     }
 
   </style>
@@ -40,11 +41,11 @@
   <!-- root를 사용하기 위해 cset을 다시 선언해야 한다. -->
   <jsp:include page="/menu/top.jsp" flush='false' />
   
-  <!-- 주문/결제 리스트 시작 -->
+  <!-- 주문목록/배송조회 리스트 시작 -->
   <div style="width: 90%; margin: 20px auto;">
     <div>
-      <h2 style="display: inline;">주문/결제</h2>
-      <span style="float: right;">관리자 ＞ <strong style="background-color: #ffffff;">주문 목록 관리</strong></span>
+      <h2 style="display: inline;">주문목록/배송조회</h2>
+      <span style="float: right;"> 마이페이지 ＞ <strong style="background-color: #ffffff;">주문목록/배송조회</strong></span>
     </div>
     
     <%
@@ -52,72 +53,40 @@
       request.setAttribute("memno", memno);
     %>
         
-    <!-- 주문 정보 시작 -->
+    <!-- 주문목록/배송조회 정보 시작 -->
     <div style="margin: 60px auto; width:100%; border: 1px solid black;">
-      <div style="margin: 20px auto; width: 95%; border-bottom: 1px solid gray"><h3>주문 목록</h3></div>
+      <div style="margin: 20px auto; width: 95%; border-bottom: 1px solid gray">
+        <h3>전체</h3>
+      </div>
       <div style="margin: 20px auto; width: 95%;">
-        <table style='width: 100%;'>
-          <!-- table 이름 -->
+        <c:forEach var="porderJoinVO" items="${list }">
+          <c:set var="porderno" value="${porderVO.porderno }" />
+          <!--  -->
+        </c:forEach>
+        <!-- porder 박스 시작 -->
+        <table style="width: 100%;">
           <thead>
             <tr>
-              <th style='text-align: center;'>주문no</th>
-              <th style='text-align: center;'>회원번호</th>
-              <th style='text-align: center;'>주문날짜</th>
-              <th style='text-align: center;'>판매가총액</th>
-              <th style='text-align: center;'>할인총액</th>
-              <th style='text-align: center;'>쿠폰할인</th>
-              <th style='text-align: center;'>배송비</th>
-              <th style='text-align: center;'>최종결제금액</th>
-              <th style='text-align: center;'>승인 상태</th>
-              <th style='text-align: center;'>우편번호</th>
-              <th style='text-align: center;'>배송지</th>
-              <th style='text-align: center;'>배송요청사항</th>
-              <th style='text-align: center;'>상세보기</th>
+              <td colspan = 5 style="background-color: white;">주문일: 주문번호: 총주문금액: 주문상세보기</td>
             </tr>
           </thead>
-          
-          <%-- table 내용 --%>
           <tbody>
-            <c:forEach var="porderVO" items="${list }">
-              <c:set var="porderno" value="${porderVO.porderno }" />
-              <c:set var="memno" value="${porderVO.memno }" />
-              <c:set var="rdate" value="${porderVO.rdate }" />
-              <c:set var="item_price_sum" value="${porderVO.item_price_sum }" />
-              <c:set var="item_discount_sum" value="${porderVO.item_discount_sum }" />
-              <c:set var="coupon_discount_sum" value="${porderVO.coupon_discount_sum }" />
-              <c:set var="delivery_fee" value="${porderVO.delivery_fee }" />
-              <c:set var="payment_price" value="${porderVO.payment_price }" />
-              <c:set var="porder_status" value="${porderVO.porder_status }" />
-              <c:set var="porder_zip_code" value="${porderVO.porder_zip_code }" />
-              <c:set var="porder_address" value="${porderVO.porder_address }" />
-              <c:set var="porder_delivery_request" value="${porderVO.porder_delivery_request }" />
-              
-              <tr> 
-                <td style='text-align: center;'>${porderno}</td>
-                <td style='text-align: center;'>${memno}</td>
-                <td style='text-align: center;'>${rdate} </td>
-                <td style='text-align: center;'>${item_price_sum} </td>
-                <td style='text-align: center;'>${item_discount_sum} </td>
-                <td style='text-align: center;'>${coupon_discount_sum} </td>
-                <td style='text-align: center;'>${delivery_fee} </td>
-                <td style='text-align: center;'>${payment_price} </td>
-                <td style='text-align: center;'>${porder_status}</td>
-                <td style='text-align: center;'>${porder_zip_code}</td>
-                <td style='text-align: center;'>${porder_address}</td>
-                <td style='text-align: center;'>${porder_delivery_request}</td>
-                <td style='text-align: center;'>
-                  <button type="button" onclick="location.href='../porder_detail/list.do?porderno=${porderno}'">내역보기</button>
-                </td>
-              </tr>
-            </c:forEach>
+            <tr>
+              <td>image</td>
+              <td>상품이름, 종류 등, 개당 가격</td>
+              <td>판매자</td>
+              <td>구매 수량</td>
+              <td>주문 취소 버튼</td>
+            </tr>
           </tbody>
         </table>
-      </div>  
+        <!-- porder 박스 종료 -->
+      </div>
     </div>
-    <!-- 주문 정보 종료 -->
+    <!-- 주문목록/배송조회 정보 종료 -->
     
   </div>
-  <!-- 주문/결제 리스트 종료 -->
+  <!-- 주문목록/배송조회 리스트 종료 -->
    
    <jsp:include page="/menu/bottom.jsp" flush='false' />
 </body>

@@ -68,20 +68,20 @@ CREATE SEQUENCE contents_seq
   NOCYCLE;                     -- 다시 1부터 생성되는 것을 방지
   
 1) 글 등록
-INSERT INTO contents(contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate,
-                              file1, thumb1, size1, ansnum)
-VALUES(contents_seq.nextval, 1, 1, '신규확진 2명', '전원 입국검역서 확인', 'http://www.daum.net',
-            '127.0.0.1', '123', '코로나', sysdate, 'spring.jpg', 'spring_t.jpg', 23657, 1);
-
-INSERT INTO contents(contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate,
-                              file1, thumb1, size1, ansnum)
-VALUES(contents_seq.nextval, 1, 1, '신규확진 2명', '전원 입국검역서 확인', 'http://www.daum.net',
-            '127.0.0.1', '123', '코로나', sysdate, 'summer.jpg', 'summer_t.jpg', 23657, 2);
-            
-INSERT INTO contents(contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate,
-                              file1, thumb1, size1, ansnum)
-VALUES(contents_seq.nextval, 1, 1, '신규확진 2명', '전원 입국검역서 확인', 'http://www.daum.net',
-            '127.0.0.1', '123', '코로나', sysdate, 'winter.jpg', 'winter_t.jpg', 23657, 3);
+--INSERT INTO contents(contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate,
+--                              file1, thumb1, size1)
+--VALUES(contents_seq.nextval, 1, 1, '신규확진 2명', '전원 입국검역서 확인', 'http://www.daum.net',
+--            '127.0.0.1', '123', '코로나', sysdate, 'spring.jpg', 'spring_t.jpg', 23657);
+--
+--INSERT INTO contents(contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate,
+--                              file1, thumb1, size1)
+--VALUES(contents_seq.nextval, 1, 1, '신규확진 2명', '전원 입국검역서 확인', 'http://www.daum.net',
+--            '127.0.0.1', '123', '코로나', sysdate, 'summer.jpg', 'summer_t.jpg', 23657);
+--            
+--INSERT INTO contents(contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate,
+--                              file1, thumb1, size1)
+--VALUES(contents_seq.nextval, 1, 1, '신규확진 2명', '전원 입국검역서 확인', 'http://www.daum.net',
+--            '127.0.0.1', '123', '코로나', sysdate, 'winter.jpg', 'winter_t.jpg', 23657);
 
 SELECT contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate, file1, thumb1, size1
 FROM contents 
@@ -331,7 +331,24 @@ SELECT * FROM member;
 SELECT * FROM categrp;
 SELECT * FROM cateno;
  
-① 새로운 답변을 최신으로 등록하기 위해 기존 답변을 뒤로 미룹니다.
+1) 등록 변경(답변형 게시판에만 사용할 것 -> 서브쿼리의 사용으로 부하가 발생할 수 있다. )
+-- grpno: 새롭게 글을 등록하면, 하나의 신규 그룹이 생성됨.(categrpno랑 관계 없음)
+-- indent: 들여쓰기, n차 답변에 대한 효과
+-- ansnum: 답변 순서 
+INSERT INTO contents(contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate,
+                              file1, thumb1, size1, grpno, indent, ansnum)
+VALUES(contents_seq.nextval, 1, 1, '신규확진 2명', '전원 입국검역서 확인', 'http://www.daum.net',
+            '127.0.0.1', '123', '코로나', sysdate, 'spring.jpg', 'spring_t.jpg', 23657,
+            (SELECT NVL(MAX(grpno), 0)+1 FROM contents), 0, 0);
+
+2) 1건 조회 변경
+SELECT contentsno, memberno, cateno, title, content, recom, web, map, youtube, ip, passwd, 
+            word, rdate, file1, thumb1, size1, grpno, indent, ansnum
+FROM contents
+WHERE contentsno = 1;
+
+
+3) 새로운 답변을 최신으로 등록하기 위해 기존 답변을 뒤로 미룹니다.
 -- 모든 글의 우선 순위가 1씩 증가됨, 1등 -> 2등
 UPDATE contents
 SET ansnum = ansnum + 1
@@ -353,33 +370,63 @@ SET ansnum = ansnum + 1
 WHERE cateno=1 AND grpno = 1 AND ansnum > 5;
  
  
-② 답변 등록
+4) 답변 등록
 - catenono: FK, mno: FK
+INSERT INTO contents(contentsno, cateno, memberno, title, content, web, ip, passwd, thumb1, file1, size1, cnt, rdate, word, grpno, indent, ansnum)  
+VALUES()
+
+(contents_seq.nextval, 1, 1, '신규확진 2명', '전원 입국검역서 확인', 'http://www.daum.net',
+            '127.0.0.1', '123', '코로나', sysdate, 'spring.jpg', 'spring_t.jpg', 23657,
+            (SELECT NVL(MAX(grpno), 0)+1 FROM contents), 0, 0);
+
  
-INSERT INTO contents(contentsno,
-                          cateno, mno, title, content, good, thumbs, files, sizes, cnt, replycnt, rdate, 
-                          grpno, indent, ansnum, word)  
-VALUES((SELECT NVL(MAX(contentsno), 0) + 1 as contentsno FROM contents),
-            1, 1, '제목', '내용',0, 'summer_m.jpg', 'summer.jpg', 0, 0, 0, sysdate,
-            1, 1, 1,'');
- 
- 
-③ 답변에 따른 정렬 순서 변경    
-SELECT contentsno, cateno, title, content, cnt, thumb1, size1, file1,
-          replycnt, rdate, word, grpno, indent, ansnum, r
-FROM(
-         SELECT contentsno, cateno, title, content, cnt, thumb1, size1, file1,
-                   replycnt, rdate, word, grpno, indent, ansnum, rownum as r
-         FROM(
-                  SELECT contentsno, cateno, title, content, cnt, thumb1, size1, file1,
-                            replycnt, rdate, word, grpno, indent, ansnum
-                  FROM contents
-                  WHERE cateno=6 AND word LIKE '%swiss%'
-                  ORDER BY grpno DESC, ansnum ASC -- 공식과도 같다.
-         )
+5) 답변에 따른 정렬 순서 변경    
+-- ORDER BY grpno DESC, ansnum ASC
+SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word, ip
+            file1, thumb1, size1,
+            grpno, indent, ansnum, r
+FROM (
+           SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word, ip
+                        file1, thumb1, size1,
+                        grpno, indent, ansnum, rownum as r
+           FROM (
+                     SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word, ip
+                                file1, thumb1, size1,
+                                grpno, indent, ansnum
+                     FROM contents
+                     WHERE cateno=29 AND word LIKE '%스위스%'
+                     ORDER BY grpno DESC, ansnum ASC -- 공식과도 같다.
+           )          
 )
-WHERE r >=1 AND r <= 3;
+WHERE r >= 1 AND r <= 10;      
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 답변관련 종료
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-- replycnt는 replyVO와는 별개로 있는 칼럼이므로, 컨텐츠 개발자가 개발해줘야 함
+1) 댓글수 증가
+UPDATE contents
+SET replycnt = replycnt + 1
+WHERE contentsno = 1;
+
+2) 댓글수 감소
+UPDATE contents
+SET replycnt = replycnt - 1
+WHERE contentsno = 1;
+
+COMMIT;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -18,7 +18,35 @@
 <script type="text/javascript">
 
   $(function() { // 자동 실행
+    $("#addBtn").on("click", list_by_contentsno_add_view);
+    list_by_contentsno_add_view();  // JS의 EL 접근 -> 댓글 목록 load
     $('#btn_delete_youtube').on('click', youtube_delete_send); // 이벤트 등록
+    $('#btn_create').on('click', reply_create); // onclick은 1세대적인 방법 -> 디자인하고 자바스크립트를 분리, 댓글 등록
+    
+    if ('${sessionScope.memberno}' != '') { // 로그인된 경우, 자바스크립트와 EL을 같이 사용, EL이 코드로 작동됨, NULL을 빈칸으로 처리하기 때문에, ''로 확인
+      // alert('sessionScope.memberno: ' + '${sessionScope.memberno}');
+
+      var frm_reply = $('#frm_reply');
+      $('#content', frm_reply).attr('placeholder', '댓글 작성'); // jquery로 태그의 속성에 접근(attr)
+    }
+    
+     $('#modal_panel').on('keypress', function (event) {
+      alert("닫기 버튼을 클릭하지 않으셨네요~");
+      var keycode = event.keyCode
+      keycode = (keycode ? keycode : event.which); // event.keyCode는 IE, Chrome에서만 적용, firefox 등은 event.which로 키 코드를 추출
+      if(keycode == '13'){
+        alert("ENTER 눌렀네요~");
+        $('#modal_panel_close').click(); // 모달 창 닫기
+      }
+    });
+    
+      // 댓글 삭제 modal 창이 open 됐을때, focus 자동 설정
+     $('#modal_panel_delete').on(
+         'shown.bs.modal', function(){
+           $('#passwd', '#frm_reply_delete').focus();
+         }
+       );
+     
   });
   
   function youtube_delete_modal(){
@@ -82,6 +110,187 @@
     $('#attachfile_panel').show(); // 패널 출력
   }
   
+  // 댓글 등록 처리
+  function reply_create() {
+    $('#modal_panel_close').focus(); // 포커스를 넘김
+    
+    var frm_reply = $('#frm_reply');
+    var params = frm_reply.serialize(); // contentsno=1&memverno=1&... 형태로 serialize
+    //alert('checkId() 호출됨: ' + params);
+    //return;
+    
+    // 필터링 기능, 로그인을 하지 않으면 모달 창을 띄워서 로그인하라고 함
+    if ($('#memberno', frm_reply).val().length == 0) {
+      $('#modal_title').html('댓글 등록'); // 제목 
+      $('#modal_content').html("로그인해야 등록 할 수 있습니다."); // 내용
+      $('#modal_panel').modal();            // 다이얼로그 출력
+      return;  // 실행 종료
+    }
+    
+    // 영숫자, 한글, 공백, 특수문자: 글자수 1로 인식, 오라클은 1자가 3바이트임으로 300자로 제한
+    // alert('내용 길이: ' + $('#content', frm_reply).val().length);
+    // return;
+    
+    if ($('#content', frm_reply).val().length > 300) {
+      $('#modal_title').html('댓글 등록'); // 제목 
+      $('#modal_content').html("댓글 내용은 300자이상 입력 할 수 없습니다."); // 내용
+      $('#modal_panel').modal();           // 다이얼로그 출력
+      return;  // 실행 종료
+    }
+    
+    $.ajax({
+      url: "../reply/create.do", // action 대상 주소
+      type: "post",           // get, post
+      cache: false,          // 브러우저의 캐시영역 사용안함.
+      async: true,           // true: 비동기
+      dataType: "json",   // 응답 형식: json, xml, html...
+      data: params,        // 서버로 전달하는 데이터
+      success: function(rdata) { // 서버로부터 성공적으로 응답이 온경우
+        // alert(rdata);
+        var msg = "";
+        
+        if (rdata.count > 0) {
+          $('#modal_content').attr('class', 'alert alert-success'); // CSS 변경
+          msg = "댓글을 등록했습니다.";
+          $('#content', frm_reply).val('');
+          $('#passwd', frm_reply).val('');
+          
+          /* $('#reply_list').html('');
+          $("#reply_list").attr("data-replyPage", 1);
+          list_by_contentsno_add_view(); // 목록을 새로 읽어옴. */
+          
+          msg += "<DIV style='border-bottom: solid 1px #EEEEEE; margin-bottom: 10px;'>";
+          msg += "<span style='font-weight: bold;'>" + row.id + "</span>";
+          msg += "  " + row.rdate;
+          if ('${sessionScope.memberno}' == row.memberno) { // 글쓴이 일치여부 확인, 로그인 해야 삭제 가능
+            msg += " <A href='javascript:reply_delete("+row.replyno+")'><IMG src='./images/delete.png'></A>";
+          }
+          msg += "  " + "<br>";
+          msg += row.content;
+          msg += "</DIV>";
+          
+        } else {
+          $('#modal_content').attr('class', 'alert alert-danger'); // CSS 변경
+          msg = "댓글 등록에 실패했습니다.";
+        }
+        
+        $('#modal_title').html('댓글 등록'); // 제목 
+        $('#modal_content').html(msg);        // 내용
+        $('#modal_panel').modal();              // 다이얼로그 출력
+      },
+      // Ajax 통신 에러, 응답 코드가 200이 아닌경우, dataType이 다른경우 
+      error: function(request, status, error) { // callback 함수
+        var msg = 'ERROR request.status: '+request.status + '/ ' + error;
+        console.log(msg);
+      }
+    });
+  }
+  
+  // contentsno 별 소속된 댓글 목록
+  function list_by_contentsno_add_view() {
+    // alert(contentsno);
+    // 태그에 붙어있기 때문에 serialize를 할 수 없는 구조
+    var replyPage = $("#reply_list").attr("data-replyPage")
+    var params = 'contentsno=' + ${contentsVO.contentsno} + '&replyPage=' + replyPage;
+
+    $.ajax({
+      url: "../reply/list_by_contentsno_join_add_view.do", // action 대상 주소
+      type: "get",           // get, post
+      cache: false,          // 브러우저의 캐시영역 사용안함.
+      async: true,           // true: 비동기
+      dataType: "json",   // 응답 형식: json, xml, html...
+      data: params,        // 서버로 전달하는 데이터
+      success: function(rdata) { // 서버로부터 성공적으로 응답이 온경우
+        $("#reply_list").attr("data-replyPage", parseInt(replyPage)+1);  // 개발자정의 속성 쓰기, 태그에 기록 후 필요할 때, 읽어서 서버에 요청
+        
+        // alert(rdata);
+        var msg = '';
+        
+        // $('#reply_list').html(''); // 패널 초기화, val(''): 안됨
+        
+        for (i=0; i < rdata.list.length; i++) {
+          var row = rdata.list[i];
+          
+          msg += "<DIV style='border-bottom: solid 1px #EEEEEE; margin-bottom: 10px;'>";
+          msg += "<span style='font-weight: bold;'>" + row.id + "</span>";
+          msg += "  " + row.rdate;
+          if ('${sessionScope.memberno}' == row.memberno) { // 글쓴이 일치여부 확인, 로그인 해야 삭제 가능
+            msg += " <A href='javascript:reply_delete("+row.replyno+")'><IMG src='./images/delete.png'></A>";
+          }
+          msg += "  " + "<br>";
+          msg += row.content;
+          msg += "</DIV>";
+        }
+        // alert(msg);
+        $('#reply_list').append(msg);
+        
+      },
+      // Ajax 통신 에러, 응답 코드가 200이 아닌경우, dataType이 다른경우 
+      error: function(request, status, error) { // callback 함수
+        var msg = 'ERROR request.status: '+request.status + '/ ' + error;
+        console.log(msg);
+      }
+    });
+    
+  }
+  
+  //댓글 삭제 레이어 출력
+  function reply_delete(replyno) {
+    // alert('replyno: ' + replyno);
+    var frm_reply_delete = $('#frm_reply_delete');
+    $('#replyno', frm_reply_delete).val(replyno); // 삭제할 댓글 번호 저장
+    $('#modal_panel_delete').modal();               // 삭제폼 다이얼로그 출력
+    
+  }
+  
+  //삭제 처리
+  function reply_delete_proc(replyno) {
+    // alert('replyno: ' + replyno);
+    var params = $('#frm_reply_delete').serialize();
+    $.ajax({
+      url: "../reply/delete.do", // action 대상 주소
+      type: "post",           // get, post
+      cache: false,          // 브러우저의 캐시영역 사용안함.
+      async: true,           // true: 비동기
+      dataType: "json",   // 응답 형식: json, xml, html...
+      data: params,        // 서버로 전달하는 데이터
+      success: function(rdata) { // 서버로부터 성공적으로 응답이 온경우
+        // alert(rdata);
+        var msg = "";
+        
+        if (rdata.count ==1) { // 패스워드 일치
+          if (rdata.delete_count == 1) { // 삭제 성공
+            
+            //trigger
+            $('#btn_frm_reply_delete_close').trigger("click"); // 삭제폼 닫기, click 발생 
+            
+            /* $('#reply_list').html('');
+            $("#reply_list").attr("data-replyPage", 1);
+            list_by_contentsno_add_view(); // 목록을 다시 읽어옴 */
+            
+            //return; // 함수 실행 종료
+            
+          } else {  // 삭제 실패
+            msg = "패스 워드는 일치하나 댓글 삭제에 실패했습니다. <br>";
+            msg += " 다시한번 시도해주세요."
+          }
+        } else { // 패스워드 일치하지 않음.
+          // alert('패스워드 불일치');
+          // return;
+          msg = "패스워드가 일치하지 않습니다.";
+          $('#modal_panel_delete_msg').html(msg);
+          
+          $('#passwd', '#frm_reply_delete').focus();
+        
+        }
+      },
+      // Ajax 통신 에러, 응답 코드가 200이 아닌경우, dataType이 다른경우 
+      error: function(request, status, error) { // callback 함수
+        var msg = 'ERROR request.status: '+request.status + '/ ' + error;
+        console.log(msg);
+      }
+    });
+  }
 </script>
 
 </head>
@@ -133,11 +342,40 @@
           <p id='modal_content'></p>  <!-- 내용 -->
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+          <button type="button" id='modal_panel_close' class="btn btn-default" data-dismiss="modal">닫기</button>
         </div>
       </div>
     </div>
   </div> <!-- Modal 알림창 종료 -->
+
+  <!-- 댓글 삭제폼 -->
+  <div class="modal fade" id="modal_panel_delete" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">×</button>
+          <h4 class="modal-title">댓글 삭제</h4><!-- 제목 -->
+        </div>
+        <div class="modal-body">
+          <form name='frm_reply_delete' id='frm_reply_delete' method='POST' 
+                    action='./reply_delete.do'>
+            <input type='hidden' name='replyno' id='replyno' value=''>
+            
+            <label>패스워드</label>
+            <input type='password' name='passwd' id='passwd' class='form-control'>
+            <div id='modal_panel_delete_msg' style="color: #AA0000; font-size:1.1em;"></div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type='button' class='btn btn-danger'
+                           onclick="reply_delete_proc(frm_reply_delete.replyno.value);frm_reply_delete.passwd.value='';">삭제</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" 
+                       id='btn_frm_reply_delete_close'>Close</button>
+        </div>
+      </div>
+    </div>
+  </div> <!-- 댓글 삭제폼 종료 -->
 
 
   <DIV class='title_line'>
@@ -148,13 +386,15 @@
     ${categrpVO.name } > ${cateVO.name }
   </ASIDE>
   <ASIDE style='float: right;'>
+    <A href='./reply.do?contentsno=${contentsno }&cateno=${cateno }'>답변</A>
+    <span class='menu_divide' > | </span>
     <A href='../attachfile/create.do?contentsno=${contentsno }&cateno=${cateno }'>파일 등록</A>
     <span class='menu_divide' > | </span>
     <A href="javascript:location.reload();">새로고침</A>
     <span class='menu_divide' > | </span> 
     <A href='./list.do?cateno=${cateno }'>목록</A>
     
-    <c:if test="${sessionScope.id != null}">
+    <c:if test="${sessionScope.id != null or sessionScope.id_admin != null}">
         <span class='menu_divide' > | </span>
         <A href='./update.do?cateno=${cateno }&contentsno=${contentsno}'>수정</A>
         <c:choose>
@@ -283,6 +523,29 @@
         </ul>
       </fieldset>
   </FORM>
+
+  <!-- 댓글 영역 시작 -->
+  <DIV style='width: 95%; margin: 0 auto;'>
+    <HR>
+    <FORM name='frm_reply' id='frm_reply'> <%-- 댓글 등록 폼 --%>
+      <input type='hidden' name='contentsno' id='contentsno' value='${contentsno}'>
+      <input type='hidden' name='memberno' id='memberno' value='${sessionScope.memberno}'>
+      
+      <textarea name='content' id='content' style='width: 100%; height: 60px;' placeholder="댓글 작성, 로그인해야 등록 할 수 있습니다."></textarea>
+      <input type='password' name='passwd' id='passwd' placeholder="비밀번호">
+      <button type='button' id='btn_create'>등록</button>
+    </FORM>
+    <HR>
+    <DIV id='reply_list' data-replyPage='1'>  <%-- 댓글 목록 --%>
+      댓글목록
+    </DIV>
+    
+  </DIV>
+  <DIV id='reply_list_btn' style='border: solid 1px #AAAAAA; margin: 0px auto; width: 100%;'>
+    <button id='addBtn' style='width: 100%; background-color: #EEEEEE;'>더보기 ▽</button>     
+  </DIV>  
+  
+  <!-- 댓글 영역 종료 -->
 
 <jsp:include page="/menu/bottom.jsp" flush='false' />
 </body>

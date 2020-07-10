@@ -968,9 +968,18 @@ public ModelAndView mp4_delete(int cateno, int contentsno) {
   
     mav.addObject("nowPage", nowPage);
     
+    // 테이블 기반 텍스트 목록
     // mav.setViewName("/contents/list_by_cateno_search_paging_img_table1"); // /webapp/contents/list_by_cateno_search_paging.jsp
+    
+    // 테이블 기반 이미지 목록
     // mav.setViewName("/contents/list_by_cateno_search_paging_img_table2");
-    mav.setViewName("/contents/list_by_cateno_search_paging_img_grid1");
+    
+    // 갤러리형
+    // mav.setViewName("/contents/list_by_cateno_search_paging_img_grid1");
+    
+    // 답변형
+    mav.setViewName("/contents/list_by_cateno_search_paging_img_table3");
+    
     return mav;
   }
   
@@ -980,7 +989,7 @@ public ModelAndView mp4_delete(int cateno, int contentsno) {
    * @return
    */
   @RequestMapping(value="/contents/reply.do", method=RequestMethod.GET )
-  public ModelAndView create(int cateno, int contentsno) {
+  public ModelAndView reply(int cateno, int contentsno) {
     ModelAndView mav = new ModelAndView();
     System.out.println("답변 대상: " + contentsno);
     
@@ -994,6 +1003,86 @@ public ModelAndView mp4_delete(int cateno, int contentsno) {
     
     return mav;
   }
+  
+//http://localhost:9090/resort/contents/reply.do
+ /**
+  * 답변 등록 처리
+  * @param cateVO
+  * @return
+  */
+ @RequestMapping(value="/contents/reply.do", method=RequestMethod.POST )
+ public ModelAndView reply(HttpServletRequest request, ContentsVO contentsVO) {
+   ModelAndView mav = new ModelAndView();
+   
+   //file1에서 코드 가져옴
+   // -----------------------------------------------------
+   // 파일 전송 코드 시작
+   // -----------------------------------------------------
+   String file1 = ""; // main image file1 파일
+   String thumb1 = ""; // preview image
+   
+   String upDir = Tool.getRealPath(request, "/contents/storage/main_images"); // 절대 경로 // webapp/contents/storage/main_images
+   // 전송 파일이 없어도 mf 객체가 생성됨.
+   MultipartFile mf = contentsVO.getFile1MF();  // 파일 목록
+   long size1 = mf.getSize(); // 전송 파일 크기
+   if (size1 > 0) { // 파일 크기 체크
+     // mp3 = mf.getOriginalFilename(); // 원본 파일명, spring.jpg
+     
+     file1 = Upload.saveFileSpring(mf, upDir); // 파일 저장 후 업로드된 파일명이 리턴됨, spring.jsp, spring_1.jpg...
+     // attachfile cont 에서 가져옴
+     if (Tool.isImage(file1)) { // 이미지인지 검사
+       // thumb 이미지 생성후 파일명 리턴됨, width: 250, height: 200
+       thumb1 = Tool.preview(upDir, file1, 250, 200); 
+     }
+   }    
+   // -----------------------------------------------------
+   // 파일 전송 코드 종료
+   // -----------------------------------------------------
+   
+   contentsVO.setIp(request.getRemoteAddr()); // 접속자 IP
+   
+   // 정상 등록 시 PK가 리턴 됨, 
+   contentsVO.setFile1(file1);
+   contentsVO.setThumb1(thumb1);
+   contentsVO.setSize1(size1);
+
+   // --------------------------- 답변 관련 코드 시작 --------------------------
+   // System.out.println("댓글을 붙일 부모글 번호" + contentsVO.getContentsno());
+   ContentsVO parentVO = contentsProc.read(contentsVO.getContentsno()); // 부모글 정보 추출
+   
+   HashMap<String, Object> map = new HashMap<String, Object>();
+   map.put("grpno", parentVO.getGrpno());
+   map.put("ansnum",  parentVO.getAnsnum());
+   contentsProc.increaseAnsnum(map); // 현재 등록된 답변 뒤로 +1 처리함.
+
+   contentsVO.setGrpno(parentVO.getGrpno()); // 부모의 그룹번호 할당
+   contentsVO.setIndent(parentVO.getIndent() + 1); // 답변 차수 증가
+   contentsVO.setAnsnum(parentVO.getAnsnum() + 1); // 부모 바로 아래 등록
+   // --------------------------- 답변 관련 코드 종료 --------------------------
+   
+   contentsVO.setIp(request.getRemoteAddr()); // 접속자 IP
+   int cnt = this.contentsProc.reply(contentsVO); // Call By Reference로 contentsVO에 접근
+   
+   mav.addObject("cnt", cnt); // request에 저장
+   //-----------------------------------------------------------------------------------------------
+   //return cnt, contentsno
+   //-----------------------------------------------------------------------------------------------
+   // Spring과 MyBatis가contentsVO를  공유하고 있음(중요 개념)
+   // Spring <---> contentsVO <----> MyBatis
+   // MyBatis는 insert 후 PK를 contentsno 필드에 저장해줌
+   int contentsno = contentsVO.getContentsno(); // MyBatis에서 리턴된 PK
+   mav.addObject("contentsno", contentsno); // request에 저장
+   
+   
+   mav.addObject("cateno", contentsVO.getCateno());
+   mav.addObject("url", "reply_msg"); // webapp/contents/reply_msg.jsp
+   
+   if (cnt == 1) { // 정상적으로 글이 등록된 경우에만 글 수 증가
+     this.cateProc.increaseCnt(contentsVO.getCateno()); // 글 수 증가
+   }
+   mav.setViewName("redirect:/contents/msg.do");
+   return mav;
+ }
   
 }
 

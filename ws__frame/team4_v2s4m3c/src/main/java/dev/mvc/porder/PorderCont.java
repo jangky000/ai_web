@@ -83,9 +83,10 @@ public class PorderCont {
     int item_discount_sum = 0;
     
     for(Shop_item_grpVO vo:shopping_cartlist) {
+      int quantity = vo.getQuantity();
       int item_price = vo.getItem_price();
-      item_price_sum += vo.getItem_price();
-      item_discount_sum += (Integer)(item_price* vo.getDiscount_rate()/100);
+      item_price_sum += item_price*quantity;
+      item_discount_sum += (Integer)(item_price* vo.getDiscount_rate()/100*quantity);
     }
     porderVO.setItem_price_sum(item_price_sum);
     porderVO.setItem_discount_sum(item_discount_sum);
@@ -264,16 +265,37 @@ public class PorderCont {
    return mav; // forward
  }
  
+ //http://localhost:9090/team4/porder/list_admin.do
  /**
-  * 주문 리스트
+  * 주문 리스트 - 관리자
   * @return
   */
- @RequestMapping(value="/porder/list.do", method=RequestMethod.GET)
- public ModelAndView list(){
+ @RequestMapping(value="/porder/list_admin.do", method=RequestMethod.GET)
+ public ModelAndView list_admin(){
    ModelAndView mav = new ModelAndView();
    
    List<PorderVO> list = this.porderProc.list();    
    mav.addObject("list", list);
+   mav.setViewName("/porder/list_admin"); // webapp/porder/list_admin.jsp
+   
+   return mav; // forward
+ }
+ 
+ //http://localhost:9090/team4/porder/list.do
+ /**
+  * 주문 리스트 - 사용자
+  * @return
+  */
+ @RequestMapping(value="/porder/list.do", method=RequestMethod.GET)
+ public ModelAndView list( HttpSession session ){
+   ModelAndView mav = new ModelAndView();
+   
+   int memno = 1;
+   // 주문1 + 주문 상세N + 아이템N을 조인한 리스트 출력
+   // List<> list = this.porderProc.list_by_memno_join_detail_item();
+   // List<PorderVO> list = this.porderProc.list();
+   
+   // mav.addObject("list", list);
    mav.setViewName("/porder/list"); // webapp/porder/list.jsp
    
    return mav; // forward

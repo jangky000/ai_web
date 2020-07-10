@@ -25,14 +25,24 @@
       </c:choose>
       
       <c:choose>
-        <c:when test="${sessionScope.id != null || sessionScope.id_admin != null}">
+        <%-- 회원도 관리자도 아닌 경우 --%>
+        <c:when test="${sessionScope.id == null && sessionScope.id_admin == null}">
+          <A class='menu_link'  href='${root}/contents/list_all.do'>전체글</A><span class='top_menu_sep'>&nbsp;</span>    
+          <A class='menu_link'  href='${root}/member/create.do'>회원가입</A><span class='top_menu_sep'>&nbsp;</span>
+        </c:when>
+        <%-- 회원으로 로그인 --%>
+        <c:when test="${sessionScope.id != null && sessionScope.id_admin == null}">
+          <A class='menu_link'  href='${root}/contents/list_all.do'>전체글</A><span class='top_menu_sep'>&nbsp;</span>    
+          <A class='menu_link'  href='${root}/contents/list_by_memberno.do?memberno=1'>내가 쓴 글</A><span class='top_menu_sep'>&nbsp;</span>      
+        </c:when>
+        <%-- 관리자로 로그인 --%>
+        <c:when test="${sessionScope.id_admin != null}">
           <A class='menu_link'  href='${root}/categrp/list.do'>카테고리 그룹</A><span class='top_menu_sep'>&nbsp;</span>    
           <A class='menu_link'  href='${root}/cate/list_join.do'>모든 카테고리</A><span class='top_menu_sep'>&nbsp;</span>
           <A class='menu_link'  href='${root}/contents/list_all.do'>전체글</A><span class='top_menu_sep'>&nbsp;</span>    
           <A class='menu_link'  href='${root}/attachfile/list.do'>전체 이미지</A><span class='top_menu_sep'>&nbsp;</span>
           <A class='menu_link'  href='${root}/member/list.do'>회원목록</A><span class='top_menu_sep'>&nbsp;</span>  
-          <A class='menu_link'  href='${root}/member/create.do'>회원가입</A><span class='top_menu_sep'>&nbsp;</span>
-          <A class='menu_link'  href='${root}/contents/list_by_memberno.do?memberno=1'>내가 쓴 글</A><span class='top_menu_sep'>&nbsp;</span>      
+          <A class='menu_link'  href='${root}/reply/list.do?memberno=1'>전체 댓글</A><span class='top_menu_sep'>&nbsp;</span>      
         </c:when>
         <c:otherwise>
           영화와 여행이 있는 리조트에 오신 것을 환영합니다.

@@ -72,6 +72,14 @@ public class ContentsVO {
   /** 이미지MF Spring*/
   private MultipartFile file1MF;
   
+  // 답변 관련 변수
+  /** 그룹번호 */
+  private int grpno;
+  /** 답변 차수 */
+  private int indent;
+  /** 답변 출력 순서 */ 
+  private int ansnum;
+  
   public int getContentsno() {
     return contentsno;
   }
@@ -213,9 +221,26 @@ public class ContentsVO {
   public void setCnt(int cnt) {
     this.cnt = cnt;
   }
+  
+  public int getGrpno() {
+    return grpno;
+  }
+  public void setGrpno(int grpno) {
+    this.grpno = grpno;
+  }
+  public int getIndent() {
+    return indent;
+  }
+  public void setIndent(int indent) {
+    this.indent = indent;
+  }
+  public int getAnsnum() {
+    return ansnum;
+  }
+  public void setAnsnum(int ansnum) {
+    this.ansnum = ansnum;
+  }
 
-  
-  
 }
 
 

@@ -151,6 +151,20 @@ public interface ContentsDAOInter {
    */
   public int reply(ContentsVO contentsVO);
  
+  /**
+   * 글 수 증가
+   * @param 
+   * @return
+   */ 
+  public int increaseReplycnt(int contentsno);
+ 
+  /**
+   * 글 수 감소
+   * @param 
+   * @return
+   */   
+  public int decreaseReplycnt(int contentsno);
+  
 }
 
 

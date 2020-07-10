@@ -253,14 +253,14 @@ public class ContentsProc implements ContentsProcInter {
     List<ContentsVO> list = contentsDAO.list_by_cateno_search_paging(map);
     
     // --------------------------------------------------------------
-    // 제목, 내용 글자수 조정 14자, 100자
+    // 제목, 내용 글자수 조정 17자, 100자
     // --------------------------------------------------------------
     String title = "";
     String content = "";
     for (ContentsVO contentsVO: list) {
       title = contentsVO.getTitle();
-      if (title.length() >= 14) {
-        title = Tool.textLength(title, 14);
+      if (title.length() >= 17) {
+        title = Tool.textLength(title, 17);
         contentsVO.setTitle(title);
       }
       content = contentsVO.getContent();
@@ -283,6 +283,18 @@ public class ContentsProc implements ContentsProcInter {
   @Override
   public int reply(ContentsVO contentsVO) {
     int count = contentsDAO.reply(contentsVO);
+    return count;
+  }
+ 
+  @Override
+  public int increaseReplycnt(int contentsno) {
+    int count = contentsDAO.increaseReplycnt(contentsno);
+    return count;
+  }
+
+  @Override
+  public int decreaseReplycnt(int contentsno) {
+    int count = contentsDAO.decreaseReplycnt(contentsno);
     return count;
   }
   

@@ -32,7 +32,7 @@
   </DIV>
 
   <ASIDE style='float: left;'>
-    ${categrpVO.name } > ${cateVO.name } > 신규 등록
+    ${categrpVO.name } > ${cateVO.name } > 답변 등록
   </ASIDE>
   <ASIDE style='float: right;'>
     <A href='./list.do?cateno=${param.cateno }'>목록</A>
@@ -41,12 +41,14 @@
  
   <div class='menu_line'></div>
   <DIV style='width: 100%;'>
-    <FORM name='frm' method='POST' action='./create.do' enctype="multipart/form-data" class="form-horizontal">
+    <FORM name='frm' method='POST' action='./reply.do' enctype="multipart/form-data" class="form-horizontal">
                
       <!-- FK memberno 지정 -->
-      <input type='hidden' name='memberno' id='memberno' value='1'>
+      <input type='hidden' name='memberno' id='memberno' value='${sessionScope.memberno }'>
       <!-- FK categrpno 지정 -->
       <input type='hidden' name='cateno' id='cateno' value='${param.cateno }'>
+      <!-- 댓글을 붙일 부모글 번호 -->
+      <input type='hidden' name='contentsno' id='contentsno' value='${param.contentsno }'>
       
       <div class="form-group">   
         <div class="col-md-12">
@@ -88,9 +90,9 @@
       </div>
       
       <DIV class='content_bottom_menu'>
-        <button type="submit" class="btn btn-info">등록</button>
+        <button type="submit" class="btn btn-info">답변 등록</button>
         <button type="button" 
-                    onclick="location.href='./list.do?cateno=${param.cateno}'" 
+                    onclick="history.back();" 
                     class="btn btn-info">취소[목록]</button>
       </DIV>
        

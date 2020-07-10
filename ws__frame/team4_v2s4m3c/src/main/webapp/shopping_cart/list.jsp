@@ -74,8 +74,8 @@
             <colgroup>
               <col style="width: 5%;"></col>
               <col style="width: 10%;"></col>
-              <col style="width: 30%;"></col>
-              <col style="width: 10%;"></col>
+              <col style="width: 20%;"></col>
+              <col style="width: 20%;"></col>
               <col style="width: 15%;"></col>
               <col style="width: 10%;"></col>
               <col style="width: 10%;"></col>
@@ -118,7 +118,7 @@
                 request.setAttribute("discount_rate", discount_rate); */
               %>
               <c:if test="${list=='[]'}">
-                <tr><td colspan=8 style="text-align: center;">장바구니에 담은 상품이 없습니다.</td></tr>
+                <tr><td colspan=8 style="text-align: center; height: 100px;">장바구니에 담은 상품이 없습니다.<br><button type='button'>쇼핑하러 가기</button></td></tr>
               </c:if> 
               <c:forEach var="Shop_item_grpVO" items="${list }" varStatus="sample">
                 <c:set var="name" value="${Shop_item_grpVO.name }" />
@@ -401,7 +401,7 @@
       $("#ea_sum").html(ea_sum);
       $("#item_price_sum").html(String(item_price_sum).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       $("#item_discount_sum").html(String(item_discount_sum).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-      $("#payment_price").html(String(item_price_sum-item_discount_sum).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      $("#payment_price").html(String(item_price_sum-item_discount_sum+2500).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
     }
     
     function delete_selected(){

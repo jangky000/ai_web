@@ -9,8 +9,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       Spring이 내부적으로 자동으로 interface를 구현해줌. -->
 <mapper namespace="dev.mvc.contents.ContentsDAOInter">
 
-  <insert id="create" parameterType="ContentsVO">
-    <!-- 등록 후 contentsVO class의 contentsno 칼럼에 PK return -->
+  <!-- 답변형이 아닌 경우 -->
+<!--   <insert id="create" parameterType="ContentsVO">
+    등록 후 contentsVO class의 contentsno 칼럼에 PK return
     <selectKey keyProperty="contentsno" resultType="int" order="BEFORE">
       select contents_seq.nextval from dual
     </selectKey>
@@ -19,7 +20,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     VALUES(#{contentsno}, #{memberno}, #{cateno}, #{title}, #{content}, #{web}, #{ip},
                 #{passwd}, #{word}, sysdate, #{file1}, #{thumb1}, #{size1})
   </insert>
-  
+ -->
+  <!-- 답변형인 경우 등록, 등록 후 contentsVO class의 contentsno 칼럼에 PK return -->
+  <insert id="create" parameterType="ContentsVO">
+    <selectKey keyProperty="contentsno" resultType="int" order="BEFORE">
+      select contents_seq.nextval from dual
+    </selectKey>
+    INSERT INTO contents(contentsno, memberno, cateno, title, content, web, ip,
+                                     passwd, word, rdate, file1, thumb1, size1, 
+                                     grpno, indent, ansnum)
+    VALUES(#{contentsno}, #{memberno}, #{cateno}, #{title}, #{content}, #{web}, #{ip},
+                #{passwd}, #{word}, sysdate, #{file1}, #{thumb1}, #{size1},
+                (SELECT NVL(MAX(grpno), 0)+1 FROM contents), 0, 0)
+  </insert>
+   
   <select id="list_all" resultType="ContentsVO">
     SELECT contentsno, memberno, cateno, title, content, web, ip, passwd, word, rdate 
     FROM contents 
@@ -51,17 +65,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      ORDER BY contentsno DESC   
    </select>
    
-  <!-- 카테고리별 검색 목록 + 페이징 + 메인 이미지 -->
-   <select id="list_by_cateno_search_paging" 
+   <!-- 카테고리별 검색 목록 + 페이징 + 메인 이미지 -->
+ <!--   <select id="list_by_cateno_search_paging" 
               resultType="ContentsVO" parameterType="HashMap">
      SELECT contentsno, memberno, cateno, title, content, 
-                recom, cnt, replycnt, rdate, word, r, file1, thumb1, size1, ip
+                recom, cnt, replycnt, rdate, word, ip, file1, thumb1, size1, r
      FROM (
                 SELECT contentsno, memberno, cateno, title, content, 
-                           recom, cnt, replycnt, rdate, word, rownum as r, file1, thumb1, size1, ip
+                           recom, cnt, replycnt, rdate, word, ip, file1, thumb1, size1, rownum as r
                 FROM (
                           SELECT contentsno, memberno, cateno, title, content, 
-                                     recom, cnt, replycnt, rdate, word, file1, thumb1, size1, ip
+                                     recom, cnt, replycnt, rdate, word, ip, file1, thumb1, size1
+                          FROM contents
+                          <choose>
+                            <when test="word == null or word == ''"> 검색하지 않는 경우
+                              WHERE cateno=#{cateno}
+                            </when>
+                            <otherwise>
+                              WHERE cateno=#{cateno} AND (title LIKE '%' || #{word} || '%' 
+                                                        OR content LIKE '%' || #{word} || '%' 
+                                                        OR word LIKE '%' || #{word} || '%')
+                            </otherwise>
+                          </choose>
+                          ORDER BY grpno DESC, ansnum ASC
+                )
+     )
+     WHERE <![CDATA[ r >= #{startNum} AND r <= #{endNum} ]]>
+     
+     1 page: WHERE r >= 1 AND r <= 10; 
+     2 page: WHERE r >= 11 AND r <= 20;
+     3 page: WHERE r >= 21 AND r <= 30;
+                              
+   </select>    -->
+   
+      <!-- 카테고리별 검색 목록 + 페이징 + 메인 이미지 + 답변형 -->
+   <select id="list_by_cateno_search_paging" 
+              resultType="ContentsVO" parameterType="HashMap">
+     SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word, ip, 
+                file1, thumb1, size1,
+                grpno, indent, ansnum, r
+     FROM (
+                SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word, ip, 
+                           file1, thumb1, size1,
+                           grpno, indent, ansnum, rownum as r
+                FROM (
+                          SELECT contentsno, memberno, cateno, title, content, recom, cnt, replycnt, rdate, word, ip,
+                                     file1, thumb1, size1,
+                                     grpno, indent, ansnum
                           FROM contents
                           <choose>
                             <when test="word == null or word == ''"> <!-- 검색하지 않는 경우 -->
@@ -73,22 +123,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                                                         OR word LIKE '%' || #{word} || '%')
                             </otherwise>
                           </choose>
-                          ORDER BY grpno DESC, ansum ASC
+                          ORDER BY grpno DESC, ansnum ASC
                 )
      )
-     WHERE <![CDATA[ r >= #{startNum} AND r <= #{endNum} ]]>
-     <!-- 
-     1 page: WHERE r >= 1 AND r <= 10; 
-     2 page: WHERE r >= 11 AND r <= 20;
-     3 page: WHERE r >= 21 AND r <= 30;
-     -->                          
+     WHERE <![CDATA[ r >= #{startNum} AND r <= #{endNum} ]]>                      
    </select>   
    
+   <!-- 일반적인 조회 -->
+<!--   <select id="read" resultType="ContentsVO" parameterType="int">
+    SELECT contentsno, memberno, cateno, title, content, recom, web, map, youtube, mp3, mp4, ip, passwd, word, rdate
+    FROM contents
+    WHERE contentsno = #{contentsno}
+  </select> -->
+  
+  <!-- 답변형 조회  -->
   <select id="read" resultType="ContentsVO" parameterType="int">
-    SELECT contentsno, memberno, cateno, title, content, recom, web, map, youtube, mp3, mp4, ip, passwd, word, rdate 
+    SELECT contentsno, memberno, cateno, title, content, recom, web, 
+              map, youtube, ip, passwd, word, rdate, 
+              file1, thumb1, size1, grpno, indent, ansnum
     FROM contents
     WHERE contentsno = #{contentsno}
   </select>
+  
+  
   
   <update id="update" parameterType="ContentsVO">
     UPDATE contents 
@@ -187,12 +244,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       select contents_seq.nextval from dual
     </selectKey>
     INSERT INTO contents(contentsno,
-                      cateno, memberno, title, content, thumb1,
-                      file1, size1, cnt, rdate, word, grpno, indent, ansnum)  
+                      cateno, memberno, title, content, web, ip, passwd,
+                      thumb1, file1, size1, 
+                      cnt, rdate, word, grpno, indent, ansnum)  
     VALUES(#{contentsno},
-                #{cateno}, #{memberno}, #{title}, #{content}, #{thumb1}, 
-                #{file1}, #{size1}, #{cnt}, sysdate, #{word}, #{grpno}, #{indent}, #{ansnum})
+                #{cateno}, #{memberno}, #{title}, #{content}, #{web}, #{ip}, #{passwd},
+                #{thumb1}, #{file1}, #{size1}, 
+                #{cnt}, sysdate, #{word}, #{grpno}, #{indent}, #{ansnum})
   </insert>
+  
+  <update id="increaseReplycnt" parameterType="int">
+     UPDATE contents
+     SET replycnt = replycnt + 1
+     WHERE contentsno = #{contentsno}
+   </update>
+
+   <update id="decreaseReplycnt" parameterType="int">
+     UPDATE contents
+     SET replycnt = replycnt + 1
+     WHERE contentsno = #{contentsno}
+   </update>
   
 </mapper>
 

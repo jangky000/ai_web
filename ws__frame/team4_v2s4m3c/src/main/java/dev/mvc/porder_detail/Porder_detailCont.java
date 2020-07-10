@@ -55,13 +55,13 @@ public class Porder_detailCont {
     return mav;
   }
   
-  //http://localhost:9090/team4/porder_detail/list.do
+  //http://localhost:9090/team4/porder_detail/list_admin.do
   /**
-   * 등록 폼
+   * 리스트
    * @return
    */
-  @RequestMapping(value="/porder_detail/list.do", method=RequestMethod.GET )
-  public ModelAndView list(@RequestParam(value="porderno", defaultValue="0") int porderno) {
+  @RequestMapping(value="/porder_detail/list_admin.do", method=RequestMethod.GET )
+  public ModelAndView list_admin(@RequestParam(value="porderno", defaultValue="0") int porderno) {
     ModelAndView mav = new ModelAndView();
     
     if(porderno == 0) {
@@ -72,7 +72,7 @@ public class Porder_detailCont {
       mav.addObject("list", list);
     }
     
-    mav.setViewName("/porder_detail/list"); // webapp/porder_detail/list.jsp
+    mav.setViewName("/porder_detail/list_admin"); // webapp/porder_detail/list_admin.jsp
     return mav;
   }
   

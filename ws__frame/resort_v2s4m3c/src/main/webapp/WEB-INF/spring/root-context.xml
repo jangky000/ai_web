@@ -43,7 +43,8 @@
                               dev.mvc.attachfile,
                               dev.mvc.member,
                               dev.mvc.admin,
-                              dev.mvc.vis" />
+                              dev.mvc.vis,
+                              dev.mvc.reply" />
     <property name="mapperLocations" value="classpath:mybatis/*.xml" />
   </bean>
   
