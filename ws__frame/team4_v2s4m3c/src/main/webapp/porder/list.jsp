@@ -3,6 +3,8 @@
 
 <c:set var="root" value="${pageContext.request.contextPath}" /> 
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -22,14 +24,18 @@
       border-collapse: collapse;
     }
     table tr{
-     
+     border: 1px solid white;
     }
     table th{
       font-size: 16px;
     }
     table td{
       font-size: 16px;
-      border: 1px solid white;
+      /* border: 1px solid white; */
+    }
+    
+    b {
+      margin: 0 10px;
     }
 
   </style>
@@ -54,40 +60,70 @@
     %>
         
     <!-- 주문목록/배송조회 정보 시작 -->
-    <div style="margin: 60px auto; width:100%; border: 1px solid black;">
+    <div style="margin: 60px auto; width:80%; border: 1px solid black;">
       <div style="margin: 20px auto; width: 95%; border-bottom: 1px solid gray">
         <h3>전체</h3>
       </div>
       <div style="margin: 20px auto; width: 95%;">
-        <c:forEach var="porderJoinVO" items="${list }">
-          <c:set var="porderno" value="${porderVO.porderno }" />
-          <!--  -->
-        </c:forEach>
         <!-- porder 박스 시작 -->
         <table style="width: 100%;">
-          <thead>
+          <colgroup>
+              <col style="width: 20%;"></col>
+              <col style="width: 50%;"></col>
+              <col style="width: 30%;"></col>
+            </colgroup>
+          <c:set var="prev" value="-999" />
+          <c:forEach var="porder_detail_itemVO" items="${list }">
+            <c:set var="porderno" value="${porder_detail_itemVO.porderVO.porderno }" />
+            <c:set var="rdate" value="${porder_detail_itemVO.porderVO.rdate }" />
+            <c:set var="payment_price" value="${porder_detail_itemVO.porderVO.payment_price }" />
+            
+            <c:set var="quantity" value="${porder_detail_itemVO.porder_detailVO.quantity }" />
+            <c:set var="porder_detailno" value="${porder_detail_itemVO.porder_detailVO.porder_detailno }" />
+            <c:set var="de_payment_price" value="${porder_detail_itemVO.porder_detailVO.payment_price }" />
+            
+            <c:set var="itemno" value="${porder_detail_itemVO.itemVO.itemno }" />
+            <c:set var="item_name" value="${porder_detail_itemVO.itemVO.item_name }" />
+            <c:set var="item_type" value="${porder_detail_itemVO.itemVO.item_type }" />
+            <c:set var="thumb" value="${porder_detail_itemVO.itemVO.thumb }" />
+            
+            <c:choose>
+              <c:when test="${prev == porderno }">
+                <!-- 헤더 스킵 -->
+              </c:when>
+              <c:otherwise>
+                <c:set var="prev" value="${porderno }"/>
+                <tr>
+                  <td colspan = 2 style="background-color: white;"><b>주문번호:</b> #${porderno } <b>주문일:</b> ${rdate.substring(0,10) } <b>총주문금액:</b> ￦${payment_price } </td>
+                  <td style="background-color: white; text-align: center;"><button type="button" class="show_detail" data-porderno="${porderno }">주문상세보기</button></td>
+                </tr>
+              </c:otherwise>
+            </c:choose>
             <tr>
-              <td colspan = 5 style="background-color: white;">주문일: 주문번호: 총주문금액: 주문상세보기</td>
+              <td style="text-align: center;"><img src="../item/storage/main_images/${thumb }" style="width: 100px; height: 100px;"></td>
+              <td>
+                <h4>[${item_type }] ${item_name }(#${itemno })</h4>
+                <fmt:formatNumber value="${de_payment_price }" type="number"/>원 / ${quantity } 개
+              </td>
+              <td style="text-align: center;">상품 준비중<br>금요일 도착예정<br><button type="button">배송조회</button><br><button type="button" onclick='location.href="../porder_detail/refund.do?porder_detailno=${porder_detailno}"'>반품신청</button></td>
             </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>image</td>
-              <td>상품이름, 종류 등, 개당 가격</td>
-              <td>판매자</td>
-              <td>구매 수량</td>
-              <td>주문 취소 버튼</td>
-            </tr>
-          </tbody>
+          </c:forEach>
         </table>
         <!-- porder 박스 종료 -->
       </div>
     </div>
     <!-- 주문목록/배송조회 정보 종료 -->
-    
+     페이징 추가하기
   </div>
   <!-- 주문목록/배송조회 리스트 종료 -->
    
    <jsp:include page="/menu/bottom.jsp" flush='false' />
+   
+  <script>
+    $('.show_detail').on('click', function(){
+      alert($(this).data('porderno'));
+      location.href='../porder_detail/list_detail.do?porderno=' + $(this).data('porderno');
+    });
+  </script>
 </body>
 </html>

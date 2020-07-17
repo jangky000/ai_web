@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+ 
+<script type="text/JavaScript"
+        src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ 
+ <script>
+  $(function(){
+    var img = ""; // 이미지 태그 할당
+    var width = 0; // image width
+    var title = ''; // image title
+    
+    // div1 태그를 찾아서 변수에 할당 
+    var div1 = $('#div1'); // id가 div1인 태그 검색
+    console.log('data-width: ' + typeof div1.attr('data-width')); // string 
+    console.log('data-width2: '+ typeof div1.data('width')); // number
+    
+    console.log('data-title: ' + div1.attr('data-title'));
+    
+    img = $('#div1 img');
+    width = div1.attr('data-width');
+    title = div1.attr('data-title');
+    img.attr('width', width);
+    img.attr('title', title);
+    
+    // console.log($('#div1').children('img').attr('src')); // 이런식으로 자식 접근도 가능
+    
+    var div2 = $('#div2');
+    img = div2.children('img');
+    width = div2.attr('data-width');
+    title = div2.attr('data-title');
+    img.attr('width', width);
+    img.attr('title', title);
+    
+    var div3 = $('#div3');
+    div3.append('<span>여행지: ' + div3.attr('data-where') + ' 날짜: ' +div3.attr('data-travel-date')+'</span>');
+    
+    
+  });
+  
+  
+ </script>
+ 
+</head>
+<body>
+  <DIV id='div1' data-width='200' data-title='스위스 풍경 1'>
+    <IMG src='./images/spring01.jpg'>
+  </DIV>
+  <DIV id='div2' data-width='300' data-title='스위스 풍경 2'>
+    <IMG src='./images/spring02.jpg'>
+  </DIV>
+  <DIV id='div3' data-where = '스위스' 
+                     data-travel-date='2016-04-05'>
+    <IMG src='./images/spring03.jpg' style='width: 400px;'>
+  </DIV>
+  
+</body>
+</html>

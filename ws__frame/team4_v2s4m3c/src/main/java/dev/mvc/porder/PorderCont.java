@@ -1,6 +1,7 @@
 package dev.mvc.porder;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import dev.mvc.coupon_issue.Coupon_issueProcInter;
+import dev.mvc.coupon_issue.Coupon_issue_joinVO;
+import dev.mvc.coupon_use.Coupon_useProcInter;
 import dev.mvc.porder_detail.Porder_detailProcInter;
 import dev.mvc.porder_detail.Porder_detailVO;
 import dev.mvc.shopping_cart.Shop_item_grpVO;
@@ -37,6 +41,14 @@ public class PorderCont {
   @Autowired
   @Qualifier("dev.mvc.porder.Shopping_cartProc")
   private Shopping_cartProcInter shopping_cartProc;
+  
+  @Autowired
+  @Qualifier("dev.mvc.coupon_issue.Coupon_issueProc")
+  private Coupon_issueProcInter coupon_issueProc;
+  
+  @Autowired
+  @Qualifier("dev.mvc.coupon_use.Coupon_useProc")
+  private Coupon_useProcInter coupon_useProc;
   
   public PorderCont() {
     System.out.println("--> PorderCont created.");
@@ -91,18 +103,21 @@ public class PorderCont {
     porderVO.setItem_price_sum(item_price_sum);
     porderVO.setItem_discount_sum(item_discount_sum);
     
-    int coupon_discount_sum = 2500;
-    porderVO.setCoupon_discount_sum(coupon_discount_sum);
+    // int coupon_discount_sum = 2500;
+    // porderVO.setCoupon_discount_sum(coupon_discount_sum);
     
     int delivery_fee = 2500;
     porderVO.setDelivery_fee(delivery_fee);
     
-    int payment_price  = item_price_sum - item_discount_sum - coupon_discount_sum + delivery_fee;
+    int payment_price  = item_price_sum - item_discount_sum + delivery_fee;
     porderVO.setPayment_price(payment_price);
     
     mav.addObject("porderVO", porderVO);
-    mav.setViewName("/porder/create"); // webapp/porder/create.jsp
     
+    List<Coupon_issue_joinVO> coupon_list = this.coupon_issueProc.list_by_memno_join_coupon_not_used(memno);
+    mav.addObject("coupon_list", coupon_list);
+    
+    mav.setViewName("/porder/create"); // webapp/porder/create.jsp
     // mav.setViewName("redirect:/index.jsp"); // team4/index.jsp
     return mav;
   }
@@ -145,7 +160,7 @@ public class PorderCont {
   */
  @ResponseBody
  @RequestMapping(value="/porder/create.do", method=RequestMethod.POST , produces="text/plain;charset=UTF-8")
- public String create(String porderJSONString, String porder_detailArrString, String shopping_cartArr) {
+ public String create(String porderJSONString, String porder_detailArrString, String coupon_issueArr, String shopping_cartArr) {
    //ModelAndView mav = new ModelAndView();
    JSONObject result = new JSONObject();
    
@@ -183,9 +198,33 @@ public class PorderCont {
    System.out.println("porder 등록 완료");
    System.out.println("porderno는" + porderno);
    
+   // 쿠폰 발급 상태 수정
+   // 쿠폰 사용 등록
+   // 값 꺼내기
+   System.out.println("coupon_issueArr" + coupon_issueArr);
+   JSONArray coupon_issueno = new JSONArray(coupon_issueArr);
+   int[] coupon_issueInt = new int[coupon_issueno.length()];
+   for(int i = 0; i<coupon_issueno.length(); i++) {
+     coupon_issueInt[i] = coupon_issueno.getInt(i);
+   }
+   
+   // 쿠폰 발급 업데이트
+   HashMap<String, Object> issue_map = new HashMap<String, Object>();
+   issue_map.put("cpstatus", "U"); // I: 발급, U: 사용 완료, C: 발급 취소
+   issue_map.put("coupon_issueInt", coupon_issueInt); // 배열을 전달
+   int issue_cnt  = this.coupon_issueProc.update_list_status(issue_map);
+   
+   // 쿠폰 사용 등록
+   HashMap<String, Object> use_map = new HashMap<String, Object>();
+   int use_cnt = 0;
+   for(int i = 0; i<coupon_issueInt.length; i++) {
+     use_cnt = this.coupon_useProc.create(porderno, coupon_issueInt[i], "U");
+   }
+   
    // 결제 내역 생성 동적 SQL로 처리 insert select를 사용해서 한번에 처리 -> 상품 금액이 바뀌는 경우 문제가 될 수 있다.
    // 실패 시 결제 생성도 취소
    
+   // 주문 상세 등록
    // porder_detailArr
    JSONArray porder_detailArr = new JSONArray(porder_detailArrString); // String to JSONArray 형변환
    
@@ -292,10 +331,9 @@ public class PorderCont {
    
    int memno = 1;
    // 주문1 + 주문 상세N + 아이템N을 조인한 리스트 출력
-   // List<> list = this.porderProc.list_by_memno_join_detail_item();
-   // List<PorderVO> list = this.porderProc.list();
+   List<Porder_detail_itemVO> list = this.porderProc.list_join_porder_detail_item(memno);
    
-   // mav.addObject("list", list);
+   mav.addObject("list", list);
    mav.setViewName("/porder/list"); // webapp/porder/list.jsp
    
    return mav; // forward

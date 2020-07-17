@@ -43,12 +43,26 @@ VALUES(coupon_issue_seq.nextval, 1, 2, 1, sysdate, add_months(sysdate,1), 'I');
 INSERT INTO coupon_issue(coupon_issueno, memno, couponno, cpcnt, cpissue, cpexpired, cpstatus)
 VALUES(coupon_issue_seq.nextval, 1, 3, 1, sysdate, add_months(sysdate,1), 'I');
 
+INSERT INTO coupon_issue(coupon_issueno, memno, couponno, cpcnt, cpissue, cpexpired, cpstatus)
+VALUES(coupon_issue_seq.nextval, 1, 3, 1, sysdate, add_months(sysdate,-1), 'I');
+
+INSERT INTO coupon_issue(coupon_issueno, memno, couponno, cpcnt, cpissue, cpexpired, cpstatus)
+VALUES(coupon_issue_seq.nextval, 1, 3, 1, sysdate, sysdate, 'I');
+
 COMMIT;
 
--- LIST
+--List
 SELECT coupon_issueno, memno, couponno, cpcnt, cpissue, cpexpired, cpstatus
 FROM coupon_issue
 ORDER BY coupon_issueno DESC;
+
+-- list_by_memno_join_coupon_not_used
+-- 금방 만료되는 쿠폰이 우선, 만료된 쿠폰 제거
+SELECT c.couponno as ccouponno, c.cpthumb as ccpthumb, c.cpname as ccpname, c.cpdiscount as ccpdiscount, c.cpcate as ccpcate,
+            ci.coupon_issueno as cicoupon_issueno, ci.memno as cimemno, ci.couponno as cicouponno, ci.cpcnt as cicpcnt, ci.cpissue as cicpissue, ci.cpexpired as cicpexpired, ci.cpstatus as cicpstatus
+FROM coupon c, coupon_issue ci
+WHERE memno = 1 AND ci.couponno = c.couponno AND ci.cpstatus = 'I' AND ci.cpexpired >= sysdate
+ORDER BY cpexpired ASC;
 
 -- READ
 SELECT coupon_issueno, memno, couponno, cpcnt, cpissue, cpexpired, cpstatus

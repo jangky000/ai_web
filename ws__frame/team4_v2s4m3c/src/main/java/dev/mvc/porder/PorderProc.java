@@ -45,4 +45,10 @@ public class PorderProc implements PorderProcInter{
     return cnt;
   }
 
+  @Override
+  public List<Porder_detail_itemVO> list_join_porder_detail_item(int memno) {
+    List<Porder_detail_itemVO> list = this.porderDAO.list_join_porder_detail_item(memno);
+    return list;
+  }
+
 }

@@ -23,8 +23,9 @@
       <div style="margin:20px auto; width:80%">
       <!--  ★★★★여기 안에 작업해 주세요★★★★-->
         <a href="/team4/shopping_cart/list.do">▷ 쇼핑카트</a><br>
+        <a href="/team4/porder/list.do">▷ 내 페이지 ▷ 주문확인</a><br>
         <a href="/team4/porder/list_admin.do">▷ 관리자 ▷ 결제확인</a><br>
-        <a href="/team4/porder_detail/list.do">▷ 관리자 ▷ 결제내역확인</a><br>
+        <a href="/team4/porder_detail/list_admin.do">▷ 관리자 ▷ 결제내역확인</a><br>
         <a href="/team4/delivery/list_seller.do">▷ 관리자 ▷ 주문/배송 관리</a><br>
         <a href="/team4/coupon/list.do">▷ 관리자 ▷ 이벤트 쿠폰</a><br>
         <a href="/team4/coupon_issue/list.do">▷ 관리자 ▷ 쿠폰 발급 내역</a><br>

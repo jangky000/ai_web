@@ -91,13 +91,14 @@ FROM porder
 WHERE memno=1
 ORDER BY porderno DESC;
 
+-- list_join_porder_detail_item
 -- 사용자 주문결과/배송조회, porder + porder_detail + item join
 -- porderno, memno, rdate, item_price_sum, item_discount_sum, coupon_discount_sum, delivery_fee, payment_price, porder_status, porder_zip_code, porder_address, porder_delivery_request
 -- porder_detailno,porderno,itemno,quantity,item_price_sum,item_discount_sum, payment_price, porder_detail_status, trackingno
 -- itemno, grpno, item_name, item_stock, item_price, item_cost, discount_rate, item_content, item_type, item_effect,item_origin, item_visible, item_visibleno, item_recom, item_view, item_rdate, item_rdate, upfile, thumb, fsize
-SELECT p.porderno, p.memno, p.rdate, p.payment_price, p.porder_status, p.porder_zip_code, p.porder_address, p.porder_delivery_request,
-            pd.porder_detailno, pd.porderno, pd.itemno, pd.quantity, pd.payment_price, pd.porder_detail_status, pd.trackingno,
-            it.itemno, it.grpno, it.item_name, it.item_price, it.discount_rate, it.item_type, it.item_origin, it.thumb
+SELECT p.porderno as pporderno, p.memno as pmemno, p.rdate as prdate, p.payment_price as ppayment_price, p.porder_status as pporder_status, p.porder_zip_code as pporder_zip_code, p.porder_address as pporder_address, p.porder_delivery_request as pporder_delivery_request,
+            pd.porder_detailno as pdporder_detailno, pd.porderno as pdporderno, pd.itemno as pditemno, pd.quantity as pdquantity, pd.payment_price as pdpayment_price, pd.porder_detail_status as pdporder_detail_status, pd.trackingno as pdtrackingno,
+            it.itemno as ititemno, it.grpno as itgrpno, it.item_name as ititem_name, it.item_price as ititem_price, it.discount_rate as itdiscount_rate, it.item_type as ititem_type, it.item_origin as ititem_origin, it.thumb as itthumb
 FROM porder p, porder_detail pd, item it
 WHERE memno=1 AND p.porderno = pd.porderno AND pd.itemno = it.itemno
 ORDER BY p.porderno DESC, pd.porder_detailno DESC

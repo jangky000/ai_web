@@ -13,7 +13,7 @@ public interface Coupon_useProcInter {
    * <xmp>
    * @return
    */
-  public int create(Coupon_useVO coupon_useVO);
+  public int create(int porderno, int coupon_issueno, String cpstatus);
 
   /**
    * <xmp>

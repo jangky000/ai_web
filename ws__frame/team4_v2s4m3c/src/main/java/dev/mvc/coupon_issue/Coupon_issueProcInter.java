@@ -27,6 +27,16 @@ public interface Coupon_issueProcInter {
 
   /**
    * <xmp>
+   *  결제 시 사용 가능 쿠폰 목록
+   * <select id="list_by_memno_join_coupon_not_used" resultMap="Coupon_issue_joinVO_Map" parameterType="int">
+   * <xmp>
+   * @param memno
+   * @return
+   */
+  public List<Coupon_issue_joinVO> list_by_memno_join_coupon_not_used(int memno);
+  
+  /**
+   * <xmp>
    *  쿠폰 발급 조회
    * <select id="read" resultType="Coupon_issueVO" parameterType="int">
    * <xmp>
@@ -35,8 +45,14 @@ public interface Coupon_issueProcInter {
   public Coupon_issueVO read(int coupon_issueno);
 
   /**
-   * 수정
+   * <xmp>
+   *  쿠폰 발행 상태 변경 -- I: issue 발급, U: used 사용완료, C:calceled 발급취소
+   * <update id="update_status" parameterType="HashMap">
+   * <xmp>
+   * @param map
+   * @return 
    */
+  public int update_list_status(HashMap map);
 
   /**
    * <xmp>

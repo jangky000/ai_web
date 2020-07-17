@@ -24,6 +24,16 @@ public interface PorderDAOInter {
 
   /**
    * <xmp>
+   * 내 주문 목록: porder + detail + item
+   * <select id="list_join_porder_detail_item" resultType="Porder_detail_itemVO_Map">
+   * <xmp>
+   * @param memno
+   * @return
+   */ 
+  public List<Porder_detail_itemVO> list_join_porder_detail_item(int memno);
+  
+  /**
+   * <xmp>
    * 주문 조회
    * <select id="read" resultType="PorderVO" parameterType="int">
    * <xmp>

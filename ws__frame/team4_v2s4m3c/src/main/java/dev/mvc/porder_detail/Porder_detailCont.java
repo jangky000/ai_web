@@ -76,6 +76,22 @@ public class Porder_detailCont {
     return mav;
   }
   
+  //http://localhost:9090/team4/porder_detail/list_detail.do
+  /**
+   * 리스트
+   * @return
+   */
+  @RequestMapping(value="/porder_detail/list_detail.do", method=RequestMethod.GET )
+  public ModelAndView list_detail(int porderno) {
+    ModelAndView mav = new ModelAndView();
+    
+    List<Porder_detailVO> list = this.porder_detailProc.list_by_porderno(porderno);
+    mav.addObject("list", list);
+    
+    mav.setViewName("/porder_detail/list_detail"); // webapp/porder_detail/list_admin.jsp
+    return mav;
+  }
+  
   // 운송장 등록
   // http://localhost:9090/team4/delivery/list_seller.do
   /**

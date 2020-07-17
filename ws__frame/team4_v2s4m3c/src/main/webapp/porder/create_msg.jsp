@@ -80,8 +80,8 @@
             </div>
             
             <div style="margin: 20px 0; ">
-              <button type="button" class='btn btn-primary' onclick="location.href='./../'">계속 쇼핑하기</button>
-              <button type="button" class='btn btn-primary' onclick="location.href='./list.do'">주문확인(주문목록)</button>
+              <button type="button" class='btn btn-info' onclick="location.href='./../'">계속 쇼핑하기</button>
+              <button type="button" class='btn btn-info' onclick="location.href='./list.do'">주문확인(주문목록)</button>
             </div>
             
             <hr>

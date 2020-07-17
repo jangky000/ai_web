@@ -39,7 +39,7 @@ public class Coupon_useCont {
   
  //http://localhost:9090/team4/coupon_use/create.do
  /**
-  * 등록 처리
+  * 등록 처리 -> 안씀
   * @param couponVO
   * @return
   */
@@ -47,7 +47,7 @@ public class Coupon_useCont {
  public ModelAndView create(Coupon_useVO coupon_useVO) {
    ModelAndView mav = new ModelAndView();
    
-   int cnt = this.coupon_useProc.create(coupon_useVO);
+   //int cnt = this.coupon_useProc.create(coupon_useVO);
 
    mav.setViewName("redirect:/coupon_use/list.jsp"); // jsp파일명을 해당 주소로 파라미터 전달
    return mav;

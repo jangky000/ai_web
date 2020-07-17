@@ -20,7 +20,11 @@ public class Coupon_useProc implements Coupon_useProcInter{
   }
 
   @Override
-  public int create(Coupon_useVO coupon_useVO) {
+  public int create(int porderno, int coupon_issueno, String cpstatus) {
+    Coupon_useVO coupon_useVO = new Coupon_useVO();
+    coupon_useVO.setPorderno(porderno);
+    coupon_useVO.setCoupon_issueno(coupon_issueno);
+    coupon_useVO.setCpstatus(cpstatus);
     int cnt = this.coupon_useDAO.create(coupon_useVO);
     return cnt;
   }

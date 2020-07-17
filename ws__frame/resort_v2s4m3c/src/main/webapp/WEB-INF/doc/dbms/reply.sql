@@ -151,6 +151,10 @@ WHERE r >= 1 AND r < 2
 -------------------------------------------------------------------------------------
 
 11) 댓글 추가에 따른 조회 기능의 추가
+SELECT m.id,
+        r.replyno, r.contentsno, r.memberno, r.content, r.passwd, r.rdate
+FROM member m, reply r
+WHERE  (m.memberno = r.memberno) AND r.replyno=1;
 
 
 

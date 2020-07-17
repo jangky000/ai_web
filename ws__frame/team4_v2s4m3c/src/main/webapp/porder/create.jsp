@@ -65,7 +65,7 @@
       border: none;
     }
     .btn_dflt1:hover{
-      box-shadow:200px 0 0 0 rgba(0,0,0,0.5) inset;
+      box-shadow:200px 0 0 0 rgba(0,0,0,0.2) inset;
       border: none;
     }
     
@@ -203,18 +203,48 @@
     </div>
     <!-- 주문 상품 종료 -->
     
+    <!-- 사용 가능 쿠폰 목록 시작 -->
+    <div style="margin: 60px auto; width:100%; border: 1px solid black;">
+      <div style="margin: 20px auto; width: 95%; border-bottom: 1px solid gray"><h3>내가 보유한 쿠폰</h3></div>
+      <div style="margin: 20px auto; width: 95%;">
+        <table style="width: 100%;">
+          <colgroup>
+            <col style="width: 5%;"></col>
+            <col style="width: 10%;"></col>
+            <col style="width: 75%;"></col>
+            <col style="width: 10%;"></col>
+          </colgroup>
+          <c:forEach var = 'coupon_issue_joinVO' items='${coupon_list }'>
+            <c:set var="cpname" value="${coupon_issue_joinVO.couponVO.cpname}" />
+            <c:set var="cpdiscount" value="${coupon_issue_joinVO.couponVO.cpdiscount}" />
+            <c:set var="cpthumb" value="${coupon_issue_joinVO.couponVO.cpthumb}" />
+            
+            <c:set var="coupon_issueno" value="${coupon_issue_joinVO.coupon_issueVO.coupon_issueno}" />
+            <!-- choose when으로 스킨, 로션 등 쿠폰 사용 가능한 것 필터링 하기, 해당 항목보다 가격이 적게 나가는 쿠폰만 사용 가능 -->
+            <tr>
+              <td><input type="checkbox" id ='cp_box_${coupon_issueno }' class='coupon_check' name='cp_box' value='${cpdiscount }' data-coupon_issueno='${coupon_issueno }'></td>
+              <td><label for='cp_box_${coupon_issueno }'><img src="../coupon/storage/${cpthumb }" style="width:80px; height: 50px;"></label></td>
+              <td><span>${cpname }<br>만료일</span></td>
+              <td>-<span><fmt:formatNumber value="${cpdiscount }" type="number"/></span>원</td>
+            </tr>
+          </c:forEach>
+        </table>
+      </div>
+    </div>
+    <!-- 사용 가능 쿠폰 목록 종료 -->
+    
     <!-- 결제 정보 시작  -->
     <div style="margin: 20px auto; border: 1px solid gray;">
       <h3 style="margin: 20px 20px;">결제 정보</h3>
       <ul style="list-style: none; margin: 20px 30px 0 30px; padding:0 0 10px 0; border-bottom: 2px solid gray;">
         <li style="text-align: right;"><span style="float: left;">판매가총액</span><span ><fmt:formatNumber value="${porderVO.item_price_sum }" type="number"/>원</span></li>
         <li style="text-align: right;"><span style="float: left;">할인총액</span><span >-<fmt:formatNumber value="${porderVO.item_discount_sum }" type="number"/>원</span></li>
-        <li style="text-align: right;"><span style="float: left;">쿠폰할인</span><span>-<fmt:formatNumber value="${porderVO.coupon_discount_sum }" type="number"/>원</span></li>
+        <li style="text-align: right;"><span style="float: left;">쿠폰할인</span><span>-<span id='chosen_cp_dscnt'>0</span>원</span></li>
         <li style="text-align: right;"><span style="float: left;">배송비</span><span><fmt:formatNumber value="${porderVO.delivery_fee }" type="number"/>원</span></li>
       </ul>
       <div style="padding: 5px 30px; text-align: right; border-bottom: 1px solid gray;">
-        <span  style="float: left; margin-top: 10px;"><strong>최종 결제 금액</strong></span>
-        <span  style="font-weight: bold; color: red; font-size: 26px;"><fmt:formatNumber value="${porderVO.payment_price }" type="number"/>원</span>
+        <span style="float: left; margin-top: 10px;"><strong>최종 결제 금액</strong></span>
+        <span style="font-weight: bold; color: red; font-size: 26px;"><span id='final_chosen_payment' style="font-weight: bold; color: red; font-size: 26px;"><fmt:formatNumber value="${porderVO.payment_price }" type="number"/></span>원</span>
       </div>
       <div style="padding: 10px 20px; border-bottom: 1px solid gray;">
         <div style="font-weight: bold; margin: 5px;">결제 방법</div>
@@ -234,7 +264,7 @@
     
     <div style="margin: 20px auto; text-align: center;">
       <button type="button" class="btn_dflt1" style="width: 100px; height: 60px; border-radius: 5%;" onclick="history.back();">장바구니 가기</button>
-      <button type="button" id="btn_buy" class="btn_dflt1" style="width: 100px; height: 60px; border-radius: 5%;">결제하기</button>
+      <button type="button" id="btn_buy" class="btn_dflt1" style="background-color: #ffcc99; width: 100px; height: 60px; border-radius: 5%;">결제하기</button>
     </div>
   </div>
   <!-- 주문/결제창 종료 -->
@@ -243,11 +273,25 @@
    
    <script type="text/javascript">
     $(function(){
-      $('#btn_buy').on('click', iamport)
+      $('#btn_buy').on('click', iamport);
+      $('.coupon_check').change(update_payment);
     });
     
+    function update_payment(){
+      
+      var discount_sum = 0;
+      $("input:checkbox[class=coupon_check]:checked").each(function(){        
+        discount_sum += parseInt($(this).val());
+      });
+      // alert(discount_sum);
+      $("#chosen_cp_dscnt").html(String(discount_sum).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      $("#final_chosen_payment").html(String(${porderVO.payment_price }-discount_sum).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    }
+    
     function iamport(){
-      alert('iamport start');
+      // alert($('#final_chosen_payment').html().replace(/,/g, ''));
+      // return;
+      //alert('iamport start');
       var IMP = window.IMP; // 생략가능
       IMP.init('imp67321715');
       // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
@@ -283,7 +327,7 @@
           */
           name: '스킨핏: 결제테스트',
           //결제창에서 보여질 이름
-          amount: ${porderVO.payment_price },
+          amount: $('#final_chosen_payment').html().replace(/,/g, ''),
           //가격
           buyer_email: 'iamport@siot.do',
           buyer_name: '구매자이름',
@@ -327,35 +371,43 @@
                               'memno':'1',
                               'item_price_sum':${porderVO.item_price_sum },
                               'item_discount_sum':${porderVO.item_discount_sum },
-                              'coupon_discount_sum':${porderVO.coupon_discount_sum },
+                              'coupon_discount_sum':$('#chosen_cp_dscnt').html().replace(/,/g, ''),
                               'delivery_fee':${porderVO.delivery_fee },
-                              'payment_price':${porderVO.payment_price },
+                              'payment_price':$('#final_chosen_payment').html().replace(/,/g, ''),
                               //'porder_status':'1',
                               'porder_zip_code': $('#porder_zip_code').val(),
                               'porder_address':$('#porder_address').val(),
                               'porder_delivery_request':$('#porder_delivery_request').val() // .html()로 값을 가져오면 변경되지 않은 초기값만 들어간다.
                              };
       
+      // 사용한 쿠폰 발행 번호
+      var coupon_issueArr=[];
+      $("input:checkbox[class=coupon_check]:checked").each(function(){        
+        coupon_issueArr.push( $(this).data('coupon_issueno') );
+      });
+      
       var porder_detailArr = [];
       var shopping_cartno = [];
       
-      // 상품 개수 만큼 순회      
-      <c:forEach var="shopping_cartVO" items="${shopping_cartlist }">
+      // 상품 개수 만큼 순회
+      <c:forEach var="Shop_item_grpVO" items="${shopping_cartlist }">
+        <c:set var="item_price_sum" value="${Shop_item_grpVO.item_price * Shop_item_grpVO.quantity}" />
+        <c:set var="item_discount_sum" value="${Shop_item_grpVO.item_price * Shop_item_grpVO.discount_rate / 100 * Shop_item_grpVO.quantity}" />
         porder_detailArr.push({
-          'itemno':'${shopping_cartVO.itemno}',
-          'quantity':'${shopping_cartVO.quantity}',
-          'item_price_sum':'1',
-          'item_discount_sum':'1',
-          'payment_price':'1'
+          'itemno': ${Shop_item_grpVO.itemno},
+          'quantity': ${Shop_item_grpVO.quantity},
+          'item_price_sum': ${item_price_sum },
+          'item_discount_sum':${item_discount_sum },
+          'payment_price':${item_price_sum - item_discount_sum }
           //'porder_detail_status':'1'
         });
-        shopping_cartno.push('${shopping_cartVO.shopping_cartno}');
+        shopping_cartno.push('${Shop_item_grpVO.shopping_cartno}');
       </c:forEach>
       
       alert(JSON.stringify(shopping_cartno));
       // JSON형식의 String 변환은 단 한번 해준다, JSON 내부의 JSON은 모두 String 형태로 직접 변환해줘야 한다.
       // 배열도 배열 하나 전달할 거 아니면 JSON 변환해줘야하나보다.. 
-      var params = {'porderJSONString':JSON.stringify(porderJSON), 'porder_detailArrString':JSON.stringify(porder_detailArr), 'shopping_cartArr':JSON.stringify(shopping_cartno)};
+      var params = {'porderJSONString':JSON.stringify(porderJSON), 'porder_detailArrString':JSON.stringify(porder_detailArr), 'coupon_issueArr':JSON.stringify(coupon_issueArr), 'shopping_cartArr':JSON.stringify(shopping_cartno)};
       
       //alert(params);
       
@@ -391,10 +443,9 @@
           console.log(msg);
         }
       });
-
       
     }
-    
+/*     
     function create_porder(){
       var form = document.createElement("form");
       form.action="./create.do";
@@ -442,7 +493,7 @@
       input.value = val;
       form.append(input);
     }
-    
+     */
   </script>
 </body>
 </html>

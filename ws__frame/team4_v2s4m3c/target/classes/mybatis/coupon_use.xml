@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <!-- 쿠폰 사용 등록 -->
   <insert id="create" parameterType="Coupon_useVO">
     INSERT INTO coupon_use(coupon_useno, porderno, coupon_issueno, rdate, cpstatus)
-    VALUES(coupon_use_seq.nextval, ${porderno}, ${coupon_issueno}, sysdate, ${cpstatus})
+    VALUES(coupon_use_seq.nextval, #{porderno}, #{coupon_issueno}, sysdate, #{cpstatus})
   </insert>
   
   <!-- 쿠폰 사용 목록 -->

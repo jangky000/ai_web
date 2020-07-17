@@ -38,6 +38,12 @@ public class Coupon_issueProc implements Coupon_issueProcInter{
   }
 
   @Override
+  public int update_list_status(HashMap map) {
+    int cnt = this.coupon_issueDAO.update_list_status(map);
+    return cnt;
+  }
+  
+  @Override
   public int delete(int coupon_issueno) {
     int cnt = this.coupon_issueDAO.delete(coupon_issueno);
     return cnt;
@@ -162,7 +168,13 @@ public class Coupon_issueProc implements Coupon_issueProcInter{
     
     return list;
   }
-  
 
-  
+  @Override
+  public List<Coupon_issue_joinVO> list_by_memno_join_coupon_not_used(int memno) {
+    List<Coupon_issue_joinVO> list = this.coupon_issueDAO.list_by_memno_join_coupon_not_used(memno);
+    return list;
+  }
+
+
+
 }

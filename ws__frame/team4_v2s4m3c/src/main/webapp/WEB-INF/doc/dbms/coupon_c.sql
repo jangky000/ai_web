@@ -36,13 +36,13 @@ CREATE SEQUENCE coupon_seq
 
 -- CREATE
 INSERT INTO coupon(couponno, cpimg, cpupimg, cpthumb, cpname, cpdiscount, cpstock, cpcate)
-VALUES(coupon_seq.nextval, 'sample.jpg', 'sample1.jpg', 'sample_t.jpg', '1000원 할인 쿠폰', 1000, 100, '1|2|3|4|5');
+VALUES(coupon_seq.nextval, 'sample.jpg', 'sample1.jpg', 'sample_t.jpg', '1000원 할인 쿠폰', 1000, 100, '스킨');
 
 INSERT INTO coupon(couponno, cpimg, cpupimg, cpthumb, cpname, cpdiscount, cpstock, cpcate)
-VALUES(coupon_seq.nextval, 'sample.jpg', 'sample1.jpg', 'sample_t.jpg', '2000원 할인 쿠폰', 2000, 100, '1|2|3|4|5');
+VALUES(coupon_seq.nextval, 'sample.jpg', 'sample1.jpg', 'sample_t.jpg', '2000원 할인 쿠폰', 2000, 100, '로션');
 
-INSERT INTO coupon(couponno, cpimg, cpupimg, cpthumb, cpname, cpdiscount, cpstock, cpcate)
-VALUES(coupon_seq.nextval, 'sample.jpg', 'sample_1.jpg', 'sample_t.jpg', '배송료 할인 쿠폰', 2500, 100, '1|2|3|4|5');
+INSERT INTO coupon(couponno, cpimg, cpupimg, cpthumb, cpname, cpdiscount, cpstock)
+VALUES(coupon_seq.nextval, 'sample.jpg', 'sample_1.jpg', 'sample_t.jpg', '배송료 할인 쿠폰', 2500, 100);
 
 COMMIT;
 
