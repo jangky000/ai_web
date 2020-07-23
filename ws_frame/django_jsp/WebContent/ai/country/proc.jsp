@@ -1,0 +1,119 @@
+<%@ page contentType="text/html; charset=EUC-KR" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>귀농/귀촌/도시형 스타일 예측 시스템</title>
+    <link href="../../css/style.css' %}" rel="Stylesheet" type="text/css">
+    <script type="text/JavaScript"
+                 src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" language="javscript">
+        function send() {
+            frm.submit();
+        }
+
+        // 귀농: 1,1,1,10,1,2
+        function country1() {
+          $('#drink').val(1);
+          $("input:radio[name='life']:radio[value='1']").prop('checked', true);
+          $("input:radio[name='cousin']:radio[value='1']").prop('checked', true);
+          $('#trip').val(10);
+          $("input:radio[name='house']:radio[value='1']").prop('checked', true);
+          $("input:radio[name='land']:radio[value='2']").prop('checked', true);
+        }
+
+        // 귀촌: 1,0,1,6,1,1
+        function country2() {
+          $('#drink').val(0);
+          $("input:radio[name='life']:radio[value='1']").prop('checked', true);
+          $("input:radio[name='cousin']:radio[value='1']").prop('checked', true);
+          $('#trip').val(6);
+          $("input:radio[name='house']:radio[value='1']").prop('checked', true);
+          $("input:radio[name='land']:radio[value='1']").prop('checked', true);
+        }
+
+        // 실패(도시형): 0,0,0,2,1,0
+        function country_fail() {
+          $('#drink').val(0);
+          $("input:radio[name='life']:radio[value='0']").prop('checked', true);
+          $("input:radio[name='cousin']:radio[value='0']").prop('checked', true);
+          $('#trip').val(2);
+          $("input:radio[name='house']:radio[value='1']").prop('checked', true);
+          $("input:radio[name='land']:radio[value='0']").prop('checked', true);
+        }
+    </script>
+</head>
+<body>
+<DIV class="container">
+<H1>귀농귀촌 적응 예측 시스템</H1>
+ <form id='frm' name='frm' action='http://127.0.0.1:8000/country/to_django' method='GET'>
+  <br>
+  <OL>
+      <LI class="li_question">
+          주당 음주 횟수: 0 ~ 3(3회 이상):
+          <input name="drink" id="drink" type="number" min = "0" max="3" step="1" value="">
+      </LI>
+      <LI class="li_question">
+          농촌에서 생활적이 있다:
+          <label style="cursor: pointer;">
+              <input name="life" id="life1" type="radio" value="1"> 있음
+          </label>
+          <label style="cursor: pointer;">
+              <input name="life"  id="life0" type="radio" value="0"> 없음
+          </label>
+      </LI>
+      <LI class="li_question">
+          가족중에 농촌에서 생활하고 있는 친척있는 여부:
+          <label style="cursor: pointer;">
+              <input name="cousin" id="cousin1" type="radio" value="1"> 있음
+          </label>
+          <label style="cursor: pointer;">
+              <input name="cousin" id="cousin0" type="radio" value="0"> 없음
+          </label>
+      </LI>
+      <LI class="li_question">
+          1년동안의 여행 횟수: 0 ~ 12 (등산/캠핑, 당일, 국내, 국외 모두 해당)
+          <input name="trip" id="trip" type="number" min = "0" max="12" step="1" value="">
+      </LI>
+      <LI class="li_question">
+          집을 소유 할 수 있는 경제력:
+          <label style="cursor: pointer;">
+              <input name="house" id="house1" type="radio" value="1"> 있음
+          </label>
+          <label style="cursor: pointer;">
+              <input name="house" id="house0" type="radio" value="0"> 없음
+          </label>
+      </LI>
+      <LI class="li_question">
+          경작 할 수 있는 토지 평수: 0 ~ (평)<br>
+          <label style="cursor: pointer;">
+              <input name="land" id="land0" type="radio" value="0"> 없음
+          </label>
+          <label style="cursor: pointer;">
+              <input name="land" id="land1" type="radio" value="1"> 1 ~ 2000 미만
+          </label>
+          <label style="cursor: pointer;">
+              <input name="land" id="land2" type="radio" value="2"> 2000이상 ~ 3000미만
+          </label>
+          <label style="cursor: pointer;">
+              <input name="land" id="land3" type="radio" value="3"> 3000이상
+          </label>
+      </LI>
+  </OL>
+  <UL>
+      <LI  style='font-size: 26px; list-style: none;'>데이터: <%=request.getParameter("data") %></LI>
+      <LI  style='font-size: 26px; list-style: none;'>귀농/귀촌 성공 확률: <span style="text-decoration: underline;"><%=request.getParameter("pct") %> %</span></LI>
+      <LI  style='font-size: 26px; list-style: none;'>결과: <span style="text-decoration: underline;"><%=request.getParameter("res") %></span></LI>
+
+  </UL>
+  
+  <br>
+  <button type='button' onclick="country1();">귀농</button>
+  <button type='button' onclick="country2();">귀촌(전원 생활)</button>
+  <button type='button' onclick="country_fail();">귀농/귀촌 실패(도시형)</button>
+  <button type='button' onclick="send();">예측</button>
+  <button type='button' onclick="location.href='/'">HOME</button>
+</form>
+</DIV>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>귀농/귀촌/도시형 스타일 예측 시스템</title>
+    {% load static %}
+    <link href="{% static '/css/style.css' %}" rel="Stylesheet" type="text/css">
+    <script type="text/JavaScript"
+                 src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" language="javscript">
+        function send() {
+            frm.submit();
+        }
+
+        // 귀농: 1,0,1,6,1,0
+        function country1() {
+          $('#drink').val(1);
+          $("input:radio[name='life']:radio[value='0']").prop('checked', true);
+          $("input:radio[name='cousin']:radio[value='1']").prop('checked', true);
+          $('#trip').val(6);
+          $("input:radio[name='house']:radio[value='1']").prop('checked', true);
+          $("input:radio[name='land']:radio[value='0']").prop('checked', true);
+        }
+
+        // 귀촌: 1,0,1,6,1,0
+        function country2() {
+          $('#drink').val(0);
+          $("input:radio[name='life']:radio[value='0']").prop('checked', true);
+          $("input:radio[name='cousin']:radio[value='1']").prop('checked', true);
+          $('#trip').val(2);
+          $("input:radio[name='house']:radio[value='1']").prop('checked', true);
+          $("input:radio[name='land']:radio[value='0']").prop('checked', true);
+        }
+
+        // 도시형: 0,0,0,5,1,0
+        function country_fail() {
+          $('#drink').val(0);
+          $("input:radio[name='life']:radio[value='0']").prop('checked', true);
+          $("input:radio[name='cousin']:radio[value='0']").prop('checked', true);
+          $('#trip').val(5);
+          $("input:radio[name='house']:radio[value='1']").prop('checked', true);
+          $("input:radio[name='land']:radio[value='0']").prop('checked', true);
+        }
+    </script>
+</head>
+<body>
+<DIV class="container">
+<H1>귀농귀촌 적응 예측 시스템</H1>
+ <form id='frm' name='frm' action='/country/proc' method='GET'>
+  <br>
+  데이터<br>
+     <ol>
+         <li class="li_question">
+             주당 음주 횟수: 0~3(3회이상):
+             <input type='number' id='drink' name='drink' min="0" max="3" step='1' value='1'>
+         </li>
+         <li  class="li_question">
+             농촌에서 생활한 적이 있다:
+             <label style="cursor:pointer;">
+                <input type='radio' id='life' name='life' value='1' >있음
+             </label>
+             <label style="cursor:pointer;">
+                <input type='radio' id='life' name='life' value='0' >없음
+             </label>
+         </li>
+         <li  class="li_question">
+             가족 중에 농촌 생활 친척 여부:
+             <label style="cursor:pointer;">
+                <input type='radio' id='cousin' name='cousin' value='1' >있음
+             </label>
+             <label style="cursor:pointer;">
+                <input type='radio' id='cousin' name='cousin' value='0' >없음
+             </label>
+         </li>
+         <li  class="li_question">
+             여행 횟수: 0~12
+             (12이상, 교통을 이용한 등산/캠핑, 당일, 국내, 국외 모두 해당)<br>
+             <input type='number' id='trip' name='trip' min="0" max="12"  step='1' value='1'>
+         </li>
+         <li  class="li_question">
+             집을 소유 할 수 있는 경제력: 0(없음), 1(있음):
+             <label style="cursor:pointer;">
+                <input type='radio' id='house' name='house' value='1' >있음
+             </label>
+             <label style="cursor:pointer;">
+                <input type='radio' id='house' name='house' value='0' >없음
+             </label>
+         </li>
+         <li  class="li_question">
+             경작 할 수 있는 토지 평수: 0 ~ (평)<br>
+             0: 없음, 1: 1 ~ 2000 미만, 2: 2000이상 ~ 3000미만, 3: 3000 이상<br>
+             <label style="cursor:pointer;">
+                <input type='radio' id='land' name='land' value='0' >없음
+             </label>
+             <label style="cursor:pointer;">
+                <input type='radio' id='land' name='land' value='1' >1 ~ 2000 미만
+             </label>
+             <label style="cursor:pointer;">
+                <input type='radio' id='land' name='land' value='2' >2000이상 ~ 3000미만
+             </label>
+             <label style="cursor:pointer;">
+                <input type='radio' id='land' name='land' value='3' >3000 이상
+             </label>
+         </li>
+     </ol>
+
+
+  <br>
+  <button type='button' onclick="country1();">귀농 성공</button>
+  <button type='button' onclick="country2();">귀촌 성공(전원 생활)</button>
+  <button type='button' onclick="country_fail();">귀농/귀촌 실패(도시형)</button>
+  <button type='button' onclick="send();">예측</button>
+  <button type='button' onclick="location.href='/'">HOME</button>
+<!--
+  테스트 데이터<br>
+  정착: 1,0,1,6,1,0<br>
+  실패: 0,0,0,5,1,0<br>-->
+</form>
+</DIV>
+</body>
+</html>

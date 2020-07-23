@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HOME</title>
+    {% load static %}
+    <link href="{% static '/css/style.css' %}" rel="Stylesheet" type="text/css">
+</head>
+<body>
+<DIV class="container">
+
+<UL style="margin-left: 50px;">
+  <LI style="list-style:none">
+     <img src="{% static '/images/add.png' %}" class="img_icon">
+     <A href='./calc/add/50/100' class = 'img_a'>더하기</A>
+  </LI>
+  <LI style="list-style:none">
+     <img src="{% static '/images/sub.png' %}" class="img_icon">
+     <A href='./calc/sub/50/100' class = 'img_a'>빼기</A>
+  </LI>
+    <LI style="list-style:none">
+     <img src="{% static '/images/mul.png' %}" class="img_icon">
+     <A href='./calc/mul/50/100' class = 'img_a'>곱하기</A>
+  </LI>
+    <LI style="list-style:none">
+     <img src="{% static '/images/div.png' %}" class="img_icon">
+     <A href='./calc/div/50/100' class = 'img_a'>나누기</A>
+  </LI>
+
+  <LI style="list-style:none">
+      <img src="{% static '/images/relax.jpg' %}" class="img_icon">
+      <A href='./country/form'>귀농귀촌 적응 예측 시스템</A>
+  </LI>
+</UL>
+</DIV>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script type="text/javascript">
+      var params = '';
+      params += '?drink=' + {{drink}};
+      params += '&life=' + {{life}};
+      params += '&cousin=' + {{cousin}};
+      params += '&trip=' + {{trip}};
+      params += '&house=' + {{house}};
+      params += '&land=' + {{land}};
+      params += '&pct=' + {{pct}};
+      params += '&res=' + '{{res}}';
+      params += '&data=' + '{{drink}}, {{life}}, {{cousin}}, {{trip}}, {{house}}, {{land}}';
+      location.href="http://localhost:9090/django_jsp/ai/country/proc.jsp" + params;
+
+    </script>
+
+</head>
+<body>
+
+</body>
+</html>
